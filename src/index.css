@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Lato";
+  /* min-height: 8000px; */
+  overflow-x: hidden;
+  /* width: 100%; */
+  box-sizing: border-box;
+}
+#heroSection {
+  background-image: url("https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-position: center;
+  background-size: cover;
+}
+.swiper {
+  /* border: 1px solid red; */
+  /* min-height: 320px; */
+  width: 85%;
+  max-width: 500px;
+  display: flex;
+  justify-items: center;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* max-width: 760px; */
+  font-weight: bold;
+  color: #fff;
+}
+
+.swiper-slide:nth-child(1n) {
+  display: flex;
+  flex-direction: column;
+  color: black;
+}
