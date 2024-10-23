@@ -4,9 +4,9 @@ import Slider from "./Slider";
 const EnhanceYourCurb: React.FC = () => {
   return (
     <>
-      <section className="mt-20 text-center px-5 flex flex-col lg:flex-row items-center justify-center max-w-[1200px] mx-auto">
+      <section className="mt-20 text-center flex flex-col px-5 lg:flex-row items-center justify-center mx-auto gap-10">
         <div className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold text-gray-800 lg:w-[400px]">
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 lg:w-[400px]">
             Enhance your curb appeal with our Garage Doors
           </h1>
           <div className="flex gap-4 items-center justify-center mt-16">

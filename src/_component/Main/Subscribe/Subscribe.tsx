@@ -1,7 +1,7 @@
 const Subscribe = () => {
   return (
     <>
-      <section className="w-full mt-10 lg:mt-20 py-14 lg:py-16 bg-darkRed text-white px-2 flex flex-col gap-10 items-center justify-center lg:flex-row max-w-[1150px] mx-auto lg:justify-evenly lg:w-[85%] lg:gap-64">
+      <section className="w-full mt-10 lg:mt-20 py-14 lg:py-16 bg-darkRed text-white px-5 flex flex-col gap-10 items-center justify-center lg:flex-row max-w-[1150px] mx-auto lg:justify-evenly lg:w-[85%] lg:gap-64">
         <div className="w-full max-w-[400px] sm:text-center lg:text-start lg:max-w-full lg:w-[30%]">
           <h1 className="font-bold text-3xl sm:text-5xl lg:text-4xl">
             Stay up to date with Doorplay!

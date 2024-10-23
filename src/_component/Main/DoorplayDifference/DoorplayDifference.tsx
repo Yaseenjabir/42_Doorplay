@@ -5,7 +5,7 @@ import { RiUserStarLine } from "react-icons/ri";
 const DoorplayDifference = () => {
   return (
     <>
-      <section className="mt-20 lg:mt-40 bg-lightGray py-20 text-center px-10 w-full lg:px-14 lg:py-48">
+      <section className="mt-20 lg:mt-40 bg-lightGray py-20 text-center px-5 w-full lg:px-14 lg:py-48">
         <h1 className="text-2xl font-semibold lg:text-3xl text-gray-800">
           The Doorplay Difference
         </h1>

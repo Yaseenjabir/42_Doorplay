@@ -1,0 +1,62 @@
+.slider {
+  position: relative;
+  width: 100%; /* Adjust width as needed */
+  /* max-width: 400px; Set a max width */
+  overflow: hidden; /* Hide overflow */
+  margin: auto; /* Center slider */
+}
+
+.slides {
+  display: flex; /* Align slides horizontally */
+  transition: transform 0.5s ease; /* Smooth transition */
+}
+
+.slide {
+  min-width: 100%; /* Each slide takes full width */
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0; Background color */
+  /* border: 1px solid #ccc; Optional border */
+}
+
+/* .prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+} */
+
+/* .prev {
+  left: 10px; 
+}
+
+.next {
+  right: 10px; 
+} */
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Space between slides and dots */
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  border-radius: 50%;
+  background-color: #ccc; /* Inactive dot color */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: #333; /* Active dot color */
+}

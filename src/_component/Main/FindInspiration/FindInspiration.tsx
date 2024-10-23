@@ -3,19 +3,21 @@ import React from "react";
 const FindInspiration: React.FC = () => {
   return (
     <>
-      <section className="mt-20 flex flex-col xl:flex-row xl:items-end xl:mt-40">
-        <img
-          src="https://www.clopaydoor.com/images/default-source/home-page/homepagelookbook-mobile.jpg?sfvrsn=75d096ba_5"
-          alt="lookbook"
-          className="w-full max-w-[740px] mx-auto xl:hidden"
-        />
-        <img
-          className="w-full hidden xl:block"
-          src="https://www.clopaydoor.com/images/default-source/home-page/homepagelookbook-alt.jpg"
-          alt="lookbook"
-        />
+      <section className="w-full mt-20 flex flex-col xl:flex-row xl:items-end xl:mt-40">
+        <div className="w-full">
+          <img
+            src="https://www.clopaydoor.com/images/default-source/home-page/homepagelookbook-mobile.jpg?sfvrsn=75d096ba_5"
+            alt="lookbook"
+            className="w-full max-w-[740px] mx-auto xl:hidden"
+          />
+          <img
+            className="w-full hidden xl:block"
+            src="https://www.clopaydoor.com/images/default-source/home-page/homepagelookbook-alt.jpg"
+            alt="lookbook"
+          />
+        </div>
         <div className="py-12 bg-[#F6F8FA] px-5 flex flex-col items-center justify-center xl:h-[470px]">
-          <div className="w-[400px] xl:w-[330px] flex flex-col gap-7">
+          <div className="xl:w-[330px] flex flex-col gap-7">
             <h1 className="font-bold text-2xl md:text-4xl text-gray-800 xl:text-3xl">
               Find Inspiration With Clopay's® Lookbook
             </h1>
