@@ -7,41 +7,7 @@ import ContactUs from "../Main/ContactUs/ContactUs";
 import { apiClient } from "../../apiClient/apiClient";
 import { GET_SINGLE_DOOR } from "../../constants/constant";
 import { useLocation } from "react-router";
-
-interface DoorSchema {
-  _id: string;
-  category: string;
-  construction: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  customization: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  insulation: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  material: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  reinforcement: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  shortPreview: string;
-  stockCount: number;
-  description: string;
-  subCategory: string;
-  title: string;
-  media: Array<{
-    _id: string;
-    public_id: string;
-    url: string;
-  }>;
-}
+import { DoorSchema } from "../../utils/utils";
 
 const SingleDoor: React.FC = () => {
   const [singleDoor, setSingleDoor] = useState<DoorSchema | undefined>(

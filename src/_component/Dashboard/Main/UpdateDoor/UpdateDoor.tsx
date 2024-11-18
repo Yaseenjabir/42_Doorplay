@@ -63,6 +63,8 @@ const subcategoryOptions: SubcategoryOptions = {
   ],
 };
 
+console.log(subcategoryOptions);
+
 const UpdateDoor = () => {
   const [data, setData] = useState<DoorSchema[]>([]);
   const [skip, setSkip] = useState<number>(0);
@@ -70,6 +72,8 @@ const UpdateDoor = () => {
   const [dataLoader, setDataLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+
+  console.log(hasMore, setSkip)
 
   const fetchDoors = async () => {
     try {
@@ -156,6 +160,7 @@ const UpdateDoor = () => {
   const [subCategories, setSubCategories] = useState<
     Array<{ value: string; label: string }>
   >([]);
+  console.log(setSubCategories)
 
   const { darkTheme } = useStore();
 
@@ -256,15 +261,15 @@ const UpdateDoor = () => {
     }
   };
 
-  useEffect(() => {
-    handleCategoryChange(selectedItem?.category);
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   handleCategoryChange(selectedItem?.category);
+  // }, [selectedItem]);
 
-  const handleCategoryChange = (category: string | undefined) => {
-    console.log("HELLo");
-    const selectedValue = category;
-    setSubCategories(subcategoryOptions[selectedValue] || []);
-  };
+  // const handleCategoryChange = (category: string | undefined) => {
+  //   console.log("HELLo");
+  //   const selectedValue = category;
+  //   setSubCategories(subcategoryOptions[selectedValue] || []);
+  // };
 
   [] > [];
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

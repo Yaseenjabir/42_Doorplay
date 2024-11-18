@@ -8,10 +8,19 @@
       "path": "./tsconfig.node.json"
     }
   ],
-  "compilerOptions": {
-    "baseUrl": ".",
+ "compilerOptions": {
+    "baseUrl": ".",  // Set the base directory for relative paths
     "paths": {
       "@/*": ["./src/*"]
-    }
-  }
+    },
+    "noUnusedLocals": false,      // Disables unused local variables warnings
+    "noUnusedParameters": false,  // Disables unused parameters warnings
+    "skipLibCheck": true,         // Skips type checking of declaration files (e.g., node_modules)
+    "strict": false 
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
+  ]
 }

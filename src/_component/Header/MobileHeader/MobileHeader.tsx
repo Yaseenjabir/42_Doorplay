@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
-import { PiMagicWand } from "react-icons/pi";
+// import { PiMagicWand } from "react-icons/pi";
 import { Input } from "../../../components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 

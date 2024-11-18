@@ -10,39 +10,7 @@ import { BsBricks } from "react-icons/bs";
 import { PiMagicWand } from "react-icons/pi";
 import { LiaThermometerFullSolid } from "react-icons/lia";
 import { BsWind } from "react-icons/bs";
-interface DoorSchema {
-  _id: string;
-  category: string;
-  construction: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  customization: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  insulation: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  material: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  reinforcement: {
-    title: string | undefined;
-    description: string | undefined;
-  };
-  shortPreview: string;
-  stockCount: number;
-  subCategory: string;
-  title: string;
-  media: Array<{
-    _id: string;
-    public_id: string;
-    url: string;
-  }>;
-}
+import { DoorSchema } from "../../utils/utils";
 
 interface SingleDoorSchema {
   singleDoor: DoorSchema;
