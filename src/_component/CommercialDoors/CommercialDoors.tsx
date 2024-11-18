@@ -11,7 +11,7 @@ import { Badge } from "../../components/ui/badge";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
-const GarageDoors = () => {
+const CommercialDoors = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState<DoorSchema[]>([]);
@@ -19,13 +19,13 @@ const GarageDoors = () => {
   const [loader, setLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
   const limit: number = 5;
-  const [hasMore, setHasMore] = useState(true); // Whether there are more posts to load
+  const [hasMore, setHasMore] = useState(true);
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
   const fetchDoors = async () => {
     try {
       setLoader(true);
       const res = await apiClient.get(GET_ALL_DOORS, {
-        params: { skip, limit, category: "garage" },
+        params: { skip, limit, category: "commercial" },
       });
       if (res.data) {
         if (res.data.length === 0) {
@@ -298,4 +298,4 @@ const GarageDoors = () => {
   );
 };
 
-export default GarageDoors;
+export default CommercialDoors;
