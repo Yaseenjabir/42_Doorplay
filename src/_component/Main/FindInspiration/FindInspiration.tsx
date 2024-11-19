@@ -19,11 +19,11 @@ const FindInspiration: React.FC = () => {
         <div className="py-12 bg-[#F6F8FA] px-5 flex flex-col items-center justify-center xl:h-[470px]">
           <div className="xl:w-[330px] flex flex-col gap-7">
             <h1 className="font-bold text-2xl md:text-4xl text-gray-800 xl:text-3xl">
-              Find Inspiration With Clopay's® Lookbook
+              Find Inspiration With AR Doors's® Lookbook
             </h1>
             <p>
               Projects from award-winning architects, builders and influencers
-              featuring garage doors from Clopay
+              featuring garage doors from AR Doors
             </p>
             <button className="py-3 w-min px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 text-nowrap">
               Experience Lookbook

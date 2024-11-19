@@ -160,8 +160,6 @@ const AddDoor = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log(response);
-
       if (response.data.success) {
         triggerRef.current?.click();
         reset();

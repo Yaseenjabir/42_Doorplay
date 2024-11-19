@@ -3,6 +3,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Input } from "../../../../src/components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
+import Logo from "../../../../public/AR Garage - Logo.png";
 const DesktopHeader = () => {
   const [showSearch, setShowSearch] = useState(false);
 
@@ -10,11 +11,9 @@ const DesktopHeader = () => {
     <>
       <header className="hidden w-full lg:flex h-[76px] border-b py-4 px-7 justify-between sticky top-0 z-20 bg-white shadow-md">
         <div className="w-full flex">
-          <a href={"/"}>
-            <img
-              className="w-[93px] mr-5 cursor-pointer"
-              src="https://www.clopaydoor.com/images/clopay-logo@2x.jpg"
-            />
+          <div className="w-[93px] mr-5"></div>
+          <a href={"/"} className="absolute w-[93px] top-1">
+            <img className="cursor-pointer" src={Logo} />
           </a>
           <div className="flex flex-col w-full h-[41px] overflow-hidden relative ">
             <div
@@ -27,9 +26,6 @@ const DesktopHeader = () => {
               </a>
               <a href="/commercial-doors" className="h-min hover:underline">
                 Commercial Doors
-              </a>
-              <a href="#" className="h-min hover:underline">
-                Buying Guide
               </a>
               <a href="#" className="h-min hover:underline">
                 Contact & Support

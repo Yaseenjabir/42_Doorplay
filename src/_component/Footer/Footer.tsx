@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="w-full text-center text-sm text-gray-700 flex flex-col gap-5 md:text-base lg:text-sm lg:text-start lg:gap-2">
           <div className="flex flex-col items-center lg:justify-start lg:flex-row">
-            <p>Copyright © 1996-2024 Clopay Corporation. </p>
+            <p>Copyright © 1996-2024 AR Doors Corporation. </p>
             <p>All Rights Reserved</p>
           </div>
           <div>

@@ -39,6 +39,8 @@ const CommercialDoors = () => {
         setAvailability(false);
       }
     } catch (ex: unknown) {
+      setHasMore(false);
+      setAvailability(false);
       if (ex instanceof AxiosError) {
         if (ex.response && ex.response.data && ex.response.data.error) {
           toast.error(ex.response.data.error);
@@ -114,7 +116,14 @@ const CommercialDoors = () => {
                   }
                   className="w-full flex flex-col cursor-pointer"
                 >
-                  <img src={door.media[0].url} className="w-full rounded-md" />
+                  <img
+                    src={
+                      door && door.media && door.media[0]
+                        ? door.media[0].url
+                        : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
+                    }
+                    className="w-full rounded-md"
+                  />
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">
                       <div className="flex items-center justify-between gap-2">
@@ -211,12 +220,12 @@ const CommercialDoors = () => {
               Garage Doors Crafted for Every Home
             </h1>
             <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              For more than 50 years, Clopay has manufactured beautiful, durable
-              and reliable garage doors. We are honored to be America’s favorite
-              garage door brand, a distinction achieved through our unrelenting
-              focus on delivering true performance. With all the styles of
-              garage doors offered by Clopay, the perfect look and design is
-              ready to be crafted for you.
+              For more than 50 years, AR Doors has manufactured beautiful,
+              durable and reliable garage doors. We are honored to be America’s
+              favorite garage door brand, a distinction achieved through our
+              unrelenting focus on delivering true performance. With all the
+              styles of garage doors offered by AR Doors, the perfect look and
+              design is ready to be crafted for you.
             </p>
           </div>
           <div className="w-full">
@@ -229,7 +238,7 @@ const CommercialDoors = () => {
                 latest Lookbook
               </span>
               , featuring projects from award-winning architects, builders, and
-              influencers featuring garage doors from Clopay.
+              influencers featuring garage doors from AR Doors.
             </p>
           </div>
           <div className="w-full">
@@ -237,7 +246,7 @@ const CommercialDoors = () => {
               Build Your Own Beauty
             </h1>
             <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Tap into your vision and unlock the full craftsmanship of Clopay
+              Tap into your vision and unlock the full craftsmanship of AR Doors
               in our{" "}
               <span className="text-slate-500 hover:underline cursor-pointer">
                 Door Imagination System
@@ -252,9 +261,9 @@ const CommercialDoors = () => {
               Craftsmanship from Build to Install
             </h1>
             <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Clopay has a network of more than 400 trusted and certified local
-              dealers and service specialists. We trust our craftsmanship to
-              them and so can you.{" "}
+              AR Doors has a network of more than 400 trusted and certified
+              local dealers and service specialists. We trust our craftsmanship
+              to them and so can you.{" "}
               <span className="text-slate-500 hover:underline cursor-pointer">
                 Find an authorized garage door professional{" "}
               </span>

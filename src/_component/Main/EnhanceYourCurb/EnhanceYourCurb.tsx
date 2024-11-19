@@ -13,9 +13,11 @@ const EnhanceYourCurb: React.FC = () => {
             <button className="py-3 px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200">
               Customize Your Door
             </button>
-            <button className="border-[2px] border-darkRed px-5 py-3 rounded-md hover:text-white hover:bg-darkRed transition-all ease-in-out duration-300 ">
-              Browse Doors
-            </button>
+            <a href="/garage-doors">
+              <button className="border-[2px] border-darkRed px-5 py-3 rounded-md hover:text-white hover:bg-darkRed transition-all ease-in-out duration-300 ">
+                Browse Doors
+              </button>
+            </a>
           </div>
         </div>
         <Slider />

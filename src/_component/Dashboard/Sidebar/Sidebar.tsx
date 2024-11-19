@@ -56,8 +56,13 @@ const Sidebar: React.FC<MenuINT> = ({ setShowMenu, showMenu, setNav, nav }) => {
           {buttons.map((item) => (
             <motion.button
               onClick={() => {
-                item.title === "Home" ? navigate("/") : setNav(item.title);
-                localStorage.setItem("nav", item.title);
+                if (item.title === "Home") {
+                  navigate("/");
+                } else {
+                  setNav(item.title);
+
+                  localStorage.setItem("nav", item.title);
+                }
               }}
               key={item.id}
               className={`
@@ -74,10 +79,6 @@ const Sidebar: React.FC<MenuINT> = ({ setShowMenu, showMenu, setNav, nav }) => {
                     : "text-white"
                 } 
               `}
-              whileHover={{
-                scale: 1.05,
-                transition: { duration: 0.1 },
-              }}
               whileTap={{
                 scale: 0.75,
                 transition: { duration: 0 },

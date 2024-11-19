@@ -14,6 +14,8 @@ import {
 import { IoMoon } from "react-icons/io5";
 import { IoMdNotifications } from "react-icons/io";
 import useStore from "../../../store/Store";
+import Logo from "../../../../public/AR Garage - Logo.png";
+
 interface MenuINT {
   darkTheme: boolean;
   setShowMenu: (val: boolean) => void;
@@ -32,21 +34,25 @@ const Header: React.FC<MenuINT> = ({ setShowMenu }) => {
         onClick={() => setShowMenu(true)}
         className="cursor-pointer text-3xl text-gray-500 lg:hidden"
       />
-      <h1>Doorplay Logo</h1>
+      <a href={`${import.meta.env.VITE_BASE_URL}`}>
+        <img src={Logo} alt="AR-logo" className="w-14 cursor-pointer" />
+      </a>
       <div className="flex items-center gap-2">
         <HoverCard>
           <HoverCardTrigger>
-            {darkTheme ? (
-              <IoIosSunny
-                onClick={() => toggleDarkTheme()}
-                className="text-4xl cursor-pointer bg-[#303030] p-2 rounded-full transition-all ease-in-out duration-500"
-              />
-            ) : (
-              <IoMoon
-                onClick={() => toggleDarkTheme()}
-                className="text-2xl cursor-pointer transition-all ease-in-out duration-500"
-              />
-            )}
+            <div className="w-[36px] h-[36px] flex items-center justify-center">
+              {darkTheme ? (
+                <IoIosSunny
+                  onClick={() => toggleDarkTheme()}
+                  className="text-4xl cursor-pointer bg-[#303030] p-2 rounded-full transition-all ease-in-out duration-500"
+                />
+              ) : (
+                <IoMoon
+                  onClick={() => toggleDarkTheme()}
+                  className="text-2xl cursor-pointer transition-all ease-in-out duration-500"
+                />
+              )}
+            </div>
           </HoverCardTrigger>
           <HoverCardContent className="w-min text-nowrap p-2 text-[12px]">
             {darkTheme ? "Light Mode" : "Dark Mode"}

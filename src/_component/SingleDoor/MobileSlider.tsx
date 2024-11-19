@@ -15,24 +15,26 @@ const MobileSlider: React.FC<SingleDoorSchema> = ({ singleDoor }) => {
     slidesToScroll: 1,
   };
 
-  console.log(singleDoor && singleDoor.media.map((door) => console.log(door)));
-
   return (
     <div className="slider-container w-[97%] lg:hidden mx-auto">
-      <Slider {...settings}>
-        {singleDoor &&
-          singleDoor.media.map((item) => {
-            return (
-              <div key={item._id} className="w-full outline-none">
-                <img
-                  className="w-full rounded"
-                  src={item.url}
-                  alt="slider-img"
-                />
-              </div>
-            );
-          })}
-      </Slider>
+      {singleDoor && singleDoor.media && singleDoor.media.length > 0 ? (
+        <Slider {...settings}>
+          {singleDoor &&
+            singleDoor.media.map((item) => {
+              return (
+                <div key={item._id} className="w-full outline-none">
+                  <img
+                    className="w-full rounded"
+                    src={item.url}
+                    alt="slider-img"
+                  />
+                </div>
+              );
+            })}
+        </Slider>
+      ) : (
+        <img src="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg=" />
+      )}
     </div>
   );
 };

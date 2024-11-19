@@ -8,33 +8,71 @@ import { apiClient } from "../../apiClient/apiClient";
 import { GET_SINGLE_DOOR } from "../../constants/constant";
 import { useLocation } from "react-router";
 import { DoorSchema } from "../../utils/utils";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import Loader from "../../utils/Loader";
 
 const SingleDoor: React.FC = () => {
   const [singleDoor, setSingleDoor] = useState<DoorSchema | undefined>(
     undefined
   );
 
+  const [loader, setLoader] = useState(true);
   const location = useLocation();
   const doorId = location.state?.id; // Get the door ID from the state (passed via navigate)
 
   const fetchSingleDoorData = async (id: any) => {
-    const url = GET_SINGLE_DOOR.replace(":id", id);
-    const res = await apiClient.get(url);
-    setSingleDoor(res.data);
+    try {
+      setLoader(true);
+      const url = GET_SINGLE_DOOR.replace(":id", id);
+      const res = await apiClient.get(url);
+      if (res.data) {
+        setSingleDoor(res.data);
+      }
+    } catch (ex: unknown) {
+      if (ex instanceof AxiosError) {
+        if (ex.response && ex.response.data && ex.response.data.error) {
+          toast.error(ex.response.data.error);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
+      setLoader(false);
+    }
   };
 
   useEffect(() => {
     fetchSingleDoorData(doorId);
   }, []);
 
-  console.log(singleDoor);
-
-  return (
+  return loader ? (
+    <Loader />
+  ) : !singleDoor ? (
+    <div className="w-full h-[calc(100vh-56px)] flex items-center justify-center flex-col gap-2">
+      <h1 className="text-4xl font-bold italic lg:text-5xl">404 not found</h1>
+      <p className="text-lg italic lg:text-xl">
+        No page available with the provided link
+      </p>
+    </div>
+  ) : (
     singleDoor && (
       <section className="py-10 w-full px-5 flex flex-col">
         {/* Bread Crumbs  */}
         <div className="w-full flex gap-2 md:text-lg">
-          <h1 className="text-gray-600">Home</h1>
+          <a
+            className="text-gray-600"
+            href={`${
+              singleDoor.category === "garage"
+                ? "/garage-doors"
+                : "/commercial-doors"
+            }`}
+          >
+            {singleDoor.category.charAt(0).toUpperCase() +
+              singleDoor.category.slice(1)}
+          </a>
           <span className="text-gray-600">/</span>
           <h1>{singleDoor.title}</h1>
         </div>

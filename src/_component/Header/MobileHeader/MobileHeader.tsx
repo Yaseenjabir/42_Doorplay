@@ -4,6 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 // import { PiMagicWand } from "react-icons/pi";
 import { Input } from "../../../components/ui/input";
 import { RxCross2 } from "react-icons/rx";
+import Logo from "../../../../public/AR Garage - Logo.png";
 
 const MobileHeader: React.FC = () => {
   const [isSlided, setIsSlided] = useState<boolean>(false);
@@ -19,10 +20,7 @@ const MobileHeader: React.FC = () => {
   return (
     <>
       <header className="w-full h-[56px] sticky top-0 flex items-center justify-between px-4 border-b z-30 lg:hidden bg-white">
-        <img
-          src="https://www.clopaydoor.com/images/clopay-logo@2x.jpg"
-          className="w-[90px]"
-        />
+        <img src={Logo} className="w-[65px] md:w-[80px]" />
         {/* Wrap the hamburger in a div with other menus if needed  */}
         <div className="flex items-center gap-6">
           {/* <PiMagicWand className="text-2xl text-gray-600 cursor-pointer" /> */}
