@@ -21,7 +21,10 @@ const DesktopHeader = () => {
                 showSearch ? "top-[41px]" : "top-[0px]"
               } left-0 transition-all ease-in-out duration-300`}
             >
-              <a href="/garage-doors" className="h-min hover:underline">
+              <a
+                href={`${import.meta.env.VITE_BASE_URL}/garage-doors`}
+                className="h-min hover:underline"
+              >
                 Garage Doors
               </a>
               <a href="/commercial-doors" className="h-min hover:underline">
