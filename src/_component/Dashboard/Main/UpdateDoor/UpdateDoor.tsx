@@ -12,6 +12,7 @@ import {
 import { apiClient } from "../../../../apiClient/apiClient";
 import useStore from "../../../../store/Store";
 import UpdateDoorForm from "./UpdateDoorForm";
+import UpdateMediaForm from "./UpdateMediaForm";
 
 const UpdateDoor = () => {
   const [data, setData] = useState<DoorSchema[]>([]);
@@ -20,13 +21,17 @@ const UpdateDoor = () => {
   const [dataLoader, setDataLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const [selectedImages, setSelectedImages] = useState<any>([]);
+
   const { darkTheme } = useStore();
   const [selectedItem, setSelectedItem] = useState<null | DoorSchema>(null);
   const formTriggerRef = useRef<HTMLButtonElement>(null);
+  const mediaFormTrigger = useRef<HTMLButtonElement>(null);
 
   const fetchDoors = async () => {
+    setDataLoader(true);
     try {
-      setDataLoader(true);
       const res = await apiClient.get(GET_ALL_DOORS, {
         params: { skip, limit },
       });
@@ -43,8 +48,13 @@ const UpdateDoor = () => {
       }
     } catch (ex: unknown) {
       if (ex instanceof AxiosError) {
+        if (ex.response?.data.message) {
+          toast.error(ex.response.data.message);
+          return;
+        }
         if (ex.response && ex.response.data && ex.response.data.error) {
           toast.error(ex.response.data.error);
+          return;
         } else {
           toast.error("An unexpected error occurred.");
         }
@@ -62,7 +72,7 @@ const UpdateDoor = () => {
 
   const truncateText = (text: string, length: number) => {
     const truncatedText =
-      text.length > length ? text.slice(0, length) + "..." : text;
+      text && text.length > length ? text.slice(0, length) + "..." : text;
     return truncatedText;
   };
 
@@ -93,7 +103,7 @@ const UpdateDoor = () => {
                         : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
                     }
                     alt=""
-                    className="w-full max-h-[220px]"
+                    className="w-full max-h-[220px] h-[180px]"
                   />
                   <div className="p-3 flex flex-col gap-4">
                     <div className="flex items-start gap-2 flex-col">
@@ -107,18 +117,30 @@ const UpdateDoor = () => {
                         {door.category}
                       </Badge>
                     </div>
-                    <p className="text-sm font-light">
+                    <p className="text-sm font-light h-[80px]">
                       {truncateText(door.description, 127)}
                     </p>
-                    <button
-                      onClick={() => {
-                        formTriggerRef.current?.click();
-                        setSelectedItem(door);
-                      }}
-                      className="bg-warmBrown rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
-                    >
-                      Update
-                    </button>
+                    <div className="w-full flex items-center gap-2">
+                      <button
+                        onClick={() => {
+                          formTriggerRef.current?.click();
+                          setSelectedItem(door);
+                        }}
+                        className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
+                      >
+                        Update Fields
+                      </button>
+                      <button
+                        onClick={() => {
+                          mediaFormTrigger.current?.click();
+                          setSelectedItem(door);
+                          setSelectedImages(door.media);
+                        }}
+                        className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
+                      >
+                        Update Media
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -149,7 +171,26 @@ const UpdateDoor = () => {
             darkTheme && "bg-[#1B1B1B]"
           }`}
         >
-          <UpdateDoorForm selectedItem={selectedItem} />
+          <UpdateDoorForm
+            formTriggerRef={formTriggerRef}
+            setSelectedItem={setSelectedItem}
+            selectedItem={selectedItem}
+          />
+        </DialogContent>
+      </Dialog>
+      <Dialog>
+        <DialogTrigger ref={mediaFormTrigger} className="hidden">
+          Open
+        </DialogTrigger>
+        <DialogContent
+          className={`overflow-y-auto w-[90%] h-[90vh] rounded ${
+            darkTheme && "bg-[#1B1B1B]"
+          }`}
+        >
+          <UpdateMediaForm
+            selectedImages={selectedImages}
+            selectedItem={selectedItem}
+          />
         </DialogContent>
       </Dialog>
     </section>

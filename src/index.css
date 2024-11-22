@@ -8,7 +8,6 @@
 body {
   font-family: "Lato";
   /* min-height: 8000px; */
-  /* overflow: hidden; */
   /* width: 100%; */
   box-sizing: border-box;
   transition: all ease-in-out 500ms;
@@ -132,4 +131,21 @@ body {
 .accordion-trigger > svg {
   height: 30px;
   width: 30px;
+}
+.diagonal-split {
+  background: linear-gradient(to bottom right, #053847 50%, #05323f 50%);
+  border: 1px solid black; /* Optional: to make the div border visible */
+}
+
+#animateAuth {
+  animation: animateAuth 1000ms ease-in-out forwards;
+}
+
+@keyframes animateAuth {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
 }

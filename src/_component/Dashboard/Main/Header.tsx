@@ -35,7 +35,7 @@ const Header: React.FC<MenuINT> = ({ setShowMenu }) => {
         className="cursor-pointer text-3xl text-gray-500 lg:hidden"
       />
       <a href={`${import.meta.env.VITE_BASE_URL}`}>
-        <img src={Logo} alt="AR-logo" className="w-14 cursor-pointer" />
+        <img src={Logo} alt="AR-logo" className="w-20 cursor-pointer lg:w-24" />
       </a>
       <div className="flex items-center gap-2">
         <HoverCard>

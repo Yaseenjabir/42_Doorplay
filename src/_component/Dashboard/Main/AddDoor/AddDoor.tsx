@@ -98,11 +98,18 @@ const AddDoor = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoader(true);
+    const user = sessionStorage.getItem("user");
+    const { token } = user && JSON.parse(user);
+    if (!token) {
+      toast.error("No token provided");
+      setLoader(false);
+      return;
+    }
     const formData = new FormData();
 
     formData.append("title", data.doorTitle);
     formData.append("shortPreview", data.shortPreview);
-    // using if condition so that empty string is not sent to backend because it will cause "required" error
+    // using if condition so that empty strings are not sent to backend because it will cause "required" error
     if (data.description.length > 0) {
       formData.append("description", data.description);
     }
@@ -153,11 +160,12 @@ const AddDoor = () => {
       formData.append("files", file);
     });
 
-    // console.log(formData);
-
     try {
       const response = await apiClient.post(ADD_DOOR_ROUTE, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        },
       });
 
       if (response.data.success) {
@@ -165,9 +173,15 @@ const AddDoor = () => {
         reset();
       }
     } catch (ex: unknown) {
+      console.log(ex);
       if (ex instanceof AxiosError) {
+        if (ex.response?.data.message) {
+          toast.error(ex.response.data.message);
+          return;
+        }
         if (ex.response && ex.response.data && ex.response.data.error) {
           toast.error(ex.response.data.error);
+          return;
         } else {
           toast.error("An unexpected error occurred.");
         }
@@ -720,7 +734,7 @@ const AddDoor = () => {
           <div className="mb-4">
             {loader ? (
               <button
-                type="submit"
+                type="button"
                 className="w-full px-4 py-2 bg-warmBrown text-white rounded-lg border border-transparent hover:bg-transparent hover:border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300 flex items-center justify-center gap-2"
               >
                 <FaArrowRotateRight className="animate-spin" />
@@ -747,7 +761,7 @@ const AddDoor = () => {
             <DialogDescription>
               Congratulations! Your new door has been successfully added to the
               system. You can now proceed to view or manage your newly added
-              door in the product catalog.
+              door.
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

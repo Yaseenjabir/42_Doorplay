@@ -1,33 +1,34 @@
 import { useEffect, useRef, useState } from "react";
-import { IoIosStar } from "react-icons/io";
-import { IoStarSharp } from "react-icons/io5";
-import { LuHelpingHand } from "react-icons/lu";
-import { SlBadge } from "react-icons/sl";
-import { useLocation, useNavigate } from "react-router";
-import { apiClient } from "../../apiClient/apiClient";
-import { GET_ALL_DOORS } from "../../constants/constant";
 import { DoorSchema } from "../../utils/utils";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Badge } from "../../components/ui/badge";
+import { IoStarSharp } from "react-icons/io5";
 import { AxiosError } from "axios";
+import { apiClient } from "../../apiClient/apiClient";
 import { toast } from "sonner";
-import SearchForm from "./SearchForm";
+import { SEARCH_DOOR_ROUTE } from "../../constants/constant";
 
-const GarageDoors = () => {
-  const navigate = useNavigate();
-
-  const [data, setData] = useState<DoorSchema[]>([]);
-  const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
-  const [skip, setSkip] = useState<number>(0);
+const SubCategory = () => {
+  const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
   const [loader, setLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
+  const [data, setData] = useState<DoorSchema[]>([]);
+  const [skip, setSkip] = useState<number>(0);
   const limit: number = 5;
   const [hasMore, setHasMore] = useState(true);
-  const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
+  const { subCategory, category } = useParams();
+
   const fetchDoors = async (skip: number, limit: number) => {
     try {
       setLoader(true);
-      const res = await apiClient.get(GET_ALL_DOORS, {
-        params: { skip, limit, category: "garage" },
+      const res = await apiClient.get(SEARCH_DOOR_ROUTE, {
+        params: {
+          skip,
+          limit,
+          category,
+          subcategory: subCategory && subCategory.replace(/-/g, " "),
+        },
       });
       if (res.data) {
         if (res.data.length === 0 || res.data.length < 5) {
@@ -43,6 +44,7 @@ const GarageDoors = () => {
         setAvailability(false);
       }
     } catch (ex: unknown) {
+      setHasMore(false);
       if (ex instanceof AxiosError) {
         if (ex.response && ex.response.data && ex.response.data.error) {
           toast.error(ex.response.data.error);
@@ -78,18 +80,12 @@ const GarageDoors = () => {
 
   return (
     <>
-      <SearchForm
-        data={data}
-        setLoader={setLoader}
-        setSearchedData={setSearchedData}
-        setAvailability={setAvailability}
-        setHasMore={setHasMore}
-      />
-
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
+
       <section className="w-full py-10 px-5">
         <h1 className="text-2xl">
-          Garage Doors
+          {subCategory &&
+            subCategory?.charAt(0).toUpperCase() + subCategory?.slice(1)}
           {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
         </h1>
         <hr className="hidden lg:block w-full my-5" />
@@ -110,7 +106,7 @@ const GarageDoors = () => {
           </div>
         ) : (
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-14 mt-5">
-            {(searchedData.length > 0 ? searchedData : data).map((door) => {
+            {data.map((door) => {
               return (
                 <div
                   key={door._id}
@@ -222,99 +218,9 @@ const GarageDoors = () => {
             </button>
           </div>
         )}
-
-        {/* Description text */}
-        <div className="w-full my-5 flex flex-col gap-5">
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Garage Doors Crafted for Every Home
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              For more than 50 years, AR Doors has manufactured beautiful,
-              durable and reliable garage doors. We are honored to be America’s
-              favorite garage door brand, a distinction achieved through our
-              unrelenting focus on delivering true performance. With all the
-              styles of garage doors offered by AR Doors, the perfect look and
-              design is ready to be crafted for you.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Find Inspiration
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Be inspired by our{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                latest Lookbook
-              </span>
-              , featuring projects from award-winning architects, builders, and
-              influencers featuring garage doors from AR Doors.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Build Your Own Beauty
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Tap into your vision and unlock the full craftsmanship of AR Doors
-              in our{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                Door Imagination System
-              </span>
-              . Upload a picture of your home, build your custom door, and
-              preview it on your own home. Explore how each available design
-              option changes and beautifies your curb appeal.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Craftsmanship from Build to Install
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              AR Doors has a network of more than 400 trusted and certified
-              local dealers and service specialists. We trust our craftsmanship
-              to them and so can you.{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                Find an authorized garage door professional{" "}
-              </span>
-              near you to handle the delivery and installation of your garage
-              door. Have peace of mind from start to finish.
-            </p>
-          </div>
-        </div>
       </section>
-      {/* Why replace your garage doors  */}
-      <div className="w-full flex flex-col text-center py-10 lg:py-16 bg-darkRed text-white">
-        <h1 className="text-2xl font-bold px-16 md:text-3xl">
-          Why Replace Your Garage Door?
-        </h1>
-        <div className="w-full py-5 flex flex-col gap-14 lg:flex-row lg:justify-evenly">
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <SlBadge className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">70%</h1>
-            <p className="text-sm md:text-lg">ROI at resale</p>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <LuHelpingHand className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">193%+</h1>
-            <p className="text-sm max-w-[200px] md:text-lg">
-              Realtors agree a new garage door helps a home sell faster
-            </p>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <IoIosStar className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">Show Off</h1>
-            <p className="text-sm max-w-[200px] md:text-lg">
-              Your style with a new customized garage door
-            </p>
-          </div>
-        </div>
-        <button className="py-3 px-5 text-sm bg-warmBrown rounded-md w-min text-nowrap self-center border border-warmBrown hover:bg-transparent transition-all ease-in-out duration-200 mt-5 lg:mt-10">
-          Explore Buying Guide
-        </button>
-      </div>
     </>
   );
 };
 
-export default GarageDoors;
+export default SubCategory;

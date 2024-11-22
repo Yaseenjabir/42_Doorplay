@@ -10,12 +10,14 @@ import { DoorSchema } from "../../utils/utils";
 import { Badge } from "../../components/ui/badge";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import SearchForm from "../GarageDoors/SearchForm";
 
 const CommercialDoors = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState<DoorSchema[]>([]);
   const [skip, setSkip] = useState<number>(0);
+  const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
   const [loader, setLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
   const limit: number = 5;
@@ -28,7 +30,9 @@ const CommercialDoors = () => {
         params: { skip, limit, category: "commercial" },
       });
       if (res.data) {
-        if (res.data.length === 0) {
+        if (res.data.length === 0 || res.data.length < 5) {
+          setData((prev) => [...prev, ...res.data]);
+          setAvailability(true);
           setHasMore(false);
           return;
         }
@@ -76,6 +80,13 @@ const CommercialDoors = () => {
 
   return (
     <>
+      <SearchForm
+        data={data}
+        setLoader={setLoader}
+        setSearchedData={setSearchedData}
+        setAvailability={setAvailability}
+        setHasMore={setHasMore}
+      />
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
       <section className="w-full py-10 px-5">
         <h1 className="text-2xl">
@@ -100,7 +111,7 @@ const CommercialDoors = () => {
           </div>
         ) : (
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-14 mt-5">
-            {data.map((door) => {
+            {(searchedData.length > 0 ? searchedData : data).map((door) => {
               return (
                 <div
                   key={door._id}

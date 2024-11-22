@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { apiClient } from "../../../../apiClient/apiClient";
 import { UPDATE_DOOR_ROUTE } from "../../../../constants/constant";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { DoorSchema } from "../../../../utils/utils";
 import { toast } from "sonner";
@@ -55,10 +55,16 @@ const subcategoryOptions: SubcategoryOptions = {
 };
 
 interface CompInterface {
+  formTriggerRef: any;
   selectedItem: null | DoorSchema;
+  setSelectedItem(value: null): void;
 }
 
-const UpdateDoorForm: React.FC<CompInterface> = ({ selectedItem }) => {
+const UpdateDoorForm: React.FC<CompInterface> = ({
+  selectedItem,
+  setSelectedItem,
+  formTriggerRef,
+}) => {
   const {
     control,
     register,
@@ -95,9 +101,13 @@ const UpdateDoorForm: React.FC<CompInterface> = ({ selectedItem }) => {
 
   const [loader, setLoader] = useState<boolean>(false);
 
-  const formTriggerRef = useRef<HTMLButtonElement>(null);
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const user = sessionStorage.getItem("user");
+    const { token } = user && JSON.parse(user);
+    if (!token) {
+      toast.error("No token provided");
+      return;
+    }
     setLoader(true);
     interface FormattedData {
       title?: string;
@@ -178,21 +188,32 @@ const UpdateDoorForm: React.FC<CompInterface> = ({ selectedItem }) => {
       const url =
         selectedItem?._id &&
         UPDATE_DOOR_ROUTE.replace(":id", selectedItem?._id);
-      const response = await apiClient.patch(url ? url : "", formattedData);
+      const response = await apiClient.patch(url ? url : "", formattedData, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
-      console.log(response.data);
-
-      if (response.data) {
+      if (response.status === 200) {
         formTriggerRef.current?.click();
-        reset();
+        setSelectedItem(null);
+        setTimeout(() => {
+          location.reload();
+        }, 3000);
+        toast.message("Door info has been updated succesfully");
       }
     } catch (ex: unknown) {
-      console.log(ex);
       if (ex instanceof AxiosError) {
+        if (ex.response?.data.message) {
+          toast.error(ex.response?.data.message);
+          return;
+        }
         if (ex.response && ex.response.data) {
           toast.error(ex.response.data);
+          return;
         } else {
           toast.error("An unexpected error occurred.");
+          return;
         }
       } else {
         toast.error("An unexpected error occurred.");
@@ -590,11 +611,15 @@ const UpdateDoorForm: React.FC<CompInterface> = ({ selectedItem }) => {
           render={({ field }) => (
             <select
               id="simple-select"
-              {...field} // Spread the field props to the select element
-              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none transition-all duration-500 bg-transparent text-black"
+              {...field}
+              className="w-full px-4 py-2 border  rounded-md shadow-sm focus:outline-none transition-all duration-500 bg-transparent "
             >
               {categoryOptions.map((category) => {
-                return <option value={category.value}>{category.label}</option>;
+                return (
+                  <option className="text-black" value={category.value}>
+                    {category.label}
+                  </option>
+                );
               })}
             </select>
           )}
@@ -613,10 +638,14 @@ const UpdateDoorForm: React.FC<CompInterface> = ({ selectedItem }) => {
               <select
                 id="simple-select"
                 {...field} // Spread the field props to the select element
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none transition-all duration-500 bg-transparent text-black"
+                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none transition-all duration-500 bg-transparent "
               >
                 {subcategoryOptions.garage.map((item) => (
-                  <option key={item.value} value={item.value}>
+                  <option
+                    className="text-black"
+                    key={item.value}
+                    value={item.value}
+                  >
                     {item.label}
                   </option>
                 ))}
