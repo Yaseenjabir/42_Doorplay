@@ -1,7 +1,7 @@
 import { AppProvider } from "@toolpad/core/react-router-dom";
 import { Outlet } from "react-router-dom";
 import type { Navigation } from "@toolpad/core";
-import Logo from "../../../../AR Garage - Logo.png";
+import Logo from "../../../public/AR Garage - Logo.png";
 import { IoMdAdd } from "react-icons/io";
 import { RxUpdate } from "react-icons/rx";
 import { MdHome } from "react-icons/md";
