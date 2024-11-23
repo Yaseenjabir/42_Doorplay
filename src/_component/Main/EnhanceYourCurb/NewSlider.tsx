@@ -14,11 +14,13 @@ import {
   Keyboard,
   Autoplay,
 } from "swiper/modules";
+import { useNavigate } from "react-router";
 
 const NewSlider = () => {
   const [doors, setDoors] = useState<DoorSchema[]>([]);
 
   const [loader, setLoader] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDoors = async () => {
@@ -61,7 +63,17 @@ const NewSlider = () => {
         <>
           <SwiperSlide>
             <div
-              className="slide select-none flex flex-1 flex-col w-full relative"
+              onClick={() =>
+                navigate(
+                  `/garage-doors/${encodeURIComponent(
+                    slide.title.replace(/\s+/g, "-")
+                  )}`,
+                  {
+                    state: { id: slide._id },
+                  }
+                )
+              }
+              className="slide select-none flex flex-1 flex-col w-full relative cursor-pointer"
               key={slide._id}
             >
               <img
@@ -74,7 +86,9 @@ const NewSlider = () => {
                 className="w-full max-h-[520px]"
               />
               <div className="text-start py-3 px-2 flex flex-col gap-7 border border-gray-300 bg-white h-full lg:max-w-[310px] lg:border-none">
-                <h1 className="text-gray-800 text-lg">{slide.title}</h1>
+                <h1 className="text-titleColor font-bold text-lg lg:text-2xl">
+                  {slide.title}
+                </h1>
                 <p className="font-normal text-[16px]">{slide.shortPreview}</p>
                 <div className="font-normal text-[13px] flex items-center gap-2">
                   <p>Also in :</p>

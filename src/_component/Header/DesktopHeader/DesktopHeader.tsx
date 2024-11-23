@@ -60,11 +60,11 @@ const DesktopHeader = () => {
   const anchorTagsFontSize = "text-[16px]";
   return (
     <>
-      <header className="hidden w-full lg:flex h-[86px] border-b pb-4 py-8 px-7 pr-16 justify-between sticky top-0 z-20 bg-white shadow-md">
-        <div className="py-2 bg-black w-full absolute top-0 left-0"></div>
+      <div className="py-2 hidden lg:block bg-black z-30 sticky top-0 w-full h-[30px]"></div>
+      <header className="hidden w-full lg:flex h-[76px] border-b py-4 px-7 pr-16 justify-between sticky top-[30px] z-20 bg-white shadow-md">
         <div className="w-full flex">
-          <div className="w-[83px] mr-5"></div>
-          <a href={"/"} className="absolute w-[83px] top-5">
+          <div className="w-[73px] mr-5"></div>
+          <a href={"/"} className="absolute w-[83px] top-2">
             <img className="cursor-pointer" src={Logo} />
           </a>
           <div className="flex flex-col w-full h-[41px] overflow-hidden relative ">
@@ -174,7 +174,7 @@ const DesktopHeader = () => {
       <div
         className={`${
           inputValue.length >= 3 && "lg:flex"
-        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[580px] top-[70px] right-[282px] px-5 flex-col max-h-[300px] overflow-y-auto`}
+        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[580px] top-[85px] right-[281px] px-5 flex-col max-h-[300px] overflow-y-auto`}
       >
         {loading ? (
           <div className="flex justify-center items-center">

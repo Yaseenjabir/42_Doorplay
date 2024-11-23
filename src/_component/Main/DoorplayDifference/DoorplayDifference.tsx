@@ -24,12 +24,12 @@ const DoorplayDifference = () => {
               quality and attention to detail is influential and everlasting.
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center py-12 lg:w-[32%] pb-[100px] gap-8 bg-darkRed rounded-xl text-white px-8">
-            <RiUserStarLine className="text-5xl text-[#f1ab92]" />
-            <h1 className="text-2xl font-bold text-[#f1ab92]">
+          <div className="flex group flex-col items-center justify-center py-12 lg:w-[32%] pb-[100px] gap-8 bg-darkRed rounded-xl text-white px-8 hover:bg-white transition-all ease-in-out duration-300 cursor-pointer">
+            <RiUserStarLine className="text-5xl text-[#f1ab92] group-hover:text-titleColor" />
+            <h1 className="text-2xl font-bold text-[#f1ab92] group-hover:text-titleColor">
               Expert Guidance
             </h1>
-            <p>
+            <p className="group-hover:text-titleColor">
               Your dreams become reality as we provide the tailored expertise,
               tools and solutions that guide every step of designing and
               attaining the ideal garage door.
