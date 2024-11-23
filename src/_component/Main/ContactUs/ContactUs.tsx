@@ -1,9 +1,9 @@
 const ContactUs = () => {
   return (
     <>
-      <section className="w-full flex flex-col mt-20 px-5 lg:flex-row">
+      <section className="w-full flex flex-col mt-20 px-5 lg:flex-row lg:mt-32">
         <div className="py-20 px-10 bg-lightGray flex flex-col gap-3 lg:w-[50%]">
-          <h1 className="text-2xl md:text-3xl">Wanna design your door?</h1>
+          <h1 className="text-2xl md:text-3xl ">Wanna design your door?</h1>
           <p>Our talented Design Support team has you covered!</p>
         </div>
         <div className="bg-darkRed py-20 px-10 text-white flex flex-col md:flex-row items-center lg:w-[50%]">

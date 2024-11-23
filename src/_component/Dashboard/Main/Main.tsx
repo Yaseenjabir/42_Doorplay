@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
-import AddDoor from "./AddDoor/AddDoor";
-import UpdateDoor from "./UpdateDoor/UpdateDoor";
+import AddDoor from "../../Dashboard 2/AddDoor/AddDoor";
+import UpdateDoor from "../../Dashboard 2/UpdateDoor/UpdateDoor";
 import useStore from "../../../store/Store";
 
 interface MenuINT {

@@ -5,11 +5,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./_component/Main/Main.tsx";
 import GarageDoors from "./_component/GarageDoors/GarageDoors.tsx";
 import SingleDoor from "./_component/SingleDoor/SingleDoor.tsx";
-import Dashboard from "./_component/Dashboard/Dashboard.tsx";
 import { Toaster } from "./components/ui/sonner.tsx";
 import CommercialDoors from "./_component/CommercialDoors/CommercialDoors.tsx";
 import Auth from "./_component/auth/Auth.tsx";
 import SubCategory from "./_component/SubCategory/SubCategory.tsx";
+import Master from "./_component/Dashboard 2/Master.tsx";
+import Layout from "./_component/Dashboard 2/Dashboard.tsx";
+import AddDoor from "./_component/Dashboard 2/AddDoor/AddDoor.tsx";
+import UpdateDoor from "./_component/Dashboard 2/UpdateDoor/UpdateDoor.tsx";
 // import { StrictMode } from "react";
 
 const router = createBrowserRouter([
@@ -25,9 +28,20 @@ const router = createBrowserRouter([
       { path: "/commercial-doors/:singleDoor", element: <SingleDoor /> },
     ],
   },
+
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <Master />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <Layout />,
+        children: [
+          { path: "", element: <AddDoor /> },
+          { path: "update-door", element: <UpdateDoor /> },
+        ],
+      },
+    ],
   },
   {
     path: "/auth",

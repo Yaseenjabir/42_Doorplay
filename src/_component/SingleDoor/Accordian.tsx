@@ -21,7 +21,7 @@ const AccordionComponent: React.FC<SingleDoorSchema> = ({ singleDoor }) => {
     <>
       <Accordion type="single" collapsible>
         <AccordionItem value="overview">
-          <AccordionTrigger className="text-xl font-bold py-9 md:text-2xl lg:text-xl accordion-trigger hover:no-underline">
+          <AccordionTrigger className="text-xl font-bold py-9 md:text-2xl lg:text-xl accordion-trigger hover:no-underline text-titleColor">
             Overview
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-10">

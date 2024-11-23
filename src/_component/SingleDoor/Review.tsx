@@ -76,7 +76,7 @@ const Review: React.FC<{ singleDoor: DoorSchema }> = ({ singleDoor }) => {
   return (
     <div className="w-full mt-10 lg:w-[70%]">
       <div className="w-full flex justify-between items-center">
-        <h1 className="text-xl font-semibold">
+        <h1 className="text-xl font-semibold text-titleColor">
           Reviews({reviews && reviews?.length > 0 ? reviews?.length : 0})
         </h1>
         {user && user.userRole === "admin" ? (

@@ -8,7 +8,7 @@ const FreeColorSample = () => {
           className="w-full lg:w-[50%]"
         />
         <div className="text-center px-10 py-16 flex flex-col gap-5 items-center justify-center lg:w-[50%] lg:items-start lg:text-start">
-          <h1 className="font-bold text-2xl text-gray-800 lg:text-3xl">
+          <h1 className="font-bold text-2xl text-titleColor lg:text-2xl">
             Free Color Samples
           </h1>
           <p>

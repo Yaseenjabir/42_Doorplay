@@ -136,9 +136,9 @@ const ReviewForm: React.FC<ReviewFormInterface> = ({
                   name="name"
                   render={({ field }) => (
                     <FormItem className="text-start w-full">
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter username" {...field} />
+                        <Input placeholder="Enter name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -178,6 +178,7 @@ const ReviewForm: React.FC<ReviewFormInterface> = ({
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
+                          className="placeholder:text-[#b2b8c2] placeholder:text-[14px]"
                           rows={7}
                           placeholder="Enter review description"
                           {...field}

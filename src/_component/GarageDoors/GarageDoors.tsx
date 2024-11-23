@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IoIosStar } from "react-icons/io";
 import { IoStarSharp } from "react-icons/io5";
-import { LuHelpingHand } from "react-icons/lu";
-import { SlBadge } from "react-icons/sl";
 import { useLocation, useNavigate } from "react-router";
 import { apiClient } from "../../apiClient/apiClient";
 import { GET_ALL_DOORS } from "../../constants/constant";
@@ -11,6 +8,8 @@ import { Badge } from "../../components/ui/badge";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import SearchForm from "./SearchForm";
+import Description from "../Garage&CommercialSharedContent/DescriptionText";
+import WhyReplaceUs from "../Garage&CommercialSharedContent/WhyReplaceUs";
 
 const GarageDoors = () => {
   const navigate = useNavigate();
@@ -132,7 +131,7 @@ const GarageDoors = () => {
                         ? door.media[0].url
                         : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
                     }
-                    className="w-full rounded-md"
+                    className="w-full rounded-md max-h-[360px]"
                   />
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">
@@ -223,96 +222,10 @@ const GarageDoors = () => {
           </div>
         )}
 
-        {/* Description text */}
-        <div className="w-full my-5 flex flex-col gap-5">
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Garage Doors Crafted for Every Home
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              For more than 50 years, AR Doors has manufactured beautiful,
-              durable and reliable garage doors. We are honored to be America’s
-              favorite garage door brand, a distinction achieved through our
-              unrelenting focus on delivering true performance. With all the
-              styles of garage doors offered by AR Doors, the perfect look and
-              design is ready to be crafted for you.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Find Inspiration
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Be inspired by our{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                latest Lookbook
-              </span>
-              , featuring projects from award-winning architects, builders, and
-              influencers featuring garage doors from AR Doors.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Build Your Own Beauty
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              Tap into your vision and unlock the full craftsmanship of AR Doors
-              in our{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                Door Imagination System
-              </span>
-              . Upload a picture of your home, build your custom door, and
-              preview it on your own home. Explore how each available design
-              option changes and beautifies your curb appeal.
-            </p>
-          </div>
-          <div className="w-full">
-            <h1 className="font-bold text-xl text-gray-800 md:text-2xl">
-              Craftsmanship from Build to Install
-            </h1>
-            <p className="text-gray-800 mt-4 md:text-xl lg:text-base">
-              AR Doors has a network of more than 400 trusted and certified
-              local dealers and service specialists. We trust our craftsmanship
-              to them and so can you.{" "}
-              <span className="text-slate-500 hover:underline cursor-pointer">
-                Find an authorized garage door professional{" "}
-              </span>
-              near you to handle the delivery and installation of your garage
-              door. Have peace of mind from start to finish.
-            </p>
-          </div>
-        </div>
+        {/* Description text & Why replace your garage doors*/}
+        <Description />
       </section>
-      {/* Why replace your garage doors  */}
-      <div className="w-full flex flex-col text-center py-10 lg:py-16 bg-darkRed text-white">
-        <h1 className="text-2xl font-bold px-16 md:text-3xl">
-          Why Replace Your Garage Door?
-        </h1>
-        <div className="w-full py-5 flex flex-col gap-14 lg:flex-row lg:justify-evenly">
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <SlBadge className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">70%</h1>
-            <p className="text-sm md:text-lg">ROI at resale</p>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <LuHelpingHand className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">193%+</h1>
-            <p className="text-sm max-w-[200px] md:text-lg">
-              Realtors agree a new garage door helps a home sell faster
-            </p>
-          </div>
-          <div className="flex flex-col items-center justify-center gap-3 lg:w-[200px]">
-            <IoIosStar className="w-[50px] h-[50px] text-yellow-300" />
-            <h1 className="text-3xl font-bold">Show Off</h1>
-            <p className="text-sm max-w-[200px] md:text-lg">
-              Your style with a new customized garage door
-            </p>
-          </div>
-        </div>
-        <button className="py-3 px-5 text-sm bg-warmBrown rounded-md w-min text-nowrap self-center border border-warmBrown hover:bg-transparent transition-all ease-in-out duration-200 mt-5 lg:mt-10">
-          Explore Buying Guide
-        </button>
-      </div>
+      <WhyReplaceUs />
     </>
   );
 };

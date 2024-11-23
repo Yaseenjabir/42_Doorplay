@@ -102,10 +102,10 @@ const SingleDoor: React.FC = () => {
             <MobileSlider singleDoor={singleDoor} />
             <DesktopHeader singleDoor={singleDoor} />
             <div className="w-full flex flex-col gap-4">
-              <h1 className="text-2xl font-semibold md:text-4xl text-gray-800 lg:text-3xl">
+              <h1 className="text-2xl font-semibold md:text-4xl text-titleColor lg:text-3xl">
                 {singleDoor.title}
               </h1>
-              <p className="text-gray-800 md:text-xl lg:text-base">
+              <p className="text-titleColor md:text-xl lg:text-base">
                 {singleDoor.shortPreview}
               </p>
               <div className="flex flex-col mt-3 gap-5">
@@ -117,7 +117,7 @@ const SingleDoor: React.FC = () => {
                     <IoMdStar />
                     <IoMdStar />
                   </div>
-                  <div className="flex gap-1 text-sm items-center text-gray-800">
+                  <div className="flex gap-1 text-sm items-center text-titleColor">
                     <h1>5.0</h1>
                     <span>|</span>
                     <p>3 reviews</p>

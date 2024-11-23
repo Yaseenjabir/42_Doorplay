@@ -122,10 +122,10 @@ const MobileHeader: React.FC = () => {
     <>
       <header
         className="w-full h-[56px] sticky top-0 flex items-center justify-between px-4 
-      border-b z-30 lg:hidden bg-white"
+      border-b z-50 lg:hidden bg-white "
       >
         <a href="/">
-          <img src={Logo} className="w-[65px] md:w-[80px]" />
+          <img src={Logo} className="w-[65px] md:w-[80px] -translate-x-4" />
         </a>
         {/* Wrap the hamburger in a div with other menus if needed  */}
         <div className="flex items-center gap-6">
@@ -316,9 +316,11 @@ const MobileHeader: React.FC = () => {
                 }}
               >
                 <hr />
-                <div className="border-b py-5 w-full text-sm cursor-pointer flex gap-2 hover:bg-gray-100 md:text-base">
+                <div className="border-b py-3 w-full text-sm cursor-pointer flex flex-col gap-1 hover:bg-gray-100 md:text-base">
                   <h1>{item.title}</h1>
-                  <Badge variant={"outline"}>{item.subcategory}</Badge>
+                  <Badge variant={"outline"} className="w-min text-nowrap">
+                    {item.subcategory}
+                  </Badge>
                 </div>
               </div>
             );

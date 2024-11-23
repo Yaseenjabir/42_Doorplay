@@ -133,7 +133,7 @@ const CommercialDoors = () => {
                         ? door.media[0].url
                         : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
                     }
-                    className="w-full rounded-md"
+                    className="w-full rounded-md max-h-[360px]"
                   />
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">

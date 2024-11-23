@@ -1,5 +1,5 @@
 import { PiMagicWand } from "react-icons/pi";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosArrowDown, IoIosSearch } from "react-icons/io";
 import { Input } from "../../../../src/components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import { useEffect, useState } from "react";
@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { Badge } from "../../../components/ui/badge";
 import { useNavigate } from "react-router";
 import useStore from "../../../store/Store";
-import { IoIosArrowUp } from "react-icons/io";
 import DropDownMenus from "./DropDownMenus";
 
 const DesktopHeader = () => {
@@ -58,12 +57,14 @@ const DesktopHeader = () => {
     }
   };
 
+  const anchorTagsFontSize = "text-[16px]";
   return (
     <>
-      <header className="hidden w-full lg:flex h-[76px] border-b py-4 px-7 justify-between sticky top-0 z-20 bg-white shadow-md">
+      <header className="hidden w-full lg:flex h-[86px] border-b pb-4 py-8 px-7 pr-16 justify-between sticky top-0 z-20 bg-white shadow-md">
+        <div className="py-2 bg-black w-full absolute top-0 left-0"></div>
         <div className="w-full flex">
-          <div className="w-[93px] mr-5"></div>
-          <a href={"/"} className="absolute w-[93px] top-1">
+          <div className="w-[83px] mr-5"></div>
+          <a href={"/"} className="absolute w-[83px] top-5">
             <img className="cursor-pointer" src={Logo} />
           </a>
           <div className="flex flex-col w-full h-[41px] overflow-hidden relative ">
@@ -72,11 +73,13 @@ const DesktopHeader = () => {
                 showSearch ? "top-[41px]" : "top-[0px]"
               } left-0 transition-all ease-in-out duration-300`}
             >
-              <div className="flex items-center justify-center gap-1 ">
+              <div
+                className={`flex items-center justify-center gap-1 ${anchorTagsFontSize}`}
+              >
                 <a href="/garage-doors" className="h-min hover:underline">
                   Garage Doors
                 </a>
-                <IoIosArrowUp
+                <IoIosArrowDown
                   onClick={() => {
                     showCommercialDoorDropDown &&
                       setCommercialDoorDropDown(false);
@@ -87,11 +90,13 @@ const DesktopHeader = () => {
                   }`}
                 />
               </div>
-              <div className="flex items-center justify-center gap-1 ">
+              <div
+                className={`flex items-center justify-center gap-1 ${anchorTagsFontSize}`}
+              >
                 <a href="/commercial-doors" className="h-min hover:underline">
                   Commercial Doors
                 </a>
-                <IoIosArrowUp
+                <IoIosArrowDown
                   onClick={() => {
                     showGarageDoorDropDown && setShowGarageDoorDropDown(false);
                     setCommercialDoorDropDown((prev) => !prev);
@@ -101,7 +106,10 @@ const DesktopHeader = () => {
                   }`}
                 />
               </div>
-              <a href="#" className="h-min hover:underline">
+              <a
+                href="#"
+                className={`h-min hover:underline ${anchorTagsFontSize}`}
+              >
                 Contact & Support
               </a>
               <IoIosSearch
@@ -111,11 +119,17 @@ const DesktopHeader = () => {
                 className="w-[28px] h-[28px] cursor-pointer absolute top-2 right-2"
               />
               {isAuthenticated ? (
-                <a href="/dashboard" className="h-min hover:underline">
+                <a
+                  href="/dashboard"
+                  className={`h-min hover:underline ${anchorTagsFontSize}`}
+                >
                   Dashboard
                 </a>
               ) : (
-                <a href="/auth" className="h-min hover:underline">
+                <a
+                  href="/auth"
+                  className={`h-min hover:underline ${anchorTagsFontSize}`}
+                >
                   Login
                 </a>
               )}
@@ -148,7 +162,9 @@ const DesktopHeader = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <button className="py-[10px] flex items-center text-nowrap gap-2 px-4 bg-warmBrown hover:bg-mutedRed hover:bg text-white rounded-md transition-all ease-in-out duration-300">
+          <button
+            className={`py-[10px] flex items-center text-nowrap gap-2 px-4 bg-warmBrown hover:bg-mutedRed hover:bg text-white rounded-md transition-all ease-in-out duration-300 text-[14px]`}
+          >
             <PiMagicWand className="text-xl" />
             Design Your Door
           </button>
@@ -158,7 +174,7 @@ const DesktopHeader = () => {
       <div
         className={`${
           inputValue.length >= 3 && "lg:flex"
-        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[580px] top-[60px] right-[260px] px-5 flex-col max-h-[300px] overflow-y-auto`}
+        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[580px] top-[70px] right-[282px] px-5 flex-col max-h-[300px] overflow-y-auto`}
       >
         {loading ? (
           <div className="flex justify-center items-center">
@@ -187,9 +203,11 @@ const DesktopHeader = () => {
                 }}
               >
                 <hr />
-                <div className="border-b py-5 w-full cursor-pointer flex gap-2 hover:bg-gray-100">
+                <div className="border-b py-3 w-full cursor-pointer flex flex-col gap-2 hover:bg-gray-100">
                   <h1>{item.title}</h1>
-                  <Badge variant={"outline"}>{item.subcategory}</Badge>
+                  <Badge variant={"outline"} className="w-min text-nowrap">
+                    {item.subcategory}
+                  </Badge>
                 </div>
               </div>
             );

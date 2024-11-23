@@ -18,7 +18,7 @@ const FindInspiration: React.FC = () => {
         </div>
         <div className="py-12 bg-[#F6F8FA] px-5 flex flex-col items-center justify-center xl:h-[470px]">
           <div className="xl:w-[330px] flex flex-col gap-7">
-            <h1 className="font-bold text-2xl md:text-4xl text-gray-800 xl:text-3xl">
+            <h1 className="font-bold text-2xl md:text-4xl text-titleColor xl:text-2xl">
               Find Inspiration With AR Doors's® Lookbook
             </h1>
             <p>

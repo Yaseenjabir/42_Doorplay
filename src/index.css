@@ -10,7 +10,6 @@ body {
   /* min-height: 8000px; */
   /* width: 100%; */
   box-sizing: border-box;
-  transition: all ease-in-out 500ms;
 }
 #heroSection {
   background-image: url("https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
@@ -148,4 +147,51 @@ body {
   to {
     transform: scale(1);
   }
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-button-prev {
+  top: 35% !important;
+}
+.swiper-button-next {
+  top: 35% !important;
+}
+
+.swiper-button-prev::after {
+  font-size: 30px !important;
+  top: 50px !important;
+  color: #ab644b;
+}
+.swiper-button-next::after {
+  font-size: 30px !important;
+  color: #ab644b;
+}
+.css-f84ov1-MuiTypography-root {
+  display: none;
+}
+
+.css-14tatqh-MuiTypography-root {
+  color: #ab644b !important;
 }

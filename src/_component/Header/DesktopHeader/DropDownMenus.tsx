@@ -71,11 +71,11 @@ const DropDownMenus: React.FC<Menus> = ({
       <ul
         className={`bg-white transition-all ease-in-out duration-1000 ${
           showGarageDoorDropDown && "h-[156px] py-2 overflow-y-auto"
-        } h-0 px-3 w-[200px] fixed top-[76px] left-28 z-50 flex flex-col gap-2 overflow-hidden`}
+        } h-0 px-3 w-[170px] fixed top-[76px] left-24 z-50 flex flex-col gap-2 overflow-hidden`}
       >
         <a
           href="/garage-doors"
-          className="hover:underline text-gray-700 text-xl cursor-pointer"
+          className="hover:underline text-titleColor text-lg cursor-pointer text-[15px]"
         >
           All Garage Doors
         </a>
@@ -88,7 +88,7 @@ const DropDownMenus: React.FC<Menus> = ({
                   /\s+/g,
                   "-"
                 )}`}
-                className="hover:underline text-gray-700 text-xl cursor-pointer"
+                className="hover:underline text-titleColor text-lg cursor-pointer text-[15px]"
               >
                 {item.subcategory[0].toUpperCase() + item.subcategory.slice(1)}
               </a>
@@ -98,11 +98,11 @@ const DropDownMenus: React.FC<Menus> = ({
       <ul
         className={`bg-white transition-all ease-in-out duration-1000 ${
           showCommercialDoorDropDown && "h-[156px] py-2 overflow-y-auto"
-        } h-0 px-3 w-[200px] fixed top-[76px] left-[270px] z-50 flex flex-col gap-2 overflow-hidden`}
+        } h-0 px-3 w-[170px] fixed top-[76px] left-[270px] z-50 flex flex-col gap-2 overflow-hidden`}
       >
         <a
           href="/commercial-doors"
-          className="hover:underline text-gray-700 text-xl cursor-pointer"
+          className="hover:underline text-titleColor text-lg cursor-pointer text-[15px]"
         >
           All Commercial Doors
         </a>
@@ -115,7 +115,7 @@ const DropDownMenus: React.FC<Menus> = ({
                   /\s+/g,
                   "-"
                 )}`}
-                className="hover:underline text-gray-700 text-xl cursor-pointer"
+                className="hover:underline text-titleColor text-lg cursor-pointer text-[15px]"
               >
                 {item.subcategory[0].toUpperCase() + item.subcategory.slice(1)}
               </a>

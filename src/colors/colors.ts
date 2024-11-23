@@ -7,6 +7,7 @@ interface Colors {
   mutedTeal: string;
   lightGray: string;
   offWhite: string;
+  titleColor: string;
 }
 
 const colors: Colors = {
@@ -16,6 +17,7 @@ const colors: Colors = {
   warmBrown: "#ab644b",
   mutedRed: "#72383d",
   darkRed: "#401b1b",
+  titleColor: "#374151",
 };
 
 export default colors;
