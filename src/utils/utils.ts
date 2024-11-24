@@ -21,6 +21,7 @@ export interface DoorSchema {
     title: string | undefined;
     description: string | undefined;
   };
+  isFavourited: boolean;
   shortPreview: string;
   stockCount: number;
   subcategory: string;

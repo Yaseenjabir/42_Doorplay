@@ -12,6 +12,7 @@ import { Badge } from "../../../components/ui/badge";
 import { useNavigate } from "react-router";
 import useStore from "../../../store/Store";
 import DropDownMenus from "./DropDownMenus";
+import { CiSearch } from "react-icons/ci";
 
 const DesktopHeader = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -41,6 +42,7 @@ const DesktopHeader = () => {
       return;
     }
     try {
+      setLoading(true);
       const res = await apiClient.get(GET_ALL_DOORS, {
         params: { title: userInput },
       });
@@ -140,7 +142,15 @@ const DesktopHeader = () => {
               } left-0 transition-all ease-in-out duration-300  border-green-500`}
             >
               <div className="bg-white flex items-center justify-center px-3 h-full">
-                {/* <CiSearch className="text-2xl cursor-pointer" /> */}
+                <CiSearch
+                  onClick={() => {
+                    setInputValue("");
+                    setShowSearch(false);
+                    val ? toggleVal(false) : toggleVal(true);
+                    navigate(`/search?query=${inputValue}`);
+                  }}
+                  className="text-2xl cursor-pointer"
+                />
               </div>
               <Input
                 value={inputValue}

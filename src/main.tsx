@@ -13,6 +13,9 @@ import Master from "./_component/Dashboard 2/Master.tsx";
 import Layout from "./_component/Dashboard 2/Dashboard.tsx";
 import AddDoor from "./_component/Dashboard 2/AddDoor/AddDoor.tsx";
 import UpdateDoor from "./_component/Dashboard 2/UpdateDoor/UpdateDoor.tsx";
+import SearchResult from "./_component/SearchResult/SearchResult.tsx";
+import Lookbook from "./_component/Lookbook/Lookbook.tsx";
+// import Favorite from "./_component/Dashboard 2/Favorite/Favorite.tsx";
 // import { StrictMode } from "react";
 
 const router = createBrowserRouter([
@@ -24,8 +27,13 @@ const router = createBrowserRouter([
       { path: "/garage-doors", element: <GarageDoors /> },
       { path: "/:category/:subCategory", element: <SubCategory /> },
       { path: "/garage-doors/:singleDoor", element: <SingleDoor /> },
-      { path: "/commercial-doors", element: <CommercialDoors /> }, // Keep this as is
+      { path: "/commercial-doors", element: <CommercialDoors /> },
       { path: "/commercial-doors/:singleDoor", element: <SingleDoor /> },
+      { path: "/search", element: <SearchResult /> },
+      {
+        path: "/lookbook",
+        element: <Lookbook />,
+      },
     ],
   },
 
@@ -39,6 +47,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <AddDoor /> },
           { path: "update-door", element: <UpdateDoor /> },
+          // { path: "favorites", element: <Favorite /> },
         ],
       },
     ],

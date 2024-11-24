@@ -10,6 +10,7 @@ import { apiClient } from "../../../apiClient/apiClient";
 import { GET_ALL_DOORS, SEARCH_DOOR_ROUTE } from "../../../constants/constant";
 import { toast } from "sonner";
 import useStore from "../../../store/Store";
+import { CiSearch } from "react-icons/ci";
 
 interface DataType {
   category: string;
@@ -102,7 +103,8 @@ const MobileHeader: React.FC = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
+    const { token } = user && JSON.parse(user);
     if (token) {
       setIsAuthenticated(true);
     }
@@ -264,9 +266,17 @@ const MobileHeader: React.FC = () => {
           wrapSearchBar ? "opacity-0 h-[0px]" : "opacity-100 h-[36px]"
         }`}
       >
-        {/* <div className="bg-white flex items-center justify-center px-3 h-full">
-          <CiSearch className="text-2xl cursor-pointer h-full" />
-        </div> */}
+        <div className="bg-white flex items-center justify-center px-3 h-full">
+          <CiSearch
+            onClick={() => {
+              setInputValue("");
+              setWrapSearchBar(true);
+              val ? toggleVal(false) : toggleVal(true);
+              navigate(`/search?query=${inputValue}`);
+            }}
+            className="text-2xl cursor-pointer h-full"
+          />
+        </div>
         <Input
           value={inputValue}
           type="text"
