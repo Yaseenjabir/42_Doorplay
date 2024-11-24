@@ -104,9 +104,12 @@ const MobileHeader: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     const user = sessionStorage.getItem("user");
-    const { token } = user && JSON.parse(user);
-    if (token) {
-      setIsAuthenticated(true);
+
+    if (user) {
+      const { token } = JSON.parse(user);
+      if (token) {
+        setIsAuthenticated(true);
+      }
     }
   }, []);
 

@@ -30,9 +30,12 @@ const DesktopHeader = () => {
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
-    const { token } = user && JSON.parse(user);
-    if (token) {
-      setIsAuthenticated(true);
+
+    if (user) {
+      const { token } = JSON.parse(user);
+      if (token) {
+        setIsAuthenticated(true);
+      }
     }
   }, []);
 
