@@ -29,7 +29,8 @@ const DesktopHeader = () => {
   const { toggleVal, val } = useStore();
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
+    const { token } = user && JSON.parse(user);
     if (token) {
       setIsAuthenticated(true);
     }
