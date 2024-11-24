@@ -5,7 +5,7 @@ import Header from "./_component/Header/Header";
 function App() {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Outlet />
       <Footer />
     </>
