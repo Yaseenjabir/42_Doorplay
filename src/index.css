@@ -195,3 +195,71 @@ body {
 .css-14tatqh-MuiTypography-root {
   color: #ab644b !important;
 }
+
+#lookbook-herosection {
+  box-shadow: inset 0px -210px 50px rgba(0, 0, 0, 1);
+}
+@media (min-width: 768px) {
+  #lookbook-herosection {
+    box-shadow: none;
+  }
+}
+.scrollable-div {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #ab644b #ccc; /* Firefox */
+}
+
+.scrollable-div::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.scrollable-div::-webkit-scrollbar-track {
+  background: #ccc; /* Track color */
+}
+
+.scrollable-div::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar thumb color */
+  border-radius: 6px; /* Scrollbar thumb border radius */
+  border: 3px solid #ccc; /* Space around scrollbar thumb */
+}
+
+.scrollable-div::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Scrollbar thumb hover color */
+}
+
+/* .bg-content1 {
+  background-color: black !important;
+} */
+
+.myDarkTheme {
+  background-color: rgb(20, 20, 20) !important;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes deRotate {
+  0% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.applyTransform {
+  animation: rotate 300ms ease-in-out forwards; /* 2 seconds duration, easing */
+}
+.removeTransform {
+  animation: deRotate 300ms ease-in-out forwards; /* 2 seconds duration, easing */
+}
+
+.pannel-size {
+  display: none;
+}

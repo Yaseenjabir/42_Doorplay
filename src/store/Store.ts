@@ -1,16 +1,17 @@
 import { create } from "zustand";
-import { darkThemeSlice } from "./Slices/darktThemeSlice";
 import { runSingleDoorAPI } from "./Slices/runSingleDoorAPI";
+import { globalData } from "./Slices/globalData";
+import { DoorSchema } from "../utils/utils";
 type State = {
-  darkTheme: boolean;
-  toggleDarkTheme: () => void;
   val: boolean;
   toggleVal: (val: boolean) => void;
+  data: DoorSchema[];
+  insertData: (val: DoorSchema[]) => void;
 };
 
 const useStore = create<State>((set) => ({
-  ...darkThemeSlice(set),
   ...runSingleDoorAPI(set),
+  ...globalData(set),
 }));
 
 export default useStore;

@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { DoorSchema } from "../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../utils/utils";
 
 interface SingleDoorSchema {
   singleDoor: DoorSchema;
@@ -33,7 +33,7 @@ const MobileSlider: React.FC<SingleDoorSchema> = ({ singleDoor }) => {
             })}
         </Slider>
       ) : (
-        <img src="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg=" />
+        <img src={imageReplacement} />
       )}
     </div>
   );

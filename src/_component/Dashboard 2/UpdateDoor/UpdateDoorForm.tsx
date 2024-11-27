@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { apiClient } from "../../../apiClient/apiClient";
 import { UPDATE_DOOR_ROUTE } from "../../../constants/constant";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { DoorSchema } from "../../../utils/utils";
 import { toast } from "sonner";
@@ -58,10 +58,12 @@ interface CompInterface {
   formTriggerRef: any;
   selectedItem: null | DoorSchema;
   setSelectedItem(value: null): void;
+  setData: Dispatch<SetStateAction<DoorSchema[]>>;
 }
 
 const UpdateDoorForm: React.FC<CompInterface> = ({
   selectedItem,
+  setData,
   setSelectedItem,
   formTriggerRef,
 }) => {
@@ -193,13 +195,16 @@ const UpdateDoorForm: React.FC<CompInterface> = ({
           Authorization: token,
         },
       });
+      console.log(response);
 
       if (response.status === 200) {
         formTriggerRef.current?.click();
         setSelectedItem(null);
-        setTimeout(() => {
-          location.reload();
-        }, 3000);
+        setData((prev: DoorSchema[]) =>
+          prev.map((door: DoorSchema) =>
+            door._id === response.data._id ? response.data : door
+          )
+        );
         toast.message("Door info has been updated succesfully");
       }
     } catch (ex: unknown) {

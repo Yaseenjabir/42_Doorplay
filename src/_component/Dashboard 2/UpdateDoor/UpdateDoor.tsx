@@ -1,5 +1,5 @@
 import { Badge } from "../../../components/ui/badge";
-import { DoorSchema } from "../../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../../utils/utils";
 import { GET_ALL_DOORS, UPDATE_DOOR_ROUTE } from "../../../constants/constant";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
@@ -16,8 +16,11 @@ import { useTheme } from "@mui/material/styles";
 import UpdateDoorForm from "./UpdateDoorForm";
 import UpdateMediaForm from "./UpdateMediaForm";
 import { useNavigate } from "react-router";
-import { motion } from "framer-motion";
 import { IoStarOutline } from "react-icons/io5";
+import Filter from "./Filter";
+import { FaCircleArrowDown } from "react-icons/fa6";
+import { MdStar, MdStarBorder } from "react-icons/md";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 const UpdateDoor = () => {
   const navigate = useNavigate();
@@ -40,8 +43,6 @@ const UpdateDoor = () => {
   const [selectedImages, setSelectedImages] = useState<any>([]);
   const [starLoader, setStarLoader] = useState<null | string>(null);
 
-  console.log(starLoader);
-
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
@@ -49,9 +50,10 @@ const UpdateDoor = () => {
   const formTriggerRef = useRef<HTMLButtonElement>(null);
   const mediaFormTrigger = useRef<HTMLButtonElement>(null);
 
+  const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
+
   const fetchDoors = async () => {
     setDataLoader(true);
-    console.log("RUN");
     try {
       const res = await apiClient.get(GET_ALL_DOORS, {
         params: { skip, limit },
@@ -87,52 +89,68 @@ const UpdateDoor = () => {
     }
   };
 
-  const handleFavorite = useCallback(async (_id: string, value: boolean) => {
-    const user = sessionStorage.getItem("user");
-    const { token } = user && JSON.parse(user);
-    if (!token) {
-      toast.error("No token provided");
-      return;
-    }
-    setStarLoader(_id);
-    try {
-      const url = _id && UPDATE_DOOR_ROUTE.replace(":id", _id);
-      const response = await apiClient.patch(
-        url ? url : "",
-        { isFavourited: value },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log(response);
-      if (response.status === 200) {
-        toast.message("Door info has been updated succesfully");
-        setTimeout(() => {
-          location.reload();
-        }, 3000);
+  const [starIndex, setStarIndex] = useState<number | null>(null);
+
+  const handleFavorite = useCallback(
+    async (_id: string, value: boolean, index: number) => {
+      const user = sessionStorage.getItem("user");
+      const { token } = user && JSON.parse(user);
+      if (!token) {
+        toast.error("No token provided");
+        return;
       }
-    } catch (ex: unknown) {
-      if (ex instanceof AxiosError) {
-        if (ex.response?.data.message) {
-          toast.error(ex.response?.data.message);
-          return;
+      setStarIndex(index);
+      setStarLoader(_id);
+      try {
+        const url = _id && UPDATE_DOOR_ROUTE.replace(":id", _id);
+        const response = await apiClient.patch(
+          url ? url : "",
+          { isFavourited: value },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          let message = "";
+          if (response.data.isFavourited) {
+            message = "Door has been added to your favorite list";
+          } else {
+            message = "Door has been removed from your favorite list";
+          }
+          toast.success(message);
+          setData((prev: DoorSchema[]) =>
+            prev.map((door: DoorSchema) =>
+              door._id === response.data._id ? response.data : door
+            )
+          );
         }
-        if (ex.response && ex.response.data) {
-          toast.error(ex.response.data);
-          return;
+      } catch (ex: unknown) {
+        console.log(ex);
+        if (ex instanceof AxiosError) {
+          if (ex.response?.data.message) {
+            toast.error(ex.response?.data.message);
+            return;
+          }
+          if (ex.response && ex.response.data) {
+            toast.error(ex.response.data);
+            return;
+          } else {
+            toast.error("An unexpected error occurred.");
+            return;
+          }
         } else {
           toast.error("An unexpected error occurred.");
-          return;
         }
-      } else {
-        toast.error("An unexpected error occurred.");
+      } finally {
+        setStarLoader(null);
+        setTrackIndex(null);
       }
-    } finally {
-      setStarLoader(null);
-    }
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     fetchDoors();
@@ -143,9 +161,41 @@ const UpdateDoor = () => {
       text && text.length > length ? text.slice(0, length) + "..." : text;
     return truncatedText;
   };
+  const capitalizeText = (text: string) => {
+    return text[0].toUpperCase() + text.slice(1);
+  };
+
+  const [height, setHeight] = useState(true);
+  const [trackIndex, setTrackIndex] = useState<null | number>(null);
+  const [zIndex, setZIndex] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const panelGroupStyle = {
+    minHeight: 200,
+    display: windowWidth > 1024 ? "flex" : "none",
+  };
 
   return (
-    <section className="w-full py-10 h-[calc(100vh-60px)] flex flex-col items-center justify-start px-5 overflow-y-scroll">
+    <section className="w-full py-10 flex flex-col items-center justify-start px-5 scrollable-div">
+      <Filter
+        data={data}
+        setLoader={setDataLoader}
+        setAvailability={setAvailability}
+        setHasMore={setHasMore}
+        setSearchedData={setSearchedData}
+      />
       {dataLoader ? (
         <div className="flex justify-center items-center h-[70vh]">
           <div className="border-t-4 border-darkRed border-solid w-16 h-16 rounded-full animate-spin"></div>
@@ -155,90 +205,283 @@ const UpdateDoor = () => {
           <p>No doors available to update</p>
         </div>
       ) : (
-        <div
-          style={{ fontFamily: "Poppins" }}
-          className="grid gap-10 place-content-center md:grid-cols-2 lg:grid-cols-3 mb-20"
-        >
-          {data &&
-            data.map((door) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-10">
+          {(searchedData.length > 0 ? searchedData : data).map(
+            (door, index) => {
               return (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      type: "spring",
-                      stiffness: 500,
-                      duration: 1,
-                    },
-                  }}
-                  viewport={{ once: false }}
-                  className={`max-w-[400px] border-gray-400 relative border rounded-md overflow-hidden ${isDarkMode && "bg-[#1B1B1B]"}`}
+                <div
+                  style={{ fontFamily: "Poppins" }}
+                  className="rounded w-full h-[350px] relative max-w-[400px]"
                 >
-                  <img
-                    src={
-                      door && door.media && door.media[0]
-                        ? door.media[0].url
-                        : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
-                    }
-                    alt=""
-                    className="w-full max-h-[220px] h-[180px]"
-                  />
-                  <div className="p-3 flex flex-col gap-4 relative">
-                    <div className="flex items-start gap-2 flex-col">
-                      <h1 className="font-semibold text-nowrap">
+                  <div
+                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-black" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
+                  >
+                    <img
+                      src={
+                        door && door.media && door.media[0]
+                          ? door.media[0].url
+                          : imageReplacement
+                      }
+                      alt=""
+                      className="w-full max-h-[220px] h-[200px] lg:hidden"
+                    />
+                    <PanelGroup direction="horizontal" style={panelGroupStyle}>
+                      <Panel>
+                        <img
+                          src={
+                            door && door.media && door.media[0]
+                              ? door.media[0].url
+                              : imageReplacement
+                          }
+                          alt=""
+                          className="w-full h-full"
+                        />
+                      </Panel>
+                      <PanelResizeHandle />
+                      <Panel>
+                        <PanelGroup direction="vertical">
+                          <Panel>
+                            <img
+                              src={
+                                door && door.media && door.media[1]
+                                  ? door.media[1].url
+                                  : imageReplacement
+                              }
+                              alt=""
+                              className="w-full h-full"
+                            />
+                          </Panel>
+                          <PanelResizeHandle />
+                          <Panel>
+                            <PanelGroup direction="horizontal">
+                              <Panel>
+                                <img
+                                  src={
+                                    door && door.media && door.media[2]
+                                      ? door.media[2].url
+                                      : imageReplacement
+                                  }
+                                  alt=""
+                                  className="w-full h-full"
+                                />
+                              </Panel>
+                              <PanelResizeHandle />
+                              {/* <Panel>right</Panel> */}
+                            </PanelGroup>
+                          </Panel>
+                        </PanelGroup>
+                      </Panel>
+                      <PanelResizeHandle />
+                      {/* <Panel>right</Panel> */}
+                    </PanelGroup>
+                    <div className="p-3 flex flex-col gap-3 relative">
+                      <h1
+                        onClick={() => setHeight(!height)}
+                        className="font-semibold text-nowrap"
+                      >
                         {truncateText(door.title, 24)}
                       </h1>
-                      <Badge
-                        variant={"secondary"}
-                        className="text-[10px] w-min text-nowrap"
-                      >
-                        {door.category}
-                      </Badge>
+                      <div className="flex items-center gap-2 text-sm">
+                        <h4 className="font-light">Category</h4>
+                        <span>:</span>
+                        <h5 className="font-semibold">
+                          {capitalizeText(door.category)}
+                        </h5>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <h4 className="font-light">Subcategory</h4>
+                        <span>:</span>
+                        <h5 className="font-semibold">
+                          {capitalizeText(door.subcategory)}
+                        </h5>
+                      </div>
+                      <p className="text-sm font-light ">
+                        {door.description
+                          ? door.shortPreview
+                          : "No description is available"}
+                      </p>
+                      <div className="flex flex-col gap-4">
+                        {/* Construction  */}
+                        {(door.construction?.title ||
+                          door.construction?.description) && (
+                          <div className="flex flex-col w-full">
+                            <div className="flex items-center gap-2">
+                              <h1>Construction</h1>
+                              <span>:</span>
+                            </div>
+                            <div className="text-sm flex flex-col gap pl-5">
+                              {door?.construction?.title && (
+                                <h1 className="font-semibold">
+                                  {door.construction.title}
+                                </h1>
+                              )}
+                              {door?.construction?.description && (
+                                <p>{door.construction.description}</p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Customization  */}
+                        {(door.customization?.title ||
+                          door.customization?.description) && (
+                          <div className="flex flex-col  w-full">
+                            <div className="flex items-center gap-2">
+                              <h1>Customization</h1>
+                              <span>:</span>
+                            </div>
+                            <div className="text-sm flex flex-col gap pl-5">
+                              <h1 className="font-semibold">
+                                {door?.customization?.title &&
+                                  door.customization.title}
+                              </h1>
+                              <p>
+                                {door?.customization?.description &&
+                                  door.customization.description}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Insulation  */}
+                        {(door.insulation?.title ||
+                          door.insulation?.description) && (
+                          <div className="flex flex-col  w-full">
+                            <div className="flex items-center gap-2">
+                              <h1>Insulation</h1>
+                              <span>:</span>
+                            </div>
+                            <div className="text-sm flex flex-col gap pl-5">
+                              <h1 className="font-semibold">
+                                {door?.insulation?.title &&
+                                  door.insulation.title}
+                              </h1>
+                              <p>
+                                {door?.insulation?.description &&
+                                  door.insulation.description}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Material  */}
+                        {(door.material?.title ||
+                          door.material?.description) && (
+                          <div className="flex flex-col  w-full">
+                            <div className="flex items-center gap-2">
+                              <h1>Material</h1>
+                              <span>:</span>
+                            </div>
+                            <div className="text-sm flex flex-col gap pl-5">
+                              <h1 className="font-semibold">
+                                {door?.material?.title && door.material.title}
+                              </h1>
+                              <p>
+                                {door?.material?.description &&
+                                  door.material.description}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Reinforcement  */}
+                        {(door.reinforcement?.title ||
+                          door.reinforcement?.description) && (
+                          <div className="flex flex-col  w-full">
+                            <div className="flex items-center gap-2">
+                              <h1>Reinforcement</h1>
+                              <span>:</span>
+                            </div>
+                            <div className="text-sm flex flex-col gap pl-5">
+                              <h1 className="font-semibold">
+                                {door?.reinforcement?.title &&
+                                  door.reinforcement.title}
+                              </h1>
+                              <p>
+                                {door?.reinforcement?.description &&
+                                  door.reinforcement.description}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {/* Stock Count and isFavorited  */}
+                      <div className="flex items-center gap-5">
+                        <Badge
+                          className="text-[14px] px-5 rounded-full text-titleColor"
+                          variant={"secondary"}
+                        >
+                          Stock : {door.stockCount}
+                        </Badge>
+
+                        {door.isFavourited ? (
+                          <Badge
+                            variant={"secondary"}
+                            className="text-[14px] flex items-center gap-1 px-5 rounded-full bg-[#fff493] text-titleColor"
+                          >
+                            <MdStar className="text-yellow-400 text-xl" />
+                            Favorited
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant={"secondary"}
+                            className="text-[14px] px-5 flex items-center gap-1 rounded-full bg-[#f1f1f1] text-titleColor"
+                          >
+                            <MdStarBorder className="text-xl" />
+                            Unfavorited
+                          </Badge>
+                        )}
+                      </div>
+                      {/* Updation button  */}
+                      <div className="w-full flex flex-col md:flex-row items-center gap-2 mt-2 relative">
+                        <button
+                          onClick={() => {
+                            formTriggerRef.current?.click();
+                            setSelectedItem(door);
+                          }}
+                          className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
+                        >
+                          Update Fields
+                        </button>
+                        <button
+                          onClick={() => {
+                            mediaFormTrigger.current?.click();
+                            setSelectedItem(door);
+                            setSelectedImages(door.media);
+                          }}
+                          className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
+                        >
+                          Update Media
+                        </button>
+                      </div>
+                      {door.isFavourited ? (
+                        <IoStarSharp
+                          onClick={() => handleFavorite(door._id, false, index)}
+                          className={`absolute transition-all ease-in-out  top-2 cursor-pointer z-[5] text-yellow-400 right-2 text-2xl ${starLoader && index === starIndex && "animate-spin"}`}
+                        />
+                      ) : (
+                        <IoStarOutline
+                          onClick={() => handleFavorite(door._id, true, index)}
+                          className={`absolute top-2 cursor-pointer z-[5] right-2 text-2xl transition-all ease-in-out ${starLoader && index === starIndex && "animate-spin"}`}
+                        />
+                      )}
                     </div>
-                    <p className="text-sm font-light h-[80px]">
-                      {door.description
-                        ? truncateText(door.description, 127)
-                        : "No description is available"}
-                    </p>
-                    <div className="w-full flex items-center gap-2 mt-2 relative">
-                      <button
-                        onClick={() => {
-                          formTriggerRef.current?.click();
-                          setSelectedItem(door);
-                        }}
-                        className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
-                      >
-                        Update Fields
-                      </button>
-                      <button
-                        onClick={() => {
-                          mediaFormTrigger.current?.click();
-                          setSelectedItem(door);
-                          setSelectedImages(door.media);
-                        }}
-                        className="bg-warmBrown text-white w-full rounded py-1 text-sm hover:bg-transparent border border-warmBrown hover:text-warmBrown transition-all ease-in-out duration-300"
-                      >
-                        Update Media
-                      </button>
-                    </div>
-                    {door.isFavourited ? (
-                      <IoStarSharp
-                        onClick={() => handleFavorite(door._id, false)}
-                        className={`absolute transition-all ease-in-out  top-2 cursor-pointer z-10 text-yellow-400 right-2 text-2xl ${starLoader === door._id && "animate-spin"}`}
-                      />
-                    ) : (
-                      <IoStarOutline
-                        onClick={() => handleFavorite(door._id, true)}
-                        className={`absolute top-2 cursor-pointer z-10 right-2 text-2xl transition-all ease-in-out ${starLoader === door._id && "animate-spin"}`}
-                      />
-                    )}
+                    <FaCircleArrowDown
+                      onClick={() => {
+                        if (trackIndex === index) {
+                          setTrackIndex(null);
+                        } else {
+                          setZIndex(index);
+                          setTrackIndex(index);
+                        }
+                      }}
+                      className={`border w-min ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} text-3xl rounded-full absolute left-0 right-0 mx-auto bottom-2 bg-warmBrown text-white cursor-pointer ${trackIndex === index ? "applyTransform" : "removeTransform"}`}
+                    />
                   </div>
-                </motion.div>
+                </div>
               );
-            })}
+            }
+          )}
         </div>
       )}
       {/* Load more button  */}
@@ -260,6 +503,7 @@ const UpdateDoor = () => {
           className={`overflow-y-scroll w-[90%] h-[85vh] top-[350px] rounded ${isDarkMode && "bg-black"} `}
         >
           <UpdateDoorForm
+            setData={setData}
             formTriggerRef={formTriggerRef}
             setSelectedItem={setSelectedItem}
             selectedItem={selectedItem}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { DoorSchema } from "../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../utils/utils";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Badge } from "../../components/ui/badge";
 import { IoStarSharp } from "react-icons/io5";
@@ -126,7 +126,7 @@ const SubCategory = () => {
                     src={
                       door && door.media && door.media[0]
                         ? door.media[0].url
-                        : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
+                        : imageReplacement
                     }
                     className="w-full rounded-md"
                   />

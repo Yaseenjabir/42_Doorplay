@@ -245,7 +245,10 @@ const MobileHeader: React.FC = () => {
             </div>
           </li>
           <li className="text-2xl font-bold text-[#4f738a] hover:underline">
-            <a href="">Contact & Support</a>
+            <a href="/about">About</a>
+          </li>
+          <li className="text-2xl font-bold text-[#4f738a] hover:underline">
+            <a href="/lookbook">Lookbook</a>
           </li>
           {isAuthenticated ? (
             <li className="text-2xl font-bold text-[#4f738a] hover:underline">

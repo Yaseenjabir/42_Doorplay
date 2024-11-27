@@ -33,3 +33,6 @@ export interface DoorSchema {
     url: string;
   }>;
 }
+
+export const imageReplacement =
+  "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg=";

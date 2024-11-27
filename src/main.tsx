@@ -15,6 +15,9 @@ import AddDoor from "./_component/Dashboard 2/AddDoor/AddDoor.tsx";
 import UpdateDoor from "./_component/Dashboard 2/UpdateDoor/UpdateDoor.tsx";
 import SearchResult from "./_component/SearchResult/SearchResult.tsx";
 import Lookbook from "./_component/Lookbook/Lookbook.tsx";
+import PrivacyPolicy from "./_component/Privacy/PrivacyPolicy.tsx";
+import About from "./_component/About/About.tsx";
+import Sitemap from "./_component/Sitemap/Sitemap.tsx";
 // import Favorite from "./_component/Dashboard 2/Favorite/Favorite.tsx";
 // import { StrictMode } from "react";
 
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
       {
         path: "/lookbook",
         element: <Lookbook />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/sitemap",
+        element: <Sitemap />,
       },
     ],
   },

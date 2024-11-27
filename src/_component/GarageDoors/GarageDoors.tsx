@@ -3,7 +3,7 @@ import { IoStarSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router";
 import { apiClient } from "../../apiClient/apiClient";
 import { GET_ALL_DOORS } from "../../constants/constant";
-import { DoorSchema } from "../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../utils/utils";
 import { Badge } from "../../components/ui/badge";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -129,7 +129,7 @@ const GarageDoors = () => {
                     src={
                       door && door.media && door.media[0]
                         ? door.media[0].url
-                        : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
+                        : imageReplacement
                     }
                     className="w-full rounded-md max-h-[360px]"
                   />

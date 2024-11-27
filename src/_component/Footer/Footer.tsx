@@ -29,8 +29,14 @@ const Footer: React.FC = () => {
             <p>All Rights Reserved</p>
           </div>
           <div>
-            <div className="font-semibold lg:text-base">
-              <span className="hover:underline cursor-pointer">Privacy</span> |{" "}
+            <div className="lg:text-base">
+              <a
+                href="/privacy-policy"
+                className="hover:underline cursor-pointer"
+              >
+                Privacy
+              </a>{" "}
+              |{" "}
               <span className="hover:underline cursor-pointer">
                 Do Not Sell My Information
               </span>{" "}
@@ -39,7 +45,9 @@ const Footer: React.FC = () => {
                 Terms & Conditions
               </span>{" "}
               | <span className="hover:underline cursor-pointer">Sitemap</span>|{" "}
-              <span className="hover:underline cursor-pointer">About</span>
+              <a href="/about" className="hover:underline cursor-pointer">
+                About
+              </a>
             </div>
             <p className="mt-3 lg:mt-2">
               This site is protected by reCAPTCHA and the Google{" "}

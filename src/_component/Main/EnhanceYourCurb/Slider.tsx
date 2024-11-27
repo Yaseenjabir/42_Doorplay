@@ -3,7 +3,7 @@ import "./SwipeSlider.css"; // Ensure you have this CSS file
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { apiClient } from "../../../apiClient/apiClient";
 import { GET_ALL_DOORS } from "../../../constants/constant";
-import { DoorSchema } from "../../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../../utils/utils";
 const Slider: React.FC = () => {
   const [doors, setDoors] = useState<DoorSchema[]>([]);
 
@@ -126,7 +126,7 @@ const Slider: React.FC = () => {
                     src={
                       slide && slide.media && slide.media[0]
                         ? slide.media[0].url
-                        : "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
+                        : imageReplacement
                     }
                     loading="lazy"
                     className="w-full"

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Slider from "react-slick";
-import { DoorSchema } from "../../utils/utils";
+import { DoorSchema, imageReplacement } from "../../utils/utils";
 
 interface SingleDoorSchema {
   singleDoor: DoorSchema;
@@ -70,10 +70,7 @@ const DesktopHeader: React.FC<SingleDoorSchema> = ({ singleDoor }) => {
           )}
         </>
       ) : (
-        <img
-          className="w-full"
-          src="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg="
-        />
+        <img className="w-full" src={imageReplacement} />
       )}
     </div>
   );

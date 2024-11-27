@@ -19,7 +19,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../../components/ui/dialog";
-import useStore from "../../../store/Store";
 import { apiClient } from "../../../apiClient/apiClient";
 import { ADD_DOOR_ROUTE } from "../../../constants/constant";
 import { useNavigate } from "react-router";
@@ -97,8 +96,6 @@ const AddDoor = () => {
   const [subCategories, setSubCategories] = useState<
     Array<{ value: string; label: string }>
   >([]);
-
-  const { darkTheme } = useStore();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -243,7 +240,7 @@ const AddDoor = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-60px)] overflow-y-scroll px-5 pb-10">
+    <div className="w-full h-[calc(100vh-60px)] overflow-y-scroll px-5 pb-10 scrollable-div">
       <div className="max-w-2xl mx-auto py-10 flex flex-col gap-5">
         <h2 className="text-2xl font-bold mb-6">Create Door</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
@@ -767,7 +764,7 @@ const AddDoor = () => {
         <DialogTrigger ref={triggerRef} className="hidden">
           Open
         </DialogTrigger>
-        <DialogContent className={`w-[95%] ${darkTheme && "text-black"}`}>
+        <DialogContent className={`w-[95%]`}>
           <DialogHeader>
             <DialogTitle>Door Added Successfully</DialogTitle>
             <DialogDescription>
