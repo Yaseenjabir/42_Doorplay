@@ -214,7 +214,7 @@ const UpdateDoor = () => {
                   className="rounded w-full h-[350px] relative max-w-[400px]"
                 >
                   <div
-                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-black" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
+                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-[#131313] border-[#535353]" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
                   >
                     <img
                       src={

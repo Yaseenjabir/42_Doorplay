@@ -11,6 +11,7 @@ import { Badge } from "../../components/ui/badge";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import SearchForm from "../GarageDoors/SearchForm";
+import { IoFilter } from "react-icons/io5";
 
 const CommercialDoors = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const CommercialDoors = () => {
   const [availablity, setAvailability] = useState(false);
   const limit: number = 5;
   const [hasMore, setHasMore] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
   const fetchDoors = async () => {
     try {
@@ -82,6 +84,8 @@ const CommercialDoors = () => {
     <>
       <SearchForm
         data={data}
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
         setLoader={setLoader}
         setSearchedData={setSearchedData}
         setAvailability={setAvailability}
@@ -89,10 +93,16 @@ const CommercialDoors = () => {
       />
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
       <section className="w-full py-10 px-5">
-        <h1 className="text-2xl">
-          Commercial Doors
-          {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
-        </h1>
+        <div className="w-full flex flex-row items-center gap-5 justify-between">
+          <h1 className="text-2xl">
+            Commercial Doors
+            {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+          </h1>
+          <IoFilter
+            onClick={() => setShowFilter(true)}
+            className="text-2xl cursor-pointer"
+          />
+        </div>
         <hr className="hidden lg:block w-full my-5" />
 
         {/* Doors List  */}

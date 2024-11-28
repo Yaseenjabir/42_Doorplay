@@ -44,11 +44,7 @@ const Footer: React.FC = () => {
               <span className="hover:underline cursor-pointer">
                 Terms & Conditions
               </span>{" "}
-              |{" "}
-              <a href="/sitemap" className="hover:underline cursor-pointer">
-                Sitemap
-              </a>
-              |{" "}
+              | <span className="hover:underline cursor-pointer">Sitemap</span>|{" "}
               <a href="/about" className="hover:underline cursor-pointer">
                 About
               </a>

@@ -6,7 +6,7 @@ const EnhanceYourCurb: React.FC = () => {
     <>
       <section className="mt-20 text-center w-full flex flex-col px-5 lg:flex-row items-center justify-center mx-auto gap-10 lg:mt-36">
         <div className="flex flex-col items-center justify-center lg:w-[40%]">
-          <h1 className="text-2xl lg:text-2xl font-bold text-titleColor md:text-4xl lg:text-start">
+          <h1 className="text-2xl font-bold text-titleColor md:text-[36px] lg:text-start">
             Enhance your curb appeal with our Garage Doors
           </h1>
           <div className="flex gap-4 items-center w-full justify-center mt-16 lg:justify-start">

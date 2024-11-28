@@ -62,7 +62,6 @@ const DesktopHeader = () => {
     }
   };
 
-  const anchorTagsFontSize = "text-[15px]";
   function truncateText(text: string, length: number) {
     return text.length > length ? `${text.slice(0, length)}...` : text;
   }
@@ -82,7 +81,7 @@ const DesktopHeader = () => {
               } left-0 transition-all ease-in-out duration-300`}
             >
               <div
-                className={`flex items-center justify-center gap-1 ${anchorTagsFontSize}`}
+                className={`flex items-center justify-center gap-1 text-[14px] xl:text-[18px]`}
               >
                 <a href="/garage-doors" className="h-min hover:underline">
                   Garage Doors
@@ -99,7 +98,7 @@ const DesktopHeader = () => {
                 />
               </div>
               <div
-                className={`flex items-center justify-center gap-1 ${anchorTagsFontSize}`}
+                className={`flex items-center justify-center gap-1 text-[14px] xl:text-[18px]`}
               >
                 <a href="/commercial-doors" className="h-min hover:underline">
                   Commercial Doors
@@ -116,15 +115,15 @@ const DesktopHeader = () => {
               </div>
               <a
                 href="/lookbook"
-                className={`h-min hover:underline ${anchorTagsFontSize}`}
+                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
               >
                 Lookbook
               </a>
               <a
                 href="/about"
-                className={`h-min hover:underline ${anchorTagsFontSize}`}
+                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
               >
-                About us
+                About Us
               </a>
               <IoIosSearch
                 onClick={() => {
@@ -135,14 +134,14 @@ const DesktopHeader = () => {
               {isAuthenticated ? (
                 <a
                   href="/dashboard"
-                  className={`h-min hover:underline ${anchorTagsFontSize}`}
+                  className={`h-min hover:underline text-[14px] xl:text-[18px]`}
                 >
                   Dashboard
                 </a>
               ) : (
                 <a
                   href="/auth"
-                  className={`h-min hover:underline ${anchorTagsFontSize}`}
+                  className={`h-min hover:underline text-[14px] xl:text-[18px]`}
                 >
                   Login
                 </a>

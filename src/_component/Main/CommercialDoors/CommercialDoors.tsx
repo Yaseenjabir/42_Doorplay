@@ -5,7 +5,7 @@ const CommercialDoors: React.FC = () => {
     <>
       <section className="w-full flex flex-col px-5 lg:px-10 text-center mt-20 lg:mt-44">
         <div>
-          <h1 className="text-2xl font-bold text-titleColor mb-5 lg:text-2xl">
+          <h1 className="text-2xl font-bold text-titleColor mb-5 lg:text-[32px]">
             A&R® has a commercial door for virtually any application
           </h1>
           <a href="/commercial-doors">

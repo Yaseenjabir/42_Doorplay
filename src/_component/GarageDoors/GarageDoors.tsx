@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IoStarSharp } from "react-icons/io5";
+import { IoFilter, IoStarSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router";
 import { apiClient } from "../../apiClient/apiClient";
 import { GET_ALL_DOORS } from "../../constants/constant";
@@ -22,6 +22,8 @@ const GarageDoors = () => {
   const limit: number = 5;
   const [hasMore, setHasMore] = useState(true);
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
+  const [showFilter, setShowFilter] = useState(false);
+
   const fetchDoors = async (skip: number, limit: number) => {
     try {
       setLoader(true);
@@ -78,6 +80,8 @@ const GarageDoors = () => {
   return (
     <>
       <SearchForm
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
         data={data}
         setLoader={setLoader}
         setSearchedData={setSearchedData}
@@ -87,10 +91,16 @@ const GarageDoors = () => {
 
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
       <section className="w-full py-10 px-5">
-        <h1 className="text-2xl">
-          Garage Doors
-          {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
-        </h1>
+        <div className="w-full flex flex-row items-center gap-5 justify-between">
+          <h1 className="text-2xl">
+            Garage Doors
+            {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+          </h1>
+          <IoFilter
+            onClick={() => setShowFilter(true)}
+            className="text-2xl cursor-pointer"
+          />
+        </div>
         <hr className="hidden lg:block w-full my-5" />
 
         {/* Doors List  */}

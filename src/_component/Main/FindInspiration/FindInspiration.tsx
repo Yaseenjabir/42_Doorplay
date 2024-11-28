@@ -25,9 +25,11 @@ const FindInspiration: React.FC = () => {
               Projects from award-winning architects, builders and influencers
               featuring garage doors from AR Doors
             </p>
-            <button className="py-3 w-min px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 text-nowrap">
-              Experience Lookbook
-            </button>
+            <a href="/lookbook">
+              <button className="py-3 w-min px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 text-nowrap">
+                Experience Lookbook
+              </button>
+            </a>
           </div>
         </div>
       </section>
