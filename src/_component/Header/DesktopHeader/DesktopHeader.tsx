@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import useStore from "../../../store/Store";
 import DropDownMenus from "./DropDownMenus";
 import { CiSearch } from "react-icons/ci";
+import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor";
 
 const DesktopHeader = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -24,6 +25,8 @@ const DesktopHeader = () => {
     useState(false);
 
   const { toggleVal, val, globalData } = useStore();
+
+  const navigateToSingleDoor = useNavigateToSingleDoor();
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
@@ -212,9 +215,7 @@ const DesktopHeader = () => {
                   setInputValue("");
                   setShowSearch(false);
                   val ? toggleVal(false) : toggleVal(true);
-                  navigate(
-                    `/${item.category === "garage" ? "garage-doors" : "commercial-doors"}/${encodeURIComponent(item.title.replace(/\s+/g, "-"))}?id=${item._id}`
-                  );
+                  navigateToSingleDoor(item);
                 }}
               >
                 <hr />

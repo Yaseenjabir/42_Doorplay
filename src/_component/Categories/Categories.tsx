@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { IoFilter, IoStarSharp } from "react-icons/io5";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { DoorSchema, imageReplacement } from "../../utils/utils";
 import { Badge } from "../../components/ui/badge";
 import Description from "./DescriptionText";
 import WhyReplaceUs from "./WhyReplaceUs";
 import SearchForm from "./SearchForm";
 import useStore from "../../store/Store";
+import { useNavigateToSingleDoor } from "../../utils/useNavigateToSingleDoor";
 
 const Categories = () => {
-  const navigate = useNavigate();
-
   const params = useParams();
   const { category } = params;
 
@@ -32,6 +31,8 @@ const Categories = () => {
   const [showFilter, setShowFilter] = useState(false);
 
   const { globalData } = useStore();
+
+  const navigateToSingleDoor = useNavigateToSingleDoor();
 
   const fetchDoorsFromLocalData = async (skip: number, limit: number) => {
     try {
@@ -124,11 +125,7 @@ const Categories = () => {
               return (
                 <div
                   key={door._id}
-                  onClick={() => {
-                    navigate(
-                      `/${door.category === "garage" ? "garage-doors" : "commercial-doors"}/${encodeURIComponent(door.title.replace(/\s+/g, "-"))}?id=${door._id}`
-                    );
-                  }}
+                  onClick={() => navigateToSingleDoor(door)}
                   className="w-full flex flex-col cursor-pointer"
                 >
                   <img
@@ -165,16 +162,7 @@ const Categories = () => {
                       <div className="text-sm text-gray-600 md:text-xl lg:text-sm flex items-end xl:justify-between w-full">
                         <p className="xl:w-[400px]">{door.shortPreview}</p>
                         <button
-                          onClick={() =>
-                            navigate(
-                              `/garage-doors/${encodeURIComponent(
-                                door.title.replace(/\s+/g, "-")
-                              )}`,
-                              {
-                                state: { id: door._id },
-                              }
-                            )
-                          }
+                          onClick={() => navigateToSingleDoor(door)}
                           className="py-2 px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 w-min text-nowrap mt-3 md:h-min hidden xl:block"
                         >
                           Learn More
@@ -198,16 +186,7 @@ const Categories = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() =>
-                        navigate(
-                          `/garage-doors/${encodeURIComponent(
-                            door.title.replace(/\s+/g, "-")
-                          )}`,
-                          {
-                            state: { id: door._id },
-                          }
-                        )
-                      }
+                      onClick={() => navigateToSingleDoor(door)}
                       className="py-2 px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 w-min text-nowrap mt-3 md:h-min xl:hidden"
                     >
                       Learn More

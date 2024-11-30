@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Badge } from "../../components/ui/badge";
 import { DoorSchema, imageReplacement } from "../../utils/utils";
-import { useNavigate } from "react-router";
 import useStore from "../../store/Store";
+import { useNavigateToSingleDoor } from "../../utils/useNavigateToSingleDoor";
 
 const Lookbook = () => {
   const [data, setData] = useState<DoorSchema[]>();
   const [loader, setLoader] = useState<boolean>(true);
-  const navigate = useNavigate();
-  const { globalData } = useStore();
+  const navigateToSingleDoor = useNavigateToSingleDoor();
 
-  console.log(data);
+  const { globalData } = useStore();
 
   useEffect(() => {
     document.title = "A&R | Lookbook";
@@ -104,14 +103,7 @@ const Lookbook = () => {
 
                       <button
                         onClick={() => {
-                          navigate(
-                            `/${item.category}-doors/${encodeURIComponent(
-                              item.title.replace(/\s+/g, "-")
-                            )}`,
-                            {
-                              state: { id: item._id },
-                            }
-                          );
+                          navigateToSingleDoor(item);
                         }}
                         className={`py-[10px] mt-5 px-4 text-sm  border-[2px]  rounded-md  hover:bg-transparent transition-all ease-in-out duration-200 ${styleFirst ? "bg-darkRed border-darkRed text-white hover:text-darkRed" : "bg-yellow-300 border-yellow-300 text-black hover:text-yellow-300"}`}
                       >

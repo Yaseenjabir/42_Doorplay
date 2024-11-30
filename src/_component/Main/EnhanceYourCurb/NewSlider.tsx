@@ -14,12 +14,13 @@ import {
 } from "swiper/modules";
 import { useNavigate } from "react-router";
 import useStore from "../../../store/Store";
+import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor";
 
 const NewSlider = () => {
   const [doors, setDoors] = useState<DoorSchema[]>([]);
 
   const [loader, setLoader] = useState(true);
-  const navigate = useNavigate();
+  const navigateToSingleDoor = useNavigateToSingleDoor();
   const { globalData } = useStore();
 
   useEffect(() => {
@@ -65,16 +66,7 @@ const NewSlider = () => {
         doors.map((slide) => (
           <SwiperSlide key={slide._id}>
             <div
-              onClick={() =>
-                navigate(
-                  `/garage-doors/${encodeURIComponent(
-                    slide.title.replace(/\s+/g, "-")
-                  )}`,
-                  {
-                    state: { id: slide._id },
-                  }
-                )
-              }
+              onClick={() => navigateToSingleDoor(slide)}
               className="slide select-none flex flex-1 flex-col w-full relative cursor-pointer"
               key={slide._id}
             >

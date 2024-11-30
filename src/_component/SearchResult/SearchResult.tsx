@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import { toast } from "sonner";
 import { DoorSchema } from "../../utils/utils";
 import { Pagination } from "@nextui-org/react";
 import useStore from "../../store/Store";
+import { useNavigateToSingleDoor } from "../../utils/useNavigateToSingleDoor";
 const SearchResult = () => {
   const [data, setData] = useState<DoorSchema[]>([]);
   const location = useLocation();
@@ -19,7 +20,7 @@ const SearchResult = () => {
 
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const navigateToSingleDoor = useNavigateToSingleDoor();
 
   useEffect(() => {
     const searchData = async (userInput: string) => {
@@ -93,14 +94,7 @@ const SearchResult = () => {
                 <div className="flex flex-col gap-1">
                   <h4
                     onClick={() => {
-                      navigate(
-                        `/${item.category}-doors/${encodeURIComponent(
-                          item.title.replace(/\s+/g, "-")
-                        )}`,
-                        {
-                          state: { id: item._id },
-                        }
-                      );
+                      navigateToSingleDoor(item);
                     }}
                     className="hover:underline w-min text-nowrap flex items-center text-sm font-semibold text-gray-600 cursor-pointer md:text-lg lg:text-sm"
                   >
