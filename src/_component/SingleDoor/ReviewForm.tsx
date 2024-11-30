@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,9 +21,9 @@ import {
 } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
-import { DoorSchema } from "../../utils/utils";
+import { deleteCache, DoorSchema } from "../../utils/utils";
 import { apiClient } from "../../apiClient/apiClient";
-import { ADD_REVIEW } from "../../constants/constant";
+import { ADD_REVIEW, GET_ALL_REVIEWS } from "../../constants/constant";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
@@ -37,16 +37,19 @@ const formSchema = z.object({
 interface ReviewFormInterface {
   triggerForm: any;
   selectedDoor: DoorSchema | undefined;
+  setReviews: any;
+  setSelectedDoor: Dispatch<SetStateAction<DoorSchema | undefined>>;
 }
 
 const ReviewForm: React.FC<ReviewFormInterface> = ({
   triggerForm,
   selectedDoor,
+  setReviews,
+  setSelectedDoor,
 }) => {
   const [selectedRating, setSelectedRating] = useState<number>(1);
   const [hoveredRating, setHoveredRating] = useState<number>(0);
   const [loader, setLoader] = useState<boolean>(false);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -66,6 +69,15 @@ const ReviewForm: React.FC<ReviewFormInterface> = ({
       });
       if (res.status === 201) {
         toast.success("Your review has been added successfully");
+        deleteCache(GET_ALL_REVIEWS);
+        setReviews((prev: any) => {
+          const isDuplicate = prev.some(
+            (review: any) => review._id === res.data._id
+          );
+          return isDuplicate ? prev : [...prev, res.data];
+        });
+        triggerForm.current?.click();
+        setSelectedDoor(undefined);
         setTimeout(() => {
           location.reload();
         }, 2000);

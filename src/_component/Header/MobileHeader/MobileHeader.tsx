@@ -3,11 +3,12 @@ import { IoIosArrowUp, IoIosSearch } from "react-icons/io";
 import { Input } from "../../../components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import Logo from "../../../../public/AR Garage - Logo.png";
-import { DoorSchema } from "../../../utils/utils";
+import {
+  DoorSchema,
+  imageReplacement,
+  useProcessData,
+} from "../../../utils/utils";
 import { useNavigate } from "react-router";
-import { Badge } from "../../../components/ui/badge";
-import { apiClient } from "../../../apiClient/apiClient";
-import { GET_ALL_DOORS, SEARCH_DOOR_ROUTE } from "../../../constants/constant";
 import { toast } from "sonner";
 import useStore from "../../../store/Store";
 import { CiSearch } from "react-icons/ci";
@@ -16,49 +17,6 @@ interface DataType {
   category: string;
   subcategory: string;
 }
-
-const useFetchSubcategories = (category: string, setState: any) => {
-  useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        const res = await apiClient.get(SEARCH_DOOR_ROUTE, {
-          params: { category, limit: 100000 },
-        });
-
-        if (res.status === 200) {
-          const filteredData = res.data.map((item: DoorSchema) => ({
-            category: item.category,
-            subcategory: item.subcategory,
-          }));
-
-          const categoryMap = new Map();
-
-          filteredData.forEach((item: any) => {
-            const { category, subcategory } = item;
-
-            if (!categoryMap.has(category)) {
-              categoryMap.set(category, new Set());
-            }
-
-            categoryMap.get(category).add(subcategory);
-          });
-
-          const result: any = [];
-          categoryMap.forEach((subcategories, category) => {
-            subcategories.forEach((subcategory: any) => {
-              result.push({ category, subcategory });
-            });
-          });
-
-          setState(result);
-        }
-      } catch (ex) {
-        console.log(ex);
-      }
-    };
-    fetchSubcategories();
-  }, []);
-};
 
 const MobileHeader: React.FC = () => {
   const [isSlided, setIsSlided] = useState<boolean>(false);
@@ -71,7 +29,7 @@ const MobileHeader: React.FC = () => {
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { toggleVal, val } = useStore();
+  const { toggleVal, val, globalData } = useStore();
 
   const searchData = async (userInput: string) => {
     setInputValue(userInput);
@@ -80,11 +38,12 @@ const MobileHeader: React.FC = () => {
       return;
     }
     try {
-      const res = await apiClient.get(GET_ALL_DOORS, {
-        params: { title: userInput },
-      });
-      if (res.data.length > 0) {
-        setData(res.data);
+      const titleRegex = new RegExp(userInput, "i");
+      const filteredData = globalData.filter((item) =>
+        titleRegex.test(item.title)
+      );
+      if (filteredData.length > 0) {
+        setData(filteredData);
         setNotFound(false);
       } else {
         setNotFound(true);
@@ -120,8 +79,12 @@ const MobileHeader: React.FC = () => {
   const [garageData, setGarageData] = useState<DataType[]>([]);
   const [commercialData, setCommercialData] = useState<DataType[]>();
 
-  useFetchSubcategories("garage", setGarageData);
-  useFetchSubcategories("commercial", setCommercialData);
+  useProcessData("garage", setGarageData, globalData);
+  useProcessData("commercial", setCommercialData, globalData);
+
+  function truncateText(text: string, length: number) {
+    return text.length > length ? `${text.slice(0, length)}...` : text;
+  }
 
   return (
     <>
@@ -180,7 +143,7 @@ const MobileHeader: React.FC = () => {
             <div
               className={`text-xl overflow-auto flex flex-col px-5 w-full transition-all ease-linear duration-300 gap-5  ${
                 showGarageDoorDropDown ? "h-[200px] mt-5" : "h-0 mt-0"
-              }`}
+              } scrollable-div`}
             >
               <a href="/garage-doors" className="hover:underline">
                 All Garage Doors
@@ -221,7 +184,7 @@ const MobileHeader: React.FC = () => {
             <div
               className={`text-xl overflow-auto flex flex-col px-5 w-full transition-all ease-linear duration-300 gap-5  ${
                 showCommercialDoorDropDown ? "h-[200px] mt-5" : "h-0 mt-0"
-              }`}
+              } scrollable-div`}
             >
               <a href="/commercial-doors" className="hover:underline">
                 All Commercial Doors
@@ -303,7 +266,7 @@ const MobileHeader: React.FC = () => {
       <div
         className={`${
           inputValue.length >= 3 ? "block" : "hidden"
-        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded py-5 fixed z-50 max-w-[700px] w-[95%] top-[93px] px-5 flex-col left-1/2 transform -translate-x-1/2 max-h-[300px] overflow-y-auto lg:hidden`}
+        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded py-5 fixed z-50 max-w-[700px] w-[95%] top-[93px] px-5 flex-col left-1/2 transform -translate-x-1/2 max-h-[300px] overflow-y-auto lg:hidden scrollable-div`}
       >
         {loading ? (
           <div className="flex justify-center items-center">
@@ -322,21 +285,24 @@ const MobileHeader: React.FC = () => {
                   setWrapSearchBar(true);
                   val ? toggleVal(false) : toggleVal(true);
                   navigate(
-                    `/${item.category}-doors/${encodeURIComponent(
-                      item.title.replace(/\s+/g, "-")
-                    )}`,
-                    {
-                      state: { id: item._id },
-                    }
+                    `/${item.category === "garage" ? "garage-doors" : "commercial-doors"}/${encodeURIComponent(item.title.replace(/\s+/g, "-"))}?id=${item._id}`
                   );
                 }}
               >
                 <hr />
-                <div className="border-b py-3 w-full text-sm cursor-pointer flex flex-col gap-1 hover:bg-gray-100 md:text-base">
-                  <h1>{item.title}</h1>
-                  <Badge variant={"outline"} className="w-min text-nowrap">
-                    {item.subcategory}
-                  </Badge>
+                <div className="border-b py-3 text-sm text-titleColor w-full cursor-pointer flex items-center justify-center gap-3 hover:bg-gray-100 px-1">
+                  <img
+                    src={
+                      item.media.length > 0 && item.media[0]
+                        ? item.media[0].url
+                        : imageReplacement
+                    }
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div className="w-full">
+                    <h1 className="font-semibold">{item.title}</h1>
+                    <p>{truncateText(item.shortPreview, 100)}</p>
+                  </div>
                 </div>
               </div>
             );

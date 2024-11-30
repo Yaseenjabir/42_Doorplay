@@ -1,5 +1,5 @@
 // Door Routes
-export const GET_ALL_DOORS = "/api/door/";
+export const GET_ALL_DOORS = "/api/door";
 export const GET_SINGLE_DOOR = "/api/door/singleDoor/:id";
 export const ADD_DOOR_ROUTE = "/api/door/createDoor";
 export const UPDATE_DOOR_ROUTE = "/api/door/:id";
@@ -13,3 +13,4 @@ export const LOGIN_ROUTE = "/api/auth/login";
 // Review Routes
 export const ADD_REVIEW = "/api/review";
 export const GET_REVIEW_BY_DOOR_ID = "/api/review/door/:doorId";
+export const GET_ALL_REVIEWS = "/api/review";

@@ -1,10 +1,14 @@
 import { Badge } from "../../../components/ui/badge";
-import { DoorSchema, imageReplacement } from "../../../utils/utils";
+import {
+  deleteCache,
+  DoorSchema,
+  imageReplacement,
+} from "../../../utils/utils";
 import { GET_ALL_DOORS, UPDATE_DOOR_ROUTE } from "../../../constants/constant";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { IoStarSharp } from "react-icons/io5";
+import { IoFilter, IoStarSharp } from "react-icons/io5";
 import {
   Dialog,
   DialogContent,
@@ -21,9 +25,14 @@ import Filter from "./Filter";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import { MdStar, MdStarBorder } from "react-icons/md";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import useStore from "../../../store/Store";
 
 const UpdateDoor = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "A&R | Dashboard";
+  }, []);
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
@@ -52,18 +61,38 @@ const UpdateDoor = () => {
 
   const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
 
+  const { val, toggleVal } = useStore();
+
   const fetchDoors = async () => {
     setDataLoader(true);
+    let data = null;
     try {
-      const res = await apiClient.get(GET_ALL_DOORS, {
-        params: { skip, limit },
-      });
-      if (res.data) {
-        if (res.data.length === 0) {
+      const cache = await caches.open("A&R-Doors");
+      const cachedResult = await cache.match(GET_ALL_DOORS);
+      if (cachedResult) {
+        const cachedData = await cachedResult.json();
+        data = cachedData;
+      } else {
+        const res = await apiClient.get(GET_ALL_DOORS, {
+          params: { skip, limit: 1000000 },
+        });
+        if (res.status === 200) {
+          const response = new Response(JSON.stringify(res.data), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          cache.put(GET_ALL_DOORS, response);
+          data = res.data;
+        }
+      }
+      const paginatedData = data.slice(skip, skip + limit);
+      if (paginatedData) {
+        if (paginatedData.length === 0) {
           setHasMore(false);
           return;
         }
-        setData((prev) => [...prev, ...res.data]);
+        setData((prev) => [...prev, ...paginatedData]);
         setAvailability(true);
       } else {
         setHasMore(false);
@@ -114,6 +143,8 @@ const UpdateDoor = () => {
         );
 
         if (response.status === 200) {
+          deleteCache(GET_ALL_DOORS);
+          toggleVal(val ? false : true);
           let message = "";
           if (response.data.isFavourited) {
             message = "Door has been added to your favorite list";
@@ -121,6 +152,11 @@ const UpdateDoor = () => {
             message = "Door has been removed from your favorite list";
           }
           toast.success(message);
+          setSearchedData((prev: DoorSchema[]) =>
+            prev.map((door: DoorSchema) =>
+              door._id === response.data._id ? response.data : door
+            )
+          );
           setData((prev: DoorSchema[]) =>
             prev.map((door: DoorSchema) =>
               door._id === response.data._id ? response.data : door
@@ -187,9 +223,24 @@ const UpdateDoor = () => {
     display: windowWidth > 1024 ? "flex" : "none",
   };
 
+  const [showFilter, setShowFilter] = useState(false);
+
   return (
     <section className="w-full py-10 flex flex-col items-center justify-start px-5 scrollable-div">
+      <div className="w-full flex flex-row items-center gap-5 justify-between mb-10">
+        <h1 className="text-xl">
+          Update Doors
+          {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+        </h1>
+        <IoFilter
+          onClick={() => setShowFilter(true)}
+          className="text-2xl cursor-pointer"
+        />
+      </div>
       <Filter
+        isDarkMode={isDarkMode}
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
         data={data}
         setLoader={setDataLoader}
         setAvailability={setAvailability}
@@ -214,7 +265,7 @@ const UpdateDoor = () => {
                   className="rounded w-full h-[350px] relative max-w-[400px]"
                 >
                   <div
-                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-[#131313] border-[#535353]" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
+                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-[#181818] border-[#535353]" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
                   >
                     <img
                       src={
@@ -406,7 +457,7 @@ const UpdateDoor = () => {
                         )}
                       </div>
                       {/* Stock Count and isFavorited  */}
-                      <div className="flex items-center gap-5">
+                      <div className="flex items-center gap-5 text-nowrap">
                         <Badge
                           className="text-[14px] px-5 rounded-full text-titleColor"
                           variant={"secondary"}
@@ -503,6 +554,7 @@ const UpdateDoor = () => {
           className={`overflow-y-scroll w-[90%] h-[85vh] top-[350px] rounded ${isDarkMode && "bg-black"} `}
         >
           <UpdateDoorForm
+            setSearchedData={setSearchedData}
             setData={setData}
             formTriggerRef={formTriggerRef}
             setSelectedItem={setSelectedItem}
@@ -518,6 +570,9 @@ const UpdateDoor = () => {
           className={`overflow-y-auto w-[90%] h-[85vh] top-[350px] rounded ${isDarkMode && "bg-black"}`}
         >
           <UpdateMediaForm
+            setSearchedData={setSearchedData}
+            mediaFormTrigger={mediaFormTrigger}
+            setData={setData}
             selectedImages={selectedImages}
             selectedItem={selectedItem}
           />

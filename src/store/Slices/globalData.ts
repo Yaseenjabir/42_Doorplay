@@ -1,5 +1,5 @@
 export const globalData = (set: any) => ({
-  data: [],
+  globalData: [],
   insertData: (newData: any) =>
-    set((state: any) => ({ data: [...state.data, ...newData] })),
+    set((state: any) => ({ globalData: [...state.globalData, ...newData] })),
 });

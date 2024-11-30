@@ -1,36 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { IoMdStar } from "react-icons/io";
 import { useNavigate } from "react-router";
 import ReviewForm from "./ReviewForm";
-import { DoorSchema } from "../../utils/utils";
-import { apiClient } from "../../apiClient/apiClient";
-import { GET_REVIEW_BY_DOOR_ID } from "../../constants/constant";
+import { DoorSchema, ReviewModel, UserModel } from "../../utils/utils";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import useStore from "../../store/Store";
 
-interface UserModel {
-  name: string;
-  email: string;
-  userRole: string;
+interface ReviewInterface {
+  singleDoor: DoorSchema;
+  reviews: ReviewModel[] | undefined;
+  setReviews: Dispatch<SetStateAction<ReviewModel[] | undefined>>;
 }
 
-interface ReviewModel {
-  _id: string;
-  description: string;
-  title: string;
-  door: string;
-  email: string;
-  name: string;
-  rating: number;
-}
-
-const Review: React.FC<{ singleDoor: DoorSchema }> = ({ singleDoor }) => {
+const Review: React.FC<ReviewInterface> = ({
+  singleDoor,
+  reviews,
+  setReviews,
+}) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<UserModel | undefined>();
   const triggerForm = useRef<HTMLButtonElement | null>(null);
   const [selectedDoor, setSelectedDoor] = useState<DoorSchema | undefined>();
-  const [reviews, setReviews] = useState<ReviewModel[]>();
+
+  const { globalReviews } = useStore();
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
@@ -45,14 +45,11 @@ const Review: React.FC<{ singleDoor: DoorSchema }> = ({ singleDoor }) => {
     if (singleDoor) {
       const fetchReviews = async () => {
         try {
-          const url = GET_REVIEW_BY_DOOR_ID.replace(
-            ":doorId",
-            singleDoor?._id || ""
+          const filteredData = globalReviews.filter(
+            (item) => item.door._id === singleDoor?._id
           );
-
-          const res = await apiClient.get(url);
-          if (res.status == 200) {
-            setReviews(res.data);
+          if (filteredData) {
+            setReviews(filteredData);
           }
         } catch (ex: unknown) {
           if (ex instanceof AxiosError) {
@@ -71,7 +68,7 @@ const Review: React.FC<{ singleDoor: DoorSchema }> = ({ singleDoor }) => {
       };
       fetchReviews();
     }
-  }, [singleDoor]);
+  }, [singleDoor, globalReviews]);
 
   return (
     <div className="w-full mt-10 lg:w-[70%]">
@@ -139,8 +136,12 @@ const Review: React.FC<{ singleDoor: DoorSchema }> = ({ singleDoor }) => {
             })}
         </div>
       )}
-
-      <ReviewForm triggerForm={triggerForm} selectedDoor={selectedDoor} />
+      <ReviewForm
+        setSelectedDoor={setSelectedDoor}
+        setReviews={setReviews}
+        triggerForm={triggerForm}
+        selectedDoor={selectedDoor}
+      />
     </div>
   );
 };

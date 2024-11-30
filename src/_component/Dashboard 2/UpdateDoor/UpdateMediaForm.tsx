@@ -1,14 +1,18 @@
 import { FaRegCheckCircle } from "react-icons/fa";
 import { apiClient } from "../../../apiClient/apiClient";
 import { useForm } from "react-hook-form";
-import React, { useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { toast } from "sonner";
-import { DoorSchema } from "../../../utils/utils";
+import { deleteCache, DoorSchema } from "../../../utils/utils";
 import { AxiosError } from "axios";
+import { GET_ALL_DOORS } from "../../../constants/constant";
 
 interface FormInterface {
   selectedImages: any;
   selectedItem: DoorSchema | null;
+  setData: Dispatch<SetStateAction<DoorSchema[]>>;
+  setSearchedData: Dispatch<SetStateAction<DoorSchema[]>>;
+  mediaFormTrigger: any;
 }
 
 interface MediaInterface {
@@ -24,6 +28,9 @@ type Inputs = {
 const UpdateMediaForm: React.FC<FormInterface> = ({
   selectedImages,
   selectedItem,
+  setData,
+  mediaFormTrigger,
+  setSearchedData,
 }) => {
   const {
     register,
@@ -56,9 +63,30 @@ const UpdateMediaForm: React.FC<FormInterface> = ({
       );
       if (res.status === 200) {
         toast.success("Media has been deleted successfully");
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
+        setData((prev: DoorSchema[]) => {
+          return prev.map((item: any) => {
+            if (item._id === res.data.door._id) {
+              return {
+                ...item,
+                media: res.data.door.media,
+              };
+            }
+            return item;
+          });
+        });
+        setSearchedData((prev: DoorSchema[]) => {
+          return prev.map((item: any) => {
+            if (item._id === res.data.door._id) {
+              return {
+                ...item,
+                media: res.data.door.media,
+              };
+            }
+            return item;
+          });
+        });
+        mediaFormTrigger.current?.click();
+        deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {
       if (ex instanceof AxiosError) {
@@ -132,9 +160,31 @@ const UpdateMediaForm: React.FC<FormInterface> = ({
       );
       if (res.status === 200) {
         toast.success("Media has been updated successfully");
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
+
+        setData((prev: DoorSchema[]) => {
+          return prev.map((item: any) => {
+            if (item._id === res.data.door._id) {
+              return {
+                ...item,
+                media: res.data.door.media,
+              };
+            }
+            return item;
+          });
+        });
+        setSearchedData((prev: DoorSchema[]) => {
+          return prev.map((item: any) => {
+            if (item._id === res.data.door._id) {
+              return {
+                ...item,
+                media: res.data.door.media,
+              };
+            }
+            return item;
+          });
+        });
+        mediaFormTrigger.current?.click();
+        deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {
       if (ex instanceof AxiosError) {

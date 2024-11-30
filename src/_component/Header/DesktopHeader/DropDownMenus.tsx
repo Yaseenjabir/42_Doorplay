@@ -1,55 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { apiClient } from "../../../apiClient/apiClient";
-import { SEARCH_DOOR_ROUTE } from "../../../constants/constant";
-import { DoorSchema } from "../../../utils/utils";
+import React, { useState } from "react";
+import { useProcessData } from "../../../utils/utils";
+import useStore from "../../../store/Store";
 
 interface Menus {
   showGarageDoorDropDown: boolean;
   showCommercialDoorDropDown: boolean;
 }
-
-const useFetchSubcategories = (category: string, setState: any) => {
-  useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        const res = await apiClient.get(SEARCH_DOOR_ROUTE, {
-          params: { category, limit: 100000 },
-        });
-
-        if (res.status === 200) {
-          const filteredData = res.data.map((item: DoorSchema) => ({
-            category: item.category,
-            subcategory: item.subcategory,
-          }));
-
-          const categoryMap = new Map();
-
-          filteredData.forEach((item: any) => {
-            const { category, subcategory } = item;
-
-            if (!categoryMap.has(category)) {
-              categoryMap.set(category, new Set());
-            }
-
-            categoryMap.get(category).add(subcategory);
-          });
-
-          const result: any = [];
-          categoryMap.forEach((subcategories, category) => {
-            subcategories.forEach((subcategory: any) => {
-              result.push({ category, subcategory });
-            });
-          });
-
-          setState(result);
-        }
-      } catch (ex) {
-        console.log(ex);
-      }
-    };
-    fetchSubcategories();
-  }, []);
-};
 
 interface DataType {
   category: string;
@@ -63,8 +19,9 @@ const DropDownMenus: React.FC<Menus> = ({
   const [garageData, setGarageData] = useState<DataType[]>([]);
   const [commercialData, setCommercialData] = useState<DataType[]>();
 
-  useFetchSubcategories("garage", setGarageData);
-  useFetchSubcategories("commercial", setCommercialData);
+  const { globalData } = useStore();
+  useProcessData("garage", setGarageData, globalData);
+  useProcessData("commercial", setCommercialData, globalData);
 
   return (
     <>

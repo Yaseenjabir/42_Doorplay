@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { apiClient } from "../../../apiClient/apiClient";
-import { UPDATE_DOOR_ROUTE } from "../../../constants/constant";
+import { GET_ALL_DOORS, UPDATE_DOOR_ROUTE } from "../../../constants/constant";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { DoorSchema } from "../../../utils/utils";
+import { deleteCache, DoorSchema } from "../../../utils/utils";
 import { toast } from "sonner";
 import { TextField } from "@mui/material";
 import { FaArrowRotateRight } from "react-icons/fa6";
@@ -59,6 +59,7 @@ interface CompInterface {
   selectedItem: null | DoorSchema;
   setSelectedItem(value: null): void;
   setData: Dispatch<SetStateAction<DoorSchema[]>>;
+  setSearchedData: Dispatch<SetStateAction<DoorSchema[]>>;
 }
 
 const UpdateDoorForm: React.FC<CompInterface> = ({
@@ -66,6 +67,7 @@ const UpdateDoorForm: React.FC<CompInterface> = ({
   setData,
   setSelectedItem,
   formTriggerRef,
+  setSearchedData,
 }) => {
   const {
     control,
@@ -195,7 +197,6 @@ const UpdateDoorForm: React.FC<CompInterface> = ({
           Authorization: token,
         },
       });
-      console.log(response);
 
       if (response.status === 200) {
         formTriggerRef.current?.click();
@@ -205,7 +206,13 @@ const UpdateDoorForm: React.FC<CompInterface> = ({
             door._id === response.data._id ? response.data : door
           )
         );
+        setSearchedData((prev: DoorSchema[]) =>
+          prev.map((door: DoorSchema) =>
+            door._id === response.data._id ? response.data : door
+          )
+        );
         toast.message("Door info has been updated succesfully");
+        deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {
       if (ex instanceof AxiosError) {

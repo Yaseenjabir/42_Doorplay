@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import { Badge } from "../../components/ui/badge";
-import { apiClient } from "../../apiClient/apiClient";
-import { GET_ALL_DOORS } from "../../constants/constant";
 import { DoorSchema, imageReplacement } from "../../utils/utils";
 import { useNavigate } from "react-router";
+import useStore from "../../store/Store";
 
 const Lookbook = () => {
   const [data, setData] = useState<DoorSchema[]>();
   const [loader, setLoader] = useState<boolean>(true);
   const navigate = useNavigate();
+  const { globalData } = useStore();
+
+  console.log(data);
+
+  useEffect(() => {
+    document.title = "A&R | Lookbook";
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoader(true);
-        const res = await apiClient.get(GET_ALL_DOORS, {
-          params: {
-            isFavourited: true,
-            skip: 0,
-            limit: 10000000,
-          },
-        });
-        if (res.status === 200) {
-          setData(res.data);
+        const filteredData = globalData.filter(
+          (item) => item.isFavourited === true
+        );
+        if (filteredData) {
+          setData(filteredData);
         }
       } catch (ex) {
         console.log(ex);
@@ -31,7 +33,7 @@ const Lookbook = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [globalData]);
 
   return (
     <>

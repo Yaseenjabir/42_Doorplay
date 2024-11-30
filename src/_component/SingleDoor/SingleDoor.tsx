@@ -4,24 +4,51 @@ import { IoMdStar } from "react-icons/io";
 import DesktopHeader from "./DesktopSlider";
 import AccordionComponent from "./Accordian";
 import ContactUs from "../Main/ContactUs/ContactUs";
-import { apiClient } from "../../apiClient/apiClient";
-import { GET_SINGLE_DOOR } from "../../constants/constant";
 import { useLocation } from "react-router";
-import { DoorSchema } from "../../utils/utils";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import { DoorSchema, ReviewModel } from "../../utils/utils";
 import Loader from "../../utils/Loader";
 import useStore from "../../store/Store";
 import Review from "./Review";
 
 const SingleDoor: React.FC = () => {
-  const [singleDoor, setSingleDoor] = useState<DoorSchema | undefined>(
-    undefined
-  );
+  const [singleDoor, setSingleDoor] = useState<DoorSchema>();
+  const [availablity, setAvailability] = useState(true);
+
+  const [reviews, setReviews] = useState<ReviewModel[]>();
+
+  const totalRatings =
+    reviews && reviews.reduce((acc, review) => acc + review.rating, 0);
+  const averageRating = totalRatings && totalRatings / reviews.length;
+
+  const generateStars = (average: any) => {
+    const stars = [];
+    const fullStars = Math.floor(average);
+    const hasHalfStar = average % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) stars.push("full");
+    if (hasHalfStar) stars.push("half");
+    for (let i = 0; i < emptyStars; i++) stars.push("empty");
+
+    return stars;
+  };
+
+  const stars = generateStars(averageRating);
+
+  const { globalData, val } = useStore();
+
+  useEffect(() => {
+    document.title = singleDoor?.title ? singleDoor.title : "A&R Doors";
+  }, [singleDoor]);
 
   const [loader, setLoader] = useState(true);
   const location = useLocation();
-  const doorId = location.state?.id;
+  const [doorId, setDoorId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    setDoorId(queryParams.get("id"));
+  }, [location]);
 
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
 
@@ -38,25 +65,15 @@ const SingleDoor: React.FC = () => {
     return () => clearTimeout(timer);
   }, [location]);
 
-  const { val } = useStore();
-
   const fetchSingleDoorData = async (id: any) => {
     try {
-      setLoader(true);
-      const url = GET_SINGLE_DOOR.replace(":id", id);
-      const res = await apiClient.get(url);
-      if (res.data) {
-        setSingleDoor(res.data);
-      }
-    } catch (ex: unknown) {
-      if (ex instanceof AxiosError) {
-        if (ex.response && ex.response.data && ex.response.data.error) {
-          toast.error(ex.response.data.error);
-        } else {
-          toast.error("An unexpected error occurred.");
+      if (doorId) {
+        setLoader(true);
+        const singleDoor = globalData.find((item) => item._id === id);
+        if (singleDoor) {
+          setSingleDoor(singleDoor);
+          setAvailability(true);
         }
-      } else {
-        toast.error("An unexpected error occurred.");
       }
     } finally {
       setLoader(false);
@@ -65,11 +82,11 @@ const SingleDoor: React.FC = () => {
 
   useEffect(() => {
     fetchSingleDoorData(doorId);
-  }, [val]);
+  }, [val, doorId, globalData]);
 
   return loader ? (
     <Loader />
-  ) : !singleDoor ? (
+  ) : !availablity ? (
     <div className="w-full h-[calc(100vh-56px)] flex items-center justify-center flex-col gap-2">
       <h1 className="text-4xl font-bold italic lg:text-5xl">404 not found</h1>
       <p className="text-lg italic lg:text-xl">
@@ -110,17 +127,24 @@ const SingleDoor: React.FC = () => {
               </p>
               <div className="flex flex-col mt-3 gap-5">
                 <div className="flex gap-3">
+                  {/* Display stars */}
                   <div className="flex text-2xl text-yellow-400 gap-1">
-                    <IoMdStar />
-                    <IoMdStar />
-                    <IoMdStar />
-                    <IoMdStar />
-                    <IoMdStar />
+                    {stars.map((star, index) => (
+                      <IoMdStar
+                        key={index}
+                        className={`${star === "full" ? "text-yellow-400" : "text-gray-300"} ${
+                          star === "half" ? "opacity-50" : ""
+                        }`}
+                      />
+                    ))}
                   </div>
+                  {/* Display rating and number of reviews */}
                   <div className="flex gap-1 text-sm items-center text-titleColor">
-                    <h1>5.0</h1>
+                    <h1>{averageRating && averageRating.toFixed(1)}</h1>{" "}
+                    {/* Show average rating with one decimal place */}
                     <span>|</span>
-                    <p>3 reviews</p>
+                    <p>{reviews && reviews.length} reviews</p>{" "}
+                    {/* Number of reviews */}
                   </div>
                 </div>
                 <div className="flex gap-2 flex-wrap">
@@ -144,7 +168,11 @@ const SingleDoor: React.FC = () => {
             <AccordionComponent singleDoor={singleDoor} />
           </div>
           {/* Stars review section  */}
-          <Review singleDoor={singleDoor} />
+          <Review
+            reviews={reviews}
+            setReviews={setReviews}
+            singleDoor={singleDoor}
+          />
           <ContactUs />
         </section>
       </>

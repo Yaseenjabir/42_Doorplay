@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { DoorSchema, imageReplacement } from "../../../utils/utils";
-import { apiClient } from "../../../apiClient/apiClient";
-import { GET_ALL_DOORS } from "../../../constants/constant";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,24 +13,27 @@ import {
   Autoplay,
 } from "swiper/modules";
 import { useNavigate } from "react-router";
+import useStore from "../../../store/Store";
 
 const NewSlider = () => {
   const [doors, setDoors] = useState<DoorSchema[]>([]);
 
   const [loader, setLoader] = useState(true);
   const navigate = useNavigate();
+  const { globalData } = useStore();
 
   useEffect(() => {
     const fetchDoors = async () => {
       setLoader(true);
       try {
-        const res = await apiClient.get(GET_ALL_DOORS, {
-          params: { skip: 0, limit: 3, category: "garage" },
-        });
-        if (res.data) {
+        const filteredData = globalData.filter(
+          (item) => item.category === "garage"
+        );
+
+        if (filteredData) {
           setLoader(false);
           setTimeout(() => {
-            setDoors(res.data);
+            setDoors([filteredData[0], filteredData[1], filteredData[2]]);
           }, 1000);
         }
       } catch (ex) {
@@ -42,7 +43,7 @@ const NewSlider = () => {
       }
     };
     fetchDoors();
-  }, []);
+  }, [globalData]);
 
   return loader ? (
     <div className="flex justify-center items-center h-[70vh] flex-1">
@@ -59,9 +60,10 @@ const NewSlider = () => {
       modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
       className="mySwiper"
     >
-      {doors.map((slide) => (
-        <>
-          <SwiperSlide>
+      {doors[0] !== undefined &&
+        doors.length > 0 &&
+        doors.map((slide) => (
+          <SwiperSlide key={slide._id}>
             <div
               onClick={() =>
                 navigate(
@@ -101,8 +103,7 @@ const NewSlider = () => {
               </div>
             </div>
           </SwiperSlide>
-        </>
-      ))}
+        ))}
     </Swiper>
   );
 };

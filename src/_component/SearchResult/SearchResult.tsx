@@ -2,15 +2,20 @@ import { useEffect, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
-import { apiClient } from "../../apiClient/apiClient";
 import { DoorSchema } from "../../utils/utils";
-import { GET_ALL_DOORS } from "../../constants/constant";
 import { Pagination } from "@nextui-org/react";
+import useStore from "../../store/Store";
 const SearchResult = () => {
   const [data, setData] = useState<DoorSchema[]>([]);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("query");
+
+  const { globalData } = useStore();
+
+  useEffect(() => {
+    document.title = "A&R | Search";
+  }, []);
 
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,11 +31,12 @@ const SearchResult = () => {
       }
       try {
         setLoading(true);
-        const res = await apiClient.get(GET_ALL_DOORS, {
-          params: { title: userInput },
-        });
-        if (res.data.length > 0) {
-          setData(res.data);
+        const titleRegex = new RegExp(userInput, "i");
+        const filteredtData = globalData.filter((item) =>
+          titleRegex.test(item.title)
+        );
+        if (filteredtData.length > 0) {
+          setData(filteredtData);
           setNotFound(false);
         } else {
           setNotFound(true);

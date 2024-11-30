@@ -1,6 +1,12 @@
+import { useEffect } from "react";
+
 const About = () => {
   const garageName = "A&R Doors";
   const address = "2202 Woodview Dr, Ypsilanti Charter Twp, MI 48198";
+
+  useEffect(() => {
+    document.title = "A&R | About";
+  }, []);
 
   return (
     <section className="w-full py-10 px-7 text-titleColor max-w-[850px] mx-auto">

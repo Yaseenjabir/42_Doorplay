@@ -1,69 +1,67 @@
 import { useEffect, useRef, useState } from "react";
-import { DoorSchema, imageReplacement } from "../../utils/utils";
+import { IoFilter, IoStarSharp } from "react-icons/io5";
 import { useLocation, useNavigate, useParams } from "react-router";
+import { DoorSchema, imageReplacement } from "../../utils/utils";
 import { Badge } from "../../components/ui/badge";
-import { IoStarSharp } from "react-icons/io5";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import Description from "./DescriptionText";
+import WhyReplaceUs from "./WhyReplaceUs";
+import SearchForm from "./SearchForm";
 import useStore from "../../store/Store";
 
-const SubCategory = () => {
-  useEffect(() => {
-    document.title = "A&R | Subcategory";
-  }, []);
+const Categories = () => {
+  const navigate = useNavigate();
 
-  const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
+  const params = useParams();
+  const { category } = params;
+
+  useEffect(() => {
+    let title =
+      category === "garage-doors" ? "Garage Doors" : "Commercial Doors";
+
+    document.title = title ? `A&R | ${title}` : "A&R Doors";
+  }, [category]);
+
+  const [data, setData] = useState<DoorSchema[]>([]);
+  const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
+  const [skip, setSkip] = useState<number>(0);
   const [loader, setLoader] = useState<boolean>(true);
   const [availablity, setAvailability] = useState(false);
-  const [data, setData] = useState<DoorSchema[]>([]);
-  const [skip, setSkip] = useState<number>(0);
   const limit: number = 5;
   const [hasMore, setHasMore] = useState(true);
-  const navigate = useNavigate();
-  const { subCategory } = useParams();
+  const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
+  const [showFilter, setShowFilter] = useState(false);
 
   const { globalData } = useStore();
 
-  const fetchDoors = async (skip: number, limit: number) => {
+  const fetchDoorsFromLocalData = async (skip: number, limit: number) => {
     try {
       setLoader(true);
       const filteredData = globalData.filter(
-        (item) => item.subcategory === subCategory?.replace(/-/g, " ")
+        (item) =>
+          item.category ===
+          (category === "garage-doors" ? "garage" : "commercial")
       );
 
       const paginatedData = filteredData.slice(skip, skip + limit);
-      if (paginatedData) {
-        if (paginatedData.length === 0 || paginatedData.length < 5) {
-          setData((prev) => [...prev, ...paginatedData]);
-          setAvailability(true);
-          setHasMore(false);
-          return;
-        }
+
+      if (paginatedData.length === 0 || paginatedData.length < 5) {
         setData((prev) => [...prev, ...paginatedData]);
         setAvailability(true);
-      } else {
         setHasMore(false);
-        setAvailability(false);
+        return;
       }
-    } catch (ex: unknown) {
-      setHasMore(false);
-      if (ex instanceof AxiosError) {
-        if (ex.response && ex.response.data && ex.response.data.error) {
-          toast.error(ex.response.data.error);
-        } else {
-          toast.error("An unexpected error occurred.");
-        }
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
+
+      setData((prev) => [...prev, ...paginatedData]);
+      setAvailability(true);
+      setHasMore(true);
     } finally {
       setLoader(false);
     }
   };
 
   useEffect(() => {
-    fetchDoors(skip, limit);
-  }, [skip, limit, globalData]);
+    fetchDoorsFromLocalData(skip, limit);
+  }, [skip, limit, category, globalData]);
 
   const location = useLocation();
 
@@ -82,14 +80,28 @@ const SubCategory = () => {
 
   return (
     <>
-      <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
+      <SearchForm
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
+        data={data}
+        setLoader={setLoader}
+        setSearchedData={setSearchedData}
+        setAvailability={setAvailability}
+        setHasMore={setHasMore}
+      />
 
+      <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
       <section className="w-full py-10 px-5">
-        <h1 className="text-2xl">
-          {subCategory &&
-            subCategory?.charAt(0).toUpperCase() + subCategory?.slice(1)}
-          {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
-        </h1>
+        <div className="w-full flex flex-row items-center gap-5 justify-between">
+          <h1 className="text-2xl">
+            Garage Doors
+            {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+          </h1>
+          <IoFilter
+            onClick={() => setShowFilter(true)}
+            className="text-2xl cursor-pointer"
+          />
+        </div>
         <hr className="hidden lg:block w-full my-5" />
 
         {/* Doors List  */}
@@ -108,20 +120,15 @@ const SubCategory = () => {
           </div>
         ) : (
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-14 mt-5">
-            {data.map((door) => {
+            {(searchedData.length > 0 ? searchedData : data).map((door) => {
               return (
                 <div
                   key={door._id}
-                  onClick={() =>
+                  onClick={() => {
                     navigate(
-                      `/garage-doors/${encodeURIComponent(
-                        door.title.replace(/\s+/g, "-")
-                      )}`,
-                      {
-                        state: { id: door._id },
-                      }
-                    )
-                  }
+                      `/${door.category === "garage" ? "garage-doors" : "commercial-doors"}/${encodeURIComponent(door.title.replace(/\s+/g, "-"))}?id=${door._id}`
+                    );
+                  }}
                   className="w-full flex flex-col cursor-pointer"
                 >
                   <img
@@ -130,17 +137,20 @@ const SubCategory = () => {
                         ? door.media[0].url
                         : imageReplacement
                     }
-                    className="w-full rounded-md"
+                    className="w-full rounded-md max-h-[360px]"
                   />
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">
                       <div className="flex items-center justify-between gap-2">
-                        <h1 className="font-bold text-gray-800 md:text-2xl lg:text-base">
+                        <h1 className="font-bold flex flex-col text-gray-800 md:text-2xl lg:text-base">
                           {door.title}
+                          <Badge
+                            variant="secondary"
+                            className="text-nowrap w-min"
+                          >
+                            {door.subcategory}
+                          </Badge>
                         </h1>
-                        <Badge variant="secondary" className="text-nowrap">
-                          {door.subcategory}
-                        </Badge>
                         <div className="hidden lg:flex bg-slate-100 items-center px-2 rounded-xl text-lg gap-2 text-yellow-400 py-1">
                           <IoStarSharp />
                           <IoStarSharp />
@@ -220,9 +230,13 @@ const SubCategory = () => {
             </button>
           </div>
         )}
+
+        {/* Description text & Why replace your garage doors*/}
+        <Description />
       </section>
+      <WhyReplaceUs />
     </>
   );
 };
 
-export default SubCategory;
+export default Categories;

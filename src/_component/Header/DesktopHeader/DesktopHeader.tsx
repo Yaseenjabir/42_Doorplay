@@ -4,8 +4,6 @@ import { Input } from "../../../../src/components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import Logo from "../../../../public/AR Garage - Logo.png";
-import { apiClient } from "../../../apiClient/apiClient";
-import { GET_ALL_DOORS } from "../../../constants/constant";
 import { DoorSchema, imageReplacement } from "../../../utils/utils";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
@@ -25,7 +23,7 @@ const DesktopHeader = () => {
   const [showCommercialDoorDropDown, setCommercialDoorDropDown] =
     useState(false);
 
-  const { toggleVal, val } = useStore();
+  const { toggleVal, val, globalData } = useStore();
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
@@ -46,11 +44,13 @@ const DesktopHeader = () => {
     }
     try {
       setLoading(true);
-      const res = await apiClient.get(GET_ALL_DOORS, {
-        params: { title: userInput },
-      });
-      if (res.data.length > 0) {
-        setData(res.data);
+      const titleRegex = new RegExp(userInput, "i");
+      const filteredData = globalData.filter((item) =>
+        titleRegex.test(item.title)
+      );
+
+      if (filteredData.length > 0) {
+        setData(filteredData);
         setNotFound(false);
       } else {
         setNotFound(true);
@@ -213,12 +213,7 @@ const DesktopHeader = () => {
                   setShowSearch(false);
                   val ? toggleVal(false) : toggleVal(true);
                   navigate(
-                    `/${item.category}-doors/${encodeURIComponent(
-                      item.title.replace(/\s+/g, "-")
-                    )}`,
-                    {
-                      state: { id: item._id },
-                    }
+                    `/${item.category === "garage" ? "garage-doors" : "commercial-doors"}/${encodeURIComponent(item.title.replace(/\s+/g, "-"))}?id=${item._id}`
                   );
                 }}
               >

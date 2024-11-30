@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
   SelectChangeEvent,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
@@ -20,8 +21,9 @@ import {
   DialogTrigger,
 } from "../../../components/ui/dialog";
 import { apiClient } from "../../../apiClient/apiClient";
-import { ADD_DOOR_ROUTE } from "../../../constants/constant";
+import { ADD_DOOR_ROUTE, GET_ALL_DOORS } from "../../../constants/constant";
 import { useNavigate } from "react-router";
+import { deleteCache } from "../../../utils/utils";
 
 type Inputs = {
   doorTitle: string;
@@ -73,6 +75,10 @@ const AddDoor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "A&R | Dashboard";
+  }, []);
+
+  useEffect(() => {
     const user = sessionStorage.getItem("user");
     const parsedUser = user && JSON.parse(user);
 
@@ -104,6 +110,9 @@ const AddDoor = () => {
   const [loader, setLoader] = useState<boolean>(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const theme = useTheme();
+  const darkTheme = theme.palette.mode === "dark";
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoader(true);
@@ -180,6 +189,7 @@ const AddDoor = () => {
       if (response.data.success) {
         triggerRef.current?.click();
         reset();
+        deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {
       console.log(ex);
@@ -764,7 +774,7 @@ const AddDoor = () => {
         <DialogTrigger ref={triggerRef} className="hidden">
           Open
         </DialogTrigger>
-        <DialogContent className={`w-[95%]`}>
+        <DialogContent className={`w-[95%] ${darkTheme && "text-titleColor"}`}>
           <DialogHeader>
             <DialogTitle>Door Added Successfully</DialogTitle>
             <DialogDescription>

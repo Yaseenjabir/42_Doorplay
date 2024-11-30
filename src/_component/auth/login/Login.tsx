@@ -41,7 +41,6 @@ const Login: React.FC<LoginInterface> = ({ setIsLogin }) => {
   const userLocation = queryParams.get("location");
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Partial<Inputs>) => {
-    console.log(data);
     try {
       setLoader(true);
       const res = await apiClient.post(LOGIN_ROUTE, data);

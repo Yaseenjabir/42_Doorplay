@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const PrivacyPolicy = () => {
   const h1FontSize = "text-3xl";
   const h4FontSize = "text-xl";
@@ -7,6 +9,11 @@ const PrivacyPolicy = () => {
   const phone = "(734) 383-6759";
   const address = "2202 Woodview Dr, Ypsilanti Charter Twp, MI 48198";
   const effectiveDate = "11/25/2024";
+
+  useEffect(() => {
+    document.title = "A&R | Privacy Policy";
+  }, []);
+
   return (
     <section
       className="w-full max-w-[850px] mx-auto py-10 px-5 flex flex-col gap-10

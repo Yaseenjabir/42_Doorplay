@@ -9,6 +9,10 @@ const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "A&R | Auth";
+  }, []);
+
+  useEffect(() => {
     const user = sessionStorage.getItem("user");
     const parsedUser = user && JSON.parse(user);
 
