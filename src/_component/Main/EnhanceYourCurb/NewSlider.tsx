@@ -12,7 +12,6 @@ import {
   Keyboard,
   Autoplay,
 } from "swiper/modules";
-import { useNavigate } from "react-router";
 import useStore from "../../../store/Store";
 import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor";
 
