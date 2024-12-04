@@ -28,7 +28,6 @@ const NAVIGATION: Navigation = [
     icon: <TfiEmail className="text-2xl" />,
   },
   {
-    segment: "",
     title: "Home",
     icon: <MdHome className="text-2xl" />,
   },

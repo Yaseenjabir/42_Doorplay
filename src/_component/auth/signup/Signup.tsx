@@ -73,7 +73,10 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
   return (
     <section className="w-full diagonal-split min-h-screen flex flex-col items-center justify-center text-white px-5">
       <div className="max-w-[400px] w-full flex items-center justify-center flex-col  border-red-500">
-        <h1 className="font-extrabold text-3xl mb-8" id="animateAuth">
+        <h1
+          className="font-extrabold text-3xl mb-8 text-[#062A34]"
+          id="animateAuth"
+        >
           SIGNUP
         </h1>
         <form
@@ -87,7 +90,7 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
               {...register("name")}
               type="text"
               placeholder="Enter name"
-              className="rounded-full w-full bg-[#ffffff4f] outline-none py-3 pr-16 pl-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
+              className="rounded-full w-full bg-[#ffffffb7] text-black outline-none py-3 pr-16 pl-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
             />
             {errors && errors.name && (
               <span className="text-red-500 text-sm w-full px-5 mt-1">
@@ -101,7 +104,7 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
               {...register("email")}
               type="email"
               placeholder="Enter email"
-              className="rounded-full w-full bg-[#ffffff4f] outline-none py-3 pl-16 pr-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
+              className="rounded-full w-full bg-[#ffffffb7] text-black outline-none py-3 pl-16 pr-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
             />
             {errors && errors.email && (
               <span className="text-red-500 text-sm w-full px-5 mt-1">
@@ -115,7 +118,7 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
               {...register("password")}
               type="password"
               placeholder="Enter password"
-              className="rounded-full w-full bg-[#ffffff4f] outline-none py-3 pr-16 pl-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
+              className="rounded-full w-full bg-[#ffffffb7] text-black outline-none py-3 pr-16 pl-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
             />
             {errors && errors.password && (
               <span className="text-red-500 text-sm w-full px-5 mt-1">
@@ -129,7 +132,7 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
               {...register("confirmPassword")}
               type="password"
               placeholder="Enter confirm password"
-              className="rounded-full w-full bg-[#ffffff4f] outline-none py-3 pl-16 pr-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
+              className="rounded-full w-full bg-[#ffffffb7] text-black outline-none py-3 pl-16 pr-5 placeholder:text-[#062A34] focus:bg-[#ffffff6e] transition-all ease-out duration-300"
             />
             {errors && errors.confirmPassword && (
               <span className="text-red-500 text-sm w-full px-5 mt-1">
@@ -145,12 +148,12 @@ const Signup: React.FC<LoginInterface> = ({ setIsLogin }) => {
             ) : (
               <button
                 type="submit"
-                className="font-extrabold w-full text-xl bg-white text-[#062A34] rounded-full py-2 border border-white hover:bg-transparent hover:text-white transition-all ease-in-out duration-300"
+                className="font-extrabold w-full text-xl bg-white text-[#062A34] rounded-full py-2 border border-white hover:bg-transparent hover:border-black transition-all ease-in-out duration-300"
               >
                 SIGNUP
               </button>
             )}
-            <p className="mt-4">
+            <p className="mt-4 text-titleColor">
               Already have an account?{" "}
               <span
                 onClick={() => setIsLogin(true)}

@@ -17,6 +17,7 @@ import { Textarea } from "../../../components/ui/textarea";
 import { Button } from "../../../components/ui/button";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { AxiosError } from "axios";
+import { motion } from "framer-motion";
 
 const Emails = () => {
   const navigate = useNavigate();
@@ -195,7 +196,17 @@ const Emails = () => {
                   ></div>
                 </div>
               ) : (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 500,
+                      duration: 1,
+                    },
+                  }}
                   key={email._id}
                   className={`max-w-md place-self-center lg:place-self-auto w-full min-h-[380px] flex flex-col justify-center rounded-lg overflow-hidden shadow-lg  border  relative ${darktheme ? "bg-[#141414] border-[#646464]" : "bg-white border-gray-200"}`}
                 >
@@ -354,7 +365,7 @@ const Emails = () => {
                       <FaRegCheckCircle className="text-2xl" />
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })
           ) : (
