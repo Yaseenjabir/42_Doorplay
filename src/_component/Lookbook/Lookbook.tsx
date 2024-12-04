@@ -49,7 +49,7 @@ const Lookbook = () => {
         </div>
         <div
           id="lookbook-herosection"
-          className="w-full h-[80vh]"
+          className="w-full h-screen md:h-[80vh]"
           style={{
             backgroundImage:
               'url("https://www.clopaydoor.com/images/default-source/lookbook/moderncrplank.webp?sfvrsn=a940707d_1")',
@@ -90,7 +90,7 @@ const Lookbook = () => {
                   <div className="flex flex-col md:flex-row">
                     <div className="w-full max-w-[400px] md:w-[51%] md:max-w-full lg:w-full">
                       <h1
-                        className={`text-[25px] md:tex-[30px] font-bold ${styleFirst ? "text-titleColor" : "text-yellow-300"}`}
+                        className={`text-[25px] md:tex-[30px] lg:text-[35px] font-bold ${styleFirst ? "text-titleColor" : "text-yellow-300"}`}
                       >
                         {item.title}
                       </h1>

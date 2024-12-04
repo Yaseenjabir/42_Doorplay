@@ -128,6 +128,12 @@ const DesktopHeader = () => {
               >
                 About Us
               </a>
+              <a
+                href="/contact"
+                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+              >
+                Contact Us
+              </a>
               <IoIosSearch
                 onClick={() => {
                   setShowSearch(true);
@@ -185,12 +191,14 @@ const DesktopHeader = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <button
-            className={`h-[46px] w-[162px] flex items-center justify-center text-nowrap gap-2 bg-warmBrown hover:bg-mutedRed hover:bg text-white rounded-md transition-all ease-in-out duration-300 text-[14px]`}
-          >
-            <PiMagicWand className="text-xl" />
-            Design Your Door
-          </button>
+          <a href="/contact">
+            <button
+              className={`h-[46px] w-[162px] flex items-center justify-center text-nowrap gap-2 bg-warmBrown hover:bg-mutedRed hover:bg text-white rounded-md transition-all ease-in-out duration-300 text-[14px]`}
+            >
+              <PiMagicWand className="text-xl" />
+              Design Your Door
+            </button>
+          </a>
         </div>
       </header>
       {/* searched item div  */}

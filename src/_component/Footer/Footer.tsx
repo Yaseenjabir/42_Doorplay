@@ -36,14 +36,14 @@ const Footer: React.FC = () => {
               >
                 Privacy
               </a>{" "}
-              |{" "}
-              <span className="hover:underline cursor-pointer">
+              {/* |{" "} */}
+              {/* <span className="hover:underline cursor-pointer">
                 Do Not Sell My Information
-              </span>{" "}
-              |{" "}
-              <span className="hover:underline cursor-pointer">
+              </span>{" "} */}
+              {/* |{" "} */}
+              {/* <span className="hover:underline cursor-pointer">
                 Terms & Conditions
-              </span>{" "}
+              </span>{" "} */}
               | <span className="hover:underline cursor-pointer">Sitemap</span>|{" "}
               <a href="/about" className="hover:underline cursor-pointer">
                 About
@@ -51,13 +51,21 @@ const Footer: React.FC = () => {
             </div>
             <p className="mt-3 lg:mt-2">
               This site is protected by reCAPTCHA and the Google{" "}
-              <span className="text-gray-700 cursor-pointer hover:underline">
+              <a
+                target="_blank"
+                href="https://policies.google.com/privacy"
+                className="text-gray-700 cursor-pointer hover:underline"
+              >
                 Privacy Policy{" "}
-              </span>
+              </a>
               and{" "}
-              <span className="text-gray-700 cursor-pointer hover:underline">
+              <a
+                target="_blank"
+                href="https://policies.google.com/terms"
+                className="text-gray-700 cursor-pointer hover:underline"
+              >
                 Terms of Service apply.{" "}
-              </span>
+              </a>
             </p>
           </div>
         </div>

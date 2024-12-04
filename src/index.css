@@ -132,7 +132,7 @@ body {
   width: 30px;
 }
 .diagonal-split {
-  background: linear-gradient(to bottom right, #053847 50%, #05323f 50%);
+  background: linear-gradient(to bottom right, #333333 50%, #fff 50%);
   border: 1px solid black; /* Optional: to make the div border visible */
 }
 
@@ -262,4 +262,9 @@ body {
 
 .pannel-size {
   display: none;
+}
+
+#checking p {
+  position: absolute;
+  left: 0%;
 }

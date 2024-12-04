@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
-import HeroSection from "./HeroSection/HeroSection";
-import EnhanceYourCurb from "./EnhanceYourCurb/EnhanceYourCurb";
-import FreeColorSample from "./FreeColorSample/FreeColorSample";
-import CommercialDoors from "./CommercialDoors/CommercialDoors";
-import ContactUs from "./ContactUs/ContactUs";
-import DoorplayDifference from "./DoorplayDifference/DoorplayDifference";
-import FindInspiration from "./FindInspiration/FindInspiration";
-import Subscribe from "./Subscribe/Subscribe";
+import React, { Suspense, useEffect, useState } from "react";
 import Animation from "../EntranceAnimation/Animation";
+
+const HeroSection = React.lazy(() => import("./HeroSection/HeroSection"));
+const EnhanceYourCurb = React.lazy(
+  () => import("./EnhanceYourCurb/EnhanceYourCurb")
+);
+const FreeColorSample = React.lazy(
+  () => import("./FreeColorSample/FreeColorSample")
+);
+const CommercialDoors = React.lazy(
+  () => import("./CommercialDoors/CommercialDoors")
+);
+const ContactUs = React.lazy(() => import("./ContactUs/ContactUs"));
+const DoorplayDifference = React.lazy(
+  () => import("./DoorplayDifference/DoorplayDifference")
+);
+const FindInspiration = React.lazy(
+  () => import("./FindInspiration/FindInspiration")
+);
+const Subscribe = React.lazy(() => import("./Subscribe/Subscribe"));
 
 const Main: React.FC = () => {
   const [lottie, setLottie] = useState<boolean>(true);
@@ -26,14 +37,16 @@ const Main: React.FC = () => {
         <Animation />
       ) : (
         <>
-          <HeroSection />
-          <EnhanceYourCurb />
-          <FreeColorSample />
-          <CommercialDoors />
-          <ContactUs />
-          <DoorplayDifference />
-          <FindInspiration />
-          <Subscribe />
+          <Suspense fallback={<Animation />}>
+            <HeroSection />
+            <EnhanceYourCurb />
+            <FreeColorSample />
+            <CommercialDoors />
+            <ContactUs />
+            <DoorplayDifference />
+            <FindInspiration />
+            <Subscribe />
+          </Suspense>
         </>
       )}
     </>

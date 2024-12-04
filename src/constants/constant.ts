@@ -14,3 +14,8 @@ export const LOGIN_ROUTE = "/api/auth/login";
 export const ADD_REVIEW = "/api/review";
 export const GET_REVIEW_BY_DOOR_ID = "/api/review/door/:doorId";
 export const GET_ALL_REVIEWS = "/api/review";
+
+// Contact Routes
+export const CREATE_CONTACT_ROUTE = "/api/contact/contactEmail";
+export const GET_ALL_EMAIL_CONTACTS = "/api/contact/contacts";
+export const UPDATE_CONTACT_ROUE = "/api/contact/contacts";

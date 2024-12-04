@@ -57,6 +57,18 @@ export interface ReviewModel {
   rating: number;
 }
 
+export interface EmailModel {
+  _id: string;
+  date: Date;
+  email: string;
+  name: string;
+  message: string;
+  number: string;
+  internalNote: string;
+  isAnswered: boolean;
+  isRead: boolean;
+}
+
 export const imageReplacement =
   "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.webp?s=1024x1024&w=is&k=20&c=Bs1RdueQnaAcO888WBIQsC6NvA7aVTzeRVzSd8sJfUg=";
 

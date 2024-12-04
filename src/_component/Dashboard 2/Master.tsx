@@ -5,6 +5,7 @@ import Logo from "../../../public/AR Garage - Logo.png";
 import { IoMdAdd } from "react-icons/io";
 import { RxUpdate } from "react-icons/rx";
 import { MdHome } from "react-icons/md";
+import { TfiEmail } from "react-icons/tfi";
 
 const NAVIGATION: Navigation = [
   {
@@ -20,6 +21,11 @@ const NAVIGATION: Navigation = [
     segment: "dashboard/update-door",
     title: "Update Door",
     icon: <RxUpdate className="text-2xl" />,
+  },
+  {
+    segment: "dashboard/emails",
+    title: "Emails",
+    icon: <TfiEmail className="text-2xl" />,
   },
   {
     segment: "",

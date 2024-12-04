@@ -17,6 +17,8 @@ import PrivacyPolicy from "./_component/Privacy/PrivacyPolicy.tsx";
 import About from "./_component/About/About.tsx";
 import Sitemap from "./_component/Sitemap/Sitemap.tsx";
 import Categories from "./_component/Categories/Categories.tsx";
+import ContactUs from "./_component/ContactUs/ContactUs.tsx";
+import Emails from "./_component/Dashboard 2/Emails/Emails.tsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,7 @@ const router = createBrowserRouter([
       { path: "/privacy-policy", element: <PrivacyPolicy /> },
       { path: "/about", element: <About /> },
       { path: "/sitemap", element: <Sitemap /> },
+      { path: "/contact", element: <ContactUs /> },
     ],
   },
 
@@ -46,6 +49,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <AddDoor /> },
           { path: "update-door", element: <UpdateDoor /> },
+          { path: "emails", element: <Emails /> },
         ],
       },
     ],

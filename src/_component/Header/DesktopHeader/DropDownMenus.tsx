@@ -28,7 +28,7 @@ const DropDownMenus: React.FC<Menus> = ({
       <ul
         className={`bg-white transition-all ease-in-out duration-1000 ${
           showGarageDoorDropDown && "h-[156px] py-2 overflow-y-auto"
-        } h-0 px-3 w-[170px] fixed top-[105px] left-24 z-50 flex flex-col gap-2 overflow-hidden scrollable-div`}
+        } h-0 px-3 w-[170px] fixed top-[105px] left-24 z-50 hidden lg:flex flex-col gap-2 overflow-hidden scrollable-div`}
       >
         <a
           href="/garage-doors"
@@ -55,7 +55,7 @@ const DropDownMenus: React.FC<Menus> = ({
       <ul
         className={`bg-white transition-all ease-in-out duration-1000 ${
           showCommercialDoorDropDown && "h-[156px] py-2 overflow-y-auto"
-        } h-0 px-3 w-[170px] fixed top-[105px] left-[250px] z-50 flex flex-col gap-2 overflow-hidden scrollable-div`}
+        } h-0 px-3 w-[170px] fixed top-[105px] left-[250px] z-50 hidden lg:flex flex-col gap-2 overflow-hidden scrollable-div`}
       >
         <a
           href="/commercial-doors"

@@ -95,7 +95,9 @@ const Categories = () => {
       <section className="w-full py-10 px-5">
         <div className="w-full flex flex-row items-center gap-5 justify-between">
           <h1 className="text-2xl">
-            Garage Doors
+            {location.pathname === "/commercial-doors"
+              ? "Commercial Doors"
+              : "Garage Doors"}
             {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
           </h1>
           <IoFilter

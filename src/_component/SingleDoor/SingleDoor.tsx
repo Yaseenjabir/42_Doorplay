@@ -4,7 +4,7 @@ import { IoMdStar } from "react-icons/io";
 import DesktopHeader from "./DesktopSlider";
 import AccordionComponent from "./Accordian";
 import ContactUs from "../Main/ContactUs/ContactUs";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { DoorSchema, ReviewModel } from "../../utils/utils";
 import Loader from "../../utils/Loader";
 import useStore from "../../store/Store";
@@ -13,6 +13,8 @@ import Review from "./Review";
 const SingleDoor: React.FC = () => {
   const [singleDoor, setSingleDoor] = useState<DoorSchema>();
   const [availablity, setAvailability] = useState(true);
+
+  const navigate = useNavigate();
 
   const [reviews, setReviews] = useState<ReviewModel[]>();
 
@@ -43,6 +45,11 @@ const SingleDoor: React.FC = () => {
 
   const [loader, setLoader] = useState(true);
   const location = useLocation();
+
+  const pathName = `${import.meta.env.VITE_BASE_URL.replace(/\/$/, "")}${location.pathname}${location.search}`;
+
+  console.log(pathName);
+
   const [doorId, setDoorId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -148,7 +155,12 @@ const SingleDoor: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  <button className="py-2 px-4 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 w-[155px] h-[44px] text-nowrap">
+                  <button
+                    onClick={() =>
+                      navigate(`/contact`, { state: { pathName } })
+                    }
+                    className="py-2 px-4 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 w-[155px] h-[44px] text-nowrap"
+                  >
                     Request A Quote
                   </button>
                   {/* <button className="py-2 px-4 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed transition-all ease-in-out duration-200 w-[186px] h-[44px] text-nowrap">

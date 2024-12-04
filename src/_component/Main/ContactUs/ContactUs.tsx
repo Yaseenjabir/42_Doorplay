@@ -11,9 +11,11 @@ const ContactUs = () => {
             Engage with our team of qualified professionals to address all of
             your door needs.
           </p>
-          <button className="bg-warmBrown px-4 py-2 rounded-md mt-5 md:mt-0 hover:bg-[#7c4936] transition-all ease-in-out duration-300 self-start text-nowrap md:self-auto">
-            Send Design
-          </button>
+          <a href="/contact">
+            <button className="bg-warmBrown px-4 py-2 rounded-md mt-5 md:mt-0 hover:bg-[#7c4936] transition-all ease-in-out duration-300 self-start text-nowrap md:self-auto">
+              Send Design
+            </button>
+          </a>
         </div>
       </section>
     </>
