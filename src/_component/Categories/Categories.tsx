@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { IoFilter, IoStarSharp } from "react-icons/io5";
 import { useLocation, useParams } from "react-router";
-import { DoorSchema, imageReplacement } from "../../utils/utils";
+import { DoorSchema } from "../../utils/utils";
 import { Badge } from "../../components/ui/badge";
 import Description from "./DescriptionText";
 import WhyReplaceUs from "./WhyReplaceUs";
 import SearchForm from "./SearchForm";
 import useStore from "../../store/Store";
 import { useNavigateToSingleDoor } from "../../utils/useNavigateToSingleDoor";
+import Slider from "./Slider";
 
 const Categories = () => {
   const params = useParams();
@@ -24,11 +25,14 @@ const Categories = () => {
   const [searchedData, setSearchedData] = useState<DoorSchema[]>([]);
   const [skip, setSkip] = useState<number>(0);
   const [loader, setLoader] = useState<boolean>(true);
-  const [availablity, setAvailability] = useState(false);
+  const [availablity, setAvailability] = useState(true);
   const limit: number = 5;
   const [hasMore, setHasMore] = useState(true);
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
   const [showFilter, setShowFilter] = useState(false);
+
+  console.log(data);
+  console.log(availablity);
 
   const { globalData } = useStore();
 
@@ -47,13 +51,12 @@ const Categories = () => {
 
       if (paginatedData.length === 0 || paginatedData.length < 5) {
         setData((prev) => [...prev, ...paginatedData]);
-        setAvailability(true);
         setHasMore(false);
         return;
       }
 
       setData((prev) => [...prev, ...paginatedData]);
-      setAvailability(true);
+      // setAvailability(true);
       setHasMore(true);
     } finally {
       setLoader(false);
@@ -92,7 +95,7 @@ const Categories = () => {
       />
 
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
-      <section className="w-full py-10 px-5">
+      <section className="w-full py-10 px-5 lg:pr-16 lg:pl-12">
         <div className="w-full flex flex-row items-center gap-5 justify-between">
           <h1 className="text-2xl">
             {location.pathname === "/commercial-doors"
@@ -127,17 +130,19 @@ const Categories = () => {
               return (
                 <div
                   key={door._id}
-                  onClick={() => navigateToSingleDoor(door)}
                   className="w-full flex flex-col cursor-pointer"
                 >
-                  <img
+                  <Slider images={door.media} />
+
+                  {/* <img
                     src={
                       door && door.media && door.media[0]
                         ? door.media[0].url
                         : imageReplacement
                     }
-                    className="w-full rounded-md max-h-[360px]"
-                  />
+                    className="w-full rounded-md max-h-[330px]"
+                  /> */}
+
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">
                       <div className="flex items-center justify-between gap-2">

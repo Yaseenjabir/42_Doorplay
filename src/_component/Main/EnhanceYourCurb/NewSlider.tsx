@@ -17,7 +17,6 @@ import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor"
 
 const NewSlider = () => {
   const [doors, setDoors] = useState<DoorSchema[]>([]);
-
   const [loader, setLoader] = useState(true);
   const navigateToSingleDoor = useNavigateToSingleDoor();
   const { globalData } = useStore();
@@ -50,52 +49,60 @@ const NewSlider = () => {
       <div className="border-t-4 border-darkRed border-solid w-16 h-16 rounded-full animate-spin"></div>
     </div>
   ) : (
-    <Swiper
-      cssMode={true}
-      navigation={true}
-      pagination={true}
-      mousewheel={true}
-      keyboard={true}
-      autoplay={true}
-      modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
-      className="mySwiper"
-    >
-      {doors[0] !== undefined &&
-        doors.length > 0 &&
-        doors.map((slide) => (
-          <SwiperSlide key={slide._id}>
-            <div
-              onClick={() => navigateToSingleDoor(slide)}
-              className="slide select-none flex flex-1 flex-col w-full relative cursor-pointer"
-              key={slide._id}
-            >
-              <img
-                src={
-                  slide && slide.media && slide.media[0]
-                    ? slide.media[0].url
-                    : imageReplacement
-                }
-                loading="lazy"
-                className="w-full max-h-[520px]"
-              />
-              <div className="text-start py-3 px-2 flex flex-col gap-7 border border-gray-300 bg-white h-full lg:max-w-[310px] lg:border-none">
-                <h1 className="text-titleColor font-bold text-lg lg:text-2xl">
-                  {slide.title}
-                </h1>
-                <p className="font-normal text-[16px]">{slide.shortPreview}</p>
-                <div className="font-normal text-[13px] flex items-center gap-2">
-                  <p>Also in :</p>
-                  <div className="flex gap-1">
-                    <div className="w-3 h-3 rounded-full bg-warmBrown mt-1"></div>
-                    <div className="w-3 h-3 rounded-full bg-darkRed mt-1"></div>
+    <div id="slider-1" className="w-full lg:w-[60%]">
+      <Swiper
+        cssMode={true}
+        navigation={true}
+        pagination={true}
+        mousewheel={true}
+        keyboard={true}
+        autoplay={true}
+        modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
+        className="mySwiper"
+      >
+        {doors[0] !== undefined &&
+          doors.length > 0 &&
+          doors.map((slide) => (
+            <SwiperSlide key={slide._id}>
+              <div
+                onClick={() => navigateToSingleDoor(slide)}
+                className="slide select-none flex flex-1 flex-col w-full relative cursor-pointer"
+                key={slide._id}
+              >
+                <img
+                  src={
+                    slide && slide.media && slide.media[0]
+                      ? slide.media[0].url
+                      : imageReplacement
+                  }
+                  loading="lazy"
+                  className="w-full h-full"
+                />
+
+                <div className="text-start py-3 px-2 flex flex-col gap-7 border border-gray-300 bg-white h-full lg:max-w-[310px] lg:border-none">
+                  <h1
+                    id="testingg"
+                    className="text-titleColor font-bold text-lg lg:text-2xl"
+                  >
+                    {slide.title}
+                  </h1>
+                  <p className="font-normal text-[16px]">
+                    {slide.shortPreview}
+                  </p>
+                  <div className="font-normal text-[13px] flex items-center gap-2">
+                    <p>Also in :</p>
+                    <div className="flex gap-1">
+                      <div className="w-3 h-3 rounded-full bg-warmBrown mt-1"></div>
+                      <div className="w-3 h-3 rounded-full bg-darkRed mt-1"></div>
+                    </div>
+                    <span>+{slide.stockCount}</span>
                   </div>
-                  <span>+{slide.stockCount}</span>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-    </Swiper>
+            </SwiperSlide>
+          ))}
+      </Swiper>
+    </div>
   );
 };
 

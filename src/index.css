@@ -157,8 +157,6 @@ body {
   text-align: center;
   font-size: 18px;
   background: #fff;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,23 +168,45 @@ body {
   height: 100%;
   object-fit: cover;
 }
-
-.swiper-button-prev {
+/* Slider one configurations  */
+#slider-1 .swiper-button-prev {
   top: 35% !important;
 }
+#slider-1 .swiper-button-next {
+  top: 35% !important;
+}
+
+#slider-1 .swiper-button-prev::after {
+  font-size: 30px !important;
+  /* top: 50px !important; */
+  color: #ab644b;
+}
+#slider-1 .swiper-button-next::after {
+  font-size: 30px !important;
+  color: #ab644b;
+}
+
+/* Slider two configurations  */
+#slider-2 .swiper-button-prev,
 .swiper-button-next {
-  top: 35% !important;
+  top: 53% !important;
 }
 
-.swiper-button-prev::after {
+#slider-2 .swiper-button-prev::after {
   font-size: 30px !important;
   top: 50px !important;
   color: #ab644b;
 }
-.swiper-button-next::after {
+
+#slider-2 .swiper-button-next::after {
   font-size: 30px !important;
   color: #ab644b;
 }
+
+#slider-2 .swiper-slide {
+  max-height: 400px !important;
+}
+
 .css-f84ov1-MuiTypography-root {
   display: none;
 }

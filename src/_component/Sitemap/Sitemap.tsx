@@ -100,9 +100,9 @@ const Sitemap = () => {
             </a>
             <a
               className="hover:underline cursor-pointer w-min text-nowrap"
-              href="/lookbook"
+              href="/top-picks"
             >
-              Lookbook
+              Top Picks
             </a>
             <a
               className="hover:underline cursor-pointer w-min text-nowrap"

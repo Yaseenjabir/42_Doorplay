@@ -12,7 +12,7 @@ const Lookbook = () => {
   const { globalData } = useStore();
 
   useEffect(() => {
-    document.title = "A&R | Lookbook";
+    document.title = "A&R | Top Picks";
   }, []);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Lookbook = () => {
       <div className="w-full relative">
         <div className="absolute bottom-28 text-white px-5 flex flex-col gap-2 md:static md:text-black md:py-10 md:px-7 lg:gap-3 xl:gap-5">
           <h1 className="text-4xl font-light lg:text-5xl lg:text-titleColor">
-            A&R Lookbook
+            A&R's Top Picks
           </h1>
           <p className="md:font-semibold md:text-gray-600 md:max-w-[620px] md:text-lg lg:font-normal lg:text-base">
             Get inspired by projects from award-winning architects, builders,
@@ -74,7 +74,7 @@ const Lookbook = () => {
               <div
                 className={`w-full flex flex-col gap-5 ${styleFirst ? "lg:flex-row bg-white pl-0" : "lg:flex-row-reverse bg-[#2a292a] lg:pl-5"}`}
               >
-                <div className="w-full h-[300px] md:h-[600px] lg:w-[60%] lg:h-auto">
+                <div className="w-full h-[300px] md:h-[600px] lg:w-[70%] lg:h-auto">
                   <img
                     className="w-full h-full"
                     src={
@@ -85,7 +85,7 @@ const Lookbook = () => {
                   />
                 </div>
                 <div
-                  className={`w-full flex  flex-col gap-5 lg:w-[40%] ${styleFirst ? "py-0 " : " p-5 lg:py-5 lg:p-0"}`}
+                  className={`w-full flex  flex-col gap-5 lg:w-[30%] ${styleFirst ? "py-0 " : " p-5 lg:py-5 lg:p-0"}`}
                 >
                   <div className="flex flex-col md:flex-row">
                     <div className="w-full max-w-[400px] md:w-[51%] md:max-w-full lg:w-full">

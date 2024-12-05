@@ -1,4 +1,3 @@
-import { PiMagicWand } from "react-icons/pi";
 import { IoIosArrowDown, IoIosSearch } from "react-icons/io";
 import { Input } from "../../../../src/components/ui/input";
 import { RxCross2 } from "react-icons/rx";
@@ -11,7 +10,7 @@ import useStore from "../../../store/Store";
 import DropDownMenus from "./DropDownMenus";
 import { CiSearch } from "react-icons/ci";
 import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor";
-
+import { BiSupport } from "react-icons/bi";
 const DesktopHeader = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -117,10 +116,10 @@ const DesktopHeader = () => {
                 />
               </div>
               <a
-                href="/lookbook"
+                href="/top-picks"
                 className={`h-min hover:underline text-[14px] xl:text-[18px]`}
               >
-                Lookbook
+                A&R's Top Picks
               </a>
               <a
                 href="/about"
@@ -128,12 +127,12 @@ const DesktopHeader = () => {
               >
                 About Us
               </a>
-              <a
+              {/* <a
                 href="/contact"
                 className={`h-min hover:underline text-[14px] xl:text-[18px]`}
               >
                 Contact Us
-              </a>
+              </a> */}
               <IoIosSearch
                 onClick={() => {
                   setShowSearch(true);
@@ -193,10 +192,10 @@ const DesktopHeader = () => {
         <div className="flex items-center gap-6">
           <a href="/contact">
             <button
-              className={`h-[46px] w-[162px] flex items-center justify-center text-nowrap gap-2 bg-warmBrown hover:bg-mutedRed hover:bg text-white rounded-md transition-all ease-in-out duration-300 text-[14px]`}
+              className={`flex border py-[8px] px-4 border-warmBrown items-center justify-center text-nowrap gap-2 bg-warmBrown hover:text-warmBrown hover:bg-transparent hover:bg text-white rounded-md transition-all ease-in-out duration-300 text-[14px]`}
             >
-              <PiMagicWand className="text-xl" />
-              Design Your Door
+              <BiSupport className="text-xl" />
+              Contact Us
             </button>
           </a>
         </div>

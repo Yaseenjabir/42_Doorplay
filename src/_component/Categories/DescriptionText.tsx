@@ -22,7 +22,7 @@ const Description = () => {
           <p className="text-titleColor mt-4 md:text-xl lg:text-base">
             Be inspired by our{" "}
             <span className="text-slate-500 hover:underline cursor-pointer">
-              latest Lookbook
+              latest Top Picks
             </span>
             , featuring projects from award-winning architects, builders, and
             influencers featuring garage doors from AR Doors.

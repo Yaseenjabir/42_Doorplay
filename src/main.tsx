@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: "/garage-doors/:singleDoor", element: <SingleDoor /> },
       { path: "/commercial-doors/:singleDoor", element: <SingleDoor /> },
       { path: "/search", element: <SearchResult /> },
-      { path: "/lookbook", element: <Lookbook /> },
+      { path: "/top-picks", element: <Lookbook /> },
       { path: "/privacy-policy", element: <PrivacyPolicy /> },
       { path: "/about", element: <About /> },
       { path: "/sitemap", element: <Sitemap /> },

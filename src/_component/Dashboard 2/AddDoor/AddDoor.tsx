@@ -250,7 +250,7 @@ const AddDoor = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-60px)] overflow-y-scroll px-5 pb-10 scrollable-div">
+    <div className="w-full px-5 pb-10 scrollable-div">
       <div className="max-w-2xl mx-auto py-10 flex flex-col gap-5">
         <h2 className="text-2xl font-bold mb-6">Create Door</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">

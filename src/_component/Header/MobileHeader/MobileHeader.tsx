@@ -211,7 +211,7 @@ const MobileHeader: React.FC = () => {
             <a href="/about">About</a>
           </li>
           <li className="text-2xl font-bold text-[#4f738a] hover:underline">
-            <a href="/lookbook">Lookbook</a>
+            <a href="/top-picks">Top Picks</a>
           </li>
           <li className="text-2xl font-bold text-[#4f738a] hover:underline">
             <a href="/contact">Contact</a>
