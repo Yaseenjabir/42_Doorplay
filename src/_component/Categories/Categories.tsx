@@ -31,8 +31,7 @@ const Categories = () => {
   const scrollIntoViewRef = useRef<HTMLDivElement | null>(null);
   const [showFilter, setShowFilter] = useState(false);
 
-  console.log(data);
-  console.log(availablity);
+  const [totalCounts, setTotalCounts] = useState<number>(0);
 
   const { globalData } = useStore();
 
@@ -46,6 +45,7 @@ const Categories = () => {
           item.category ===
           (category === "garage-doors" ? "garage" : "commercial")
       );
+      setTotalCounts(filteredData && filteredData.length);
 
       const paginatedData = filteredData.slice(skip, skip + limit);
 
@@ -101,7 +101,7 @@ const Categories = () => {
             {location.pathname === "/commercial-doors"
               ? "Commercial Doors"
               : "Garage Doors"}
-            {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+            <span className="text-base text-gray-400">({totalCounts})</span>
           </h1>
           <IoFilter
             onClick={() => setShowFilter(true)}
@@ -176,12 +176,12 @@ const Categories = () => {
                         </button>
                       </div>
                       <div className="flex items-center justify-between md:mt-5 xl:mt-0">
-                        <div className="text-sm flex items-center text-gray-800 gap-1">
+                        {/* <div className="text-sm flex items-center text-gray-800 gap-1">
                           Also in :{" "}
                           <div className="bg-cyan-500 w-3 h-3 rounded-full"></div>
                           <div className="bg-red-600 w-3 h-3 rounded-full"></div>{" "}
                           + 5
-                        </div>
+                        </div> */}
                         <div className="flex lg:hidden bg-slate-100 items-center px-2 rounded-xl text-lg gap-2 text-yellow-400 py-1">
                           <IoStarSharp />
                           <IoStarSharp />

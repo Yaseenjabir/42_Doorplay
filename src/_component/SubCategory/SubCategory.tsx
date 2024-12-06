@@ -22,6 +22,7 @@ const SubCategory = () => {
   const [hasMore, setHasMore] = useState(true);
   const { subCategory } = useParams();
   const navigateToSingleDoor = useNavigateToSingleDoor();
+  const [totalCounts, setTotalCounts] = useState<number>(0);
 
   const { globalData } = useStore();
 
@@ -31,6 +32,7 @@ const SubCategory = () => {
       const filteredData = globalData.filter(
         (item) => item.subcategory === subCategory?.replace(/-/g, " ")
       );
+      setTotalCounts(filteredData && filteredData.length);
 
       const paginatedData = filteredData.slice(skip, skip + limit);
       if (paginatedData) {
@@ -85,11 +87,11 @@ const SubCategory = () => {
     <>
       <div ref={scrollIntoViewRef} className="" id="scrollIntoView"></div>
 
-      <section className="w-full py-10 px-5">
+      <section className="w-full py-10 px-5 lg:pr-16 lg:pl-12">
         <h1 className="text-2xl">
           {subCategory &&
             subCategory?.charAt(0).toUpperCase() + subCategory?.slice(1)}
-          {/* <span className="text-base text-gray-400">({totalCounts})</span> */}
+          <span className="text-base text-gray-400">({totalCounts})</span>
         </h1>
         <hr className="hidden lg:block w-full my-5" />
 
@@ -154,12 +156,12 @@ const SubCategory = () => {
                         </button>
                       </div>
                       <div className="flex items-center justify-between md:mt-5 xl:mt-0">
-                        <div className="text-sm flex items-center text-gray-800 gap-1">
+                        {/* <div className="text-sm flex items-center text-gray-800 gap-1">
                           Also in :{" "}
                           <div className="bg-cyan-500 w-3 h-3 rounded-full"></div>
                           <div className="bg-red-600 w-3 h-3 rounded-full"></div>{" "}
                           + 5
-                        </div>
+                        </div> */}
                         <div className="flex lg:hidden bg-slate-100 items-center px-2 rounded-xl text-lg gap-2 text-yellow-400 py-1">
                           <IoStarSharp />
                           <IoStarSharp />

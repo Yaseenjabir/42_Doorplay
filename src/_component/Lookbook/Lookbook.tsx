@@ -38,7 +38,7 @@ const Lookbook = () => {
     <>
       {/* Hero Section  */}
       <div className="w-full relative">
-        <div className="absolute bottom-28 text-white px-5 flex flex-col gap-2 md:static md:text-black md:py-10 md:px-7 lg:gap-3 xl:gap-5">
+        <div className="absolute bottom-28 text-white px-5 flex flex-col gap-2 md:static md:text-black md:py-10 md:px-10 lg:gap-3 xl:gap-5">
           <h1 className="text-4xl font-light lg:text-5xl lg:text-titleColor">
             A&R's Top Picks
           </h1>
@@ -60,7 +60,7 @@ const Lookbook = () => {
           {/* Content here */}
         </div>
       </div>
-      <section className="w-full px-5 py-10 lg:px-10 xl:px-16 mt-20 flex flex-col gap-20 lg:gap-32">
+      <section className="w-full px-5 py-10 lg:px-10 xl:pr-16 xl:pl-12 mt-20 flex flex-col gap-20 lg:gap-32">
         {loader ? (
           <div className="flex justify-center items-center h-[70vh]">
             <div className="border-t-4 border-darkRed border-solid w-16 h-16 rounded-full animate-spin"></div>

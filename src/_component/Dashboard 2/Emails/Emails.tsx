@@ -15,9 +15,24 @@ import {
 } from "../../../components/ui/dialog";
 import { Textarea } from "../../../components/ui/textarea";
 import { Button } from "../../../components/ui/button";
-import { FaRegCheckCircle } from "react-icons/fa";
+import { FaFilter, FaRegCheckCircle } from "react-icons/fa";
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../components/ui/popover";
+import { IoFilter } from "react-icons/io5";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import { Label } from "../../../components/ui/label";
+import { FaFilterCircleXmark } from "react-icons/fa6";
 
 const Emails = () => {
   const navigate = useNavigate();
@@ -34,6 +49,11 @@ const Emails = () => {
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<EmailModel | undefined>();
+  const [read, setRead] = useState("");
+  const [reply, setReply] = useState("");
+  const [searchedData, setSearchedData] = useState<EmailModel[] | undefined>(
+    []
+  );
 
   useEffect(() => {
     const user = sessionStorage.getItem("user");
@@ -174,6 +194,39 @@ const Emails = () => {
     return text.length > length ? `${text.slice(0, length)}` : text;
   };
 
+  function handleSearch(read: string, reply: string) {
+    if (!read && !reply) {
+      toast.warning("Please select any option");
+      return;
+    }
+
+    let result;
+
+    const isRead = read === "read";
+    const isReplied = reply === "replied";
+    const isUnreplied = reply === "unreplied";
+
+    result = data.filter((item) => {
+      const matchesReadStatus = isRead ? item.isRead : !item.isRead;
+
+      const matchesReplyStatus = isReplied
+        ? item.isAnswered
+        : isUnreplied
+          ? !item.isAnswered
+          : true;
+
+      return (read ? matchesReadStatus : true) && matchesReplyStatus;
+    });
+
+    setSearchedData(result);
+  }
+
+  const handleClearFilter = () => {
+    setRead("");
+    setReply("");
+    setSearchedData([]);
+  };
+
   return (
     <>
       {loading ? (
@@ -181,15 +234,87 @@ const Emails = () => {
           <div className="border-t-4 border-darkRed border-solid w-16 h-16 rounded-full animate-spin"></div>
         </div>
       ) : (
-        <section
-          className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 py-10 xl:gap-5 gap-10 place-items-start"
-          style={{ fontFamily: "Poppins" }}
-        >
-          {data.length > 0 ? (
-            data.map((email, index) => {
+        <>
+          <div className="w-full flex items-center justify-between mt-10">
+            <h1 className="font-medium text-2xl text-titleColor px-1">
+              Emails
+            </h1>
+            <Popover>
+              <PopoverTrigger>
+                <IoFilter className="text-2xl" />
+              </PopoverTrigger>
+              <PopoverContent className="mr-5 flex flex-col gap-5 py-10 px-5">
+                <div>
+                  <Label>Read Emails</Label>
+                  <Select
+                    defaultValue={read}
+                    value={read}
+                    onValueChange={(e) => setRead(e)}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select emails" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="read">Read</SelectItem>
+                      <SelectItem value="unread">Unread</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Reply Emails</Label>
+                  <Select
+                    defaultValue={reply}
+                    value={reply}
+                    onValueChange={(e) => setReply(e)}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select emails" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="replied">Replied</SelectItem>
+                      <SelectItem value="unreplied">Unreplied</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleSearch(read, reply);
+                    }}
+                    className="py-2 px-8 text-sm font-semibold bg-warmBrown border border-warmBrown hover:bg-transparent hover:text-warmBrown transition-all ease-out duration-300 text-white flex items-center justify-center text-nowrap gap-2 w-full"
+                  >
+                    <FaFilter className="text-[17px]" />
+                    Apply Filter
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      handleClearFilter();
+                    }}
+                    className="py-2 px-8 text-sm font-semibold mt-2 bg-warmBrown border border-warmBrown hover:bg-transparent hover:text-warmBrown transition-all ease-out duration-300 text-white flex items-center text-nowrap justify-center gap-2 w-full"
+                  >
+                    <FaFilterCircleXmark className="text-lg" />
+                    Clear Filter
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <section
+            className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 py-10 xl:gap-5 gap-10 place-items-start"
+            style={{ fontFamily: "Poppins" }}
+          >
+            {(searchedData && searchedData?.length > 0
+              ? searchedData
+              : data
+            ).map((email, index) => {
               return trackLoading === email._id ? (
                 <div
-                  className={`max-w-md w-full min-h-[380px] flex flex-col justify-center items-center rounded-lg overflow-hidden shadow-lg  border  relative ${darktheme ? "bg-[#1b1b1b] border-gray-50" : "bg-white border-gray-200"}`}
+                  className={`max-w-md w-full min-h-[380px] flex flex-col justify-center items-center rounded-lg overflow-hidden shadow-lg border relative ${darktheme ? "bg-[#1b1b1b] border-gray-50" : "bg-white border-gray-200"}`}
                 >
                   <div
                     className={`border-t-4 ${darktheme ? "border-white" : "border-darkRed"} border-solid w-16 h-16 rounded-full animate-spin`}
@@ -208,7 +333,7 @@ const Emails = () => {
                     },
                   }}
                   key={email._id}
-                  className={`max-w-md place-self-center lg:place-self-auto w-full min-h-[380px] flex flex-col justify-center rounded-lg overflow-hidden shadow-lg  border  relative ${darktheme ? "bg-[#141414] border-[#646464]" : "bg-white border-gray-200"}`}
+                  className={`max-w-md place-self-center lg:place-self-auto w-full min-h-[380px] flex flex-col justify-center rounded-lg overflow-hidden shadow-lg border relative ${darktheme ? "bg-[#141414] border-[#646464]" : "bg-white border-gray-200"}`}
                 >
                   <div className="p-4">
                     <h2
@@ -217,7 +342,7 @@ const Emails = () => {
                       {email.name}
                     </h2>
                     <p
-                      className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                      className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                     >
                       {new Date(email.date).toLocaleString()}
                     </p>
@@ -229,7 +354,7 @@ const Emails = () => {
                         Email:
                       </p>
                       <p
-                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                       >
                         {email.email}
                       </p>
@@ -242,7 +367,7 @@ const Emails = () => {
                         Phone:
                       </p>
                       <p
-                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                       >
                         {email.number}
                       </p>
@@ -255,7 +380,7 @@ const Emails = () => {
                         Message:
                       </p>
                       <p
-                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                        className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                       >
                         {trackIndex === index
                           ? email.message
@@ -280,7 +405,7 @@ const Emails = () => {
                       </p>
                       {email.internalNote ? (
                         <p
-                          className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                          className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                         >
                           Note is added.{" "}
                           <span
@@ -290,7 +415,6 @@ const Emails = () => {
                             }}
                             className="cursor-pointer underline mr-3"
                           >
-                            {" "}
                             View
                           </span>
                           <span
@@ -301,15 +425,14 @@ const Emails = () => {
                             }}
                             className="cursor-pointer underline"
                           >
-                            {" "}
                             Update
                           </span>
                         </p>
                       ) : (
                         <p
-                          className={`text-sm ${darktheme ? "text-white" : "text-gray-600"} `}
+                          className={`text-sm ${darktheme ? "text-white" : "text-gray-600"}`}
                         >
-                          You have'nt added any note yet.{" "}
+                          You haven't added any note yet.{" "}
                           <span
                             onClick={() => {
                               setNote(email.internalNote);
@@ -332,7 +455,7 @@ const Emails = () => {
                             email._id
                           )
                         }
-                        className={`py-2  w-[95px] text-nowrap px-3 rounded-full text-white font-medium cursor-pointer border border-transparent hover:bg-transparent transition-all ease-in-out duration-300 ${email.isRead ? "bg-gray-400 hover:border-gray-400 hover:text-gray-400" : "bg-green-500 hover:border-green-500 hover:text-green-500"}`}
+                        className={`py-2 w-[95px] text-nowrap px-3 rounded-full text-white font-medium cursor-pointer border border-transparent hover:bg-transparent transition-all ease-in-out duration-300 ${email.isRead ? "bg-gray-400 hover:border-gray-400 hover:text-gray-400" : "bg-green-500 hover:border-green-500 hover:text-green-500"}`}
                       >
                         {email.isRead ? "Unread" : "Read"}
                       </button>
@@ -344,9 +467,9 @@ const Emails = () => {
                             email._id
                           )
                         }
-                        className={`py-2  w-[95px] text-nowrap px-3 rounded-full text-white font-medium cursor-pointer border border-transparent hover:bg-transparent transition-all ease-in-out duration-300 ${email.isAnswered ? "bg-gray-400 hover:border-gray-400 hover:text-gray-400" : "bg-green-500 hover:border-green-500 hover:text-green-500"}`}
+                        className={`py-2 w-[95px] text-nowrap px-3 rounded-full text-white font-medium cursor-pointer border border-transparent hover:bg-transparent transition-all ease-in-out duration-300 ${email.isAnswered ? "bg-gray-400 hover:border-gray-400 hover:text-gray-400" : "bg-green-500 hover:border-green-500 hover:text-green-500"}`}
                       >
-                        {email.isAnswered ? "Unreplied" : "Replied"}
+                        {email.isAnswered ? "Unreply" : "Reply"}
                       </button>
                     </div>
                   </div>
@@ -367,11 +490,12 @@ const Emails = () => {
                   </div>
                 </motion.div>
               );
-            })
-          ) : (
-            <p>No email contacts available</p>
-          )}
-        </section>
+            })}
+            {searchedData?.length === 0 && data?.length === 0 && (
+              <p>No email contacts available</p>
+            )}
+          </section>
+        </>
       )}
 
       {/* View note dialog  */}

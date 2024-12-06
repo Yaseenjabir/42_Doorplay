@@ -142,8 +142,6 @@ const Notification = () => {
     return `rgb(${r}, ${g}, ${b})`;
   }
 
-  console.log(generateRandomLightColor());
-
   return (
     <>
       <Popover>
@@ -153,7 +151,9 @@ const Notification = () => {
               className={`cursor-pointer text-2xl w-full h-full ${darktheme ? "text-[#42a5f5]" : "text-[#1565c0]"}`}
             />
             {notificationsAvailable && (
-              <div className="w-2 h-2 absolute top-0 right-0 bg-red-500 rounded-full"></div>
+              <div className="absolute text-[10px] h-4 w-4 flex items-center justify-center text-white font-bold -top-1 -right-1 bg-red-500 rounded-full">
+                {data.filter((item) => item.isRead === false).length}
+              </div>
             )}
           </button>
         </PopoverTrigger>
@@ -171,7 +171,7 @@ const Notification = () => {
                     onClick={() =>
                       !item.isRead && handleMessageMarking(item._id)
                     }
-                    className={`w-full text-sm my-2 ${!item.isRead && "bg-slate-50"} p-2 cursor-pointer rounded flex gap-2`}
+                    className={`w-full text-sm my-2 ${!item.isRead && darktheme ? "bg-[#2e2e2ef5]" : !item.isRead && !darktheme && "bg-slate-50"} p-2 cursor-pointer rounded flex gap-2`}
                   >
                     <div className="h-auto  flex items-center justify-center">
                       <h1

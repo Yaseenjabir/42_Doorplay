@@ -60,14 +60,15 @@ const MobileHeader: React.FC = () => {
     setIsSlided((prev) => !prev);
   }
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     const user = sessionStorage.getItem("user");
 
     if (user) {
       const { token } = JSON.parse(user);
       if (token) {
-        setIsAuthenticated(true);
+        return;
+        // setIsAuthenticated(true);
       }
     }
   }, []);
@@ -216,7 +217,7 @@ const MobileHeader: React.FC = () => {
           <li className="text-2xl font-bold text-[#4f738a] hover:underline">
             <a href="/contact">Contact</a>
           </li>
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
             <li className="text-2xl font-bold text-[#4f738a] hover:underline">
               <a href="/dashboard">Dashboard</a>
             </li>
@@ -224,7 +225,7 @@ const MobileHeader: React.FC = () => {
             <li className="text-2xl font-bold text-[#4f738a] hover:underline">
               <a href="/auth">Login</a>
             </li>
-          )}
+          )} */}
 
           {/* <li className="text-2xl font-bold text-[#4f738a] hover:underline">
             <a href="">Where To Buy/Service</a>

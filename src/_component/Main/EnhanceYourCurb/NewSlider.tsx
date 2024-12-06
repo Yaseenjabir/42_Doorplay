@@ -89,14 +89,14 @@ const NewSlider = () => {
                   <p className="font-normal text-[16px]">
                     {slide.shortPreview}
                   </p>
-                  <div className="font-normal text-[13px] flex items-center gap-2">
+                  {/* <div className="font-normal text-[13px] flex items-center gap-2">
                     <p>Also in :</p>
                     <div className="flex gap-1">
                       <div className="w-3 h-3 rounded-full bg-warmBrown mt-1"></div>
                       <div className="w-3 h-3 rounded-full bg-darkRed mt-1"></div>
                     </div>
                     <span>+{slide.stockCount}</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </SwiperSlide>

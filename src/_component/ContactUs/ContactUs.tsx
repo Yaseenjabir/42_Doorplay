@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-// import contactImage from "../../../public/contactus.avif";
 import contactImage from "../../../public/contactus.jpg";
 
 import { Button } from "../../components/ui/button";
@@ -31,23 +30,29 @@ import {
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { FaArrowRotateRight } from "react-icons/fa6";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useLocation } from "react-router";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../components/ui/dialog";
+
 const formSchema = z.object({
   name: z.string().min(6).max(50),
   email: z.string().email(),
   message: z.string().min(10).max(1024),
-  number: z
-    .string()
-    .length(14)
-    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, {
-      message: "Phone number must be in the format (XXX) XXX-XXXX",
-    }),
+  number: z.string().length(10, { message: "Phone number must be 11 digits" }),
 });
 
 const ContactUs = () => {
   const location = useLocation();
   const pathName = location.state && location.state.pathName;
+  const [phone, setPhone] = useState("");
+  const dialogRef = useRef<HTMLButtonElement | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,7 +63,30 @@ const ContactUs = () => {
     },
   });
 
-  const { reset } = form;
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+
+    let formattedValue = value;
+
+    if (formattedValue.length === 0) {
+      formattedValue = "";
+    } else if (formattedValue.length <= 3) {
+      formattedValue = `(${formattedValue}`;
+    } else if (formattedValue.length <= 6) {
+      formattedValue = `(${formattedValue.slice(0, 3)}) ${formattedValue.slice(3)}`;
+    } else {
+      formattedValue = `(${formattedValue.slice(0, 3)}) ${formattedValue.slice(3, 6)}-${formattedValue.slice(6, 10)}`;
+    }
+
+    setPhone(formattedValue);
+    setValue("number", value);
+  };
+
+  const { reset, setValue } = form;
   const countryCode = "+1";
 
   const [loading, setLoading] = useState(false);
@@ -67,7 +95,7 @@ const ContactUs = () => {
     setLoading(true);
     const modifiedData = {
       ...values,
-      number: `+1 ${values.number}`,
+      number: `+1 ${phone}`,
       message: values.message.replace(
         "If you have any query please write down below, we will reach out to you ASAP!",
         ""
@@ -76,7 +104,6 @@ const ContactUs = () => {
     try {
       const res = await apiClient.post(CREATE_CONTACT_ROUTE, modifiedData);
       if (res.status === 200) {
-        toast.success(res.data.message);
         reset({
           name: "",
           email: "",
@@ -85,6 +112,7 @@ const ContactUs = () => {
         });
         const cache = await caches.open("A&R-Doors");
         await cache.delete(GET_ALL_EMAIL_CONTACTS);
+        dialogRef.current?.click();
       }
     } catch (ex: unknown) {
       console.log(ex);
@@ -175,7 +203,10 @@ const ContactUs = () => {
                       <SelectValue placeholder="Country Code" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={countryCode}>{countryCode}</SelectItem>
+                      <SelectItem value={countryCode}>
+                        <span className="text-lg pr-1">🇺🇸</span>
+                        {countryCode}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormItem className="w-full">
@@ -184,9 +215,12 @@ const ContactUs = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
+                        {...field}
                         className="bg-white"
                         placeholder="Enter your phone number"
-                        {...field}
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        maxLength={14}
                       />
                     </FormControl>
                     <FormMessage />
@@ -242,6 +276,20 @@ const ContactUs = () => {
           />
         </div>
       </div>
+      <Dialog>
+        <DialogTrigger className="hidden" ref={dialogRef}>
+          Open
+        </DialogTrigger>
+        <DialogContent className="w-[95%]">
+          <DialogHeader>
+            <DialogTitle>Thank you for reaching out!</DialogTitle>
+            <DialogDescription>
+              We’ve successfully received your email. Our team will review your
+              request and get back to you as soon as possible.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

@@ -9,15 +9,14 @@ const FreeColorSample = () => {
         />
         <div className="text-center px-10 py-16 flex flex-col gap-5 items-center justify-center lg:w-[50%] lg:items-start lg:text-start">
           <h1 className="font-bold text-2xl text-titleColor lg:text-[36px]">
-            Free Color Samples
+            Got a Design in mind?
           </h1>
-          <p>
-            Don't let online or indoor variations deceive you. Try before you
-            buy!
-          </p>
-          <button className="py-3 px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed w-min text-nowrap mt-10 transition-all ease-in-out duration-200">
-            Order Now
-          </button>
+          <p>Contact us and send the design you're craving for.</p>
+          <a href="/contact">
+            <button className="py-3 px-5 bg-darkRed border-[2px] border-darkRed rounded-md text-white hover:bg-transparent hover:text-darkRed w-min text-nowrap mt-10 transition-all ease-in-out duration-200">
+              Send Design
+            </button>
+          </a>
         </div>
       </section>
     </>

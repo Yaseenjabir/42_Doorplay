@@ -13,7 +13,7 @@ import { useNavigateToSingleDoor } from "../../../utils/useNavigateToSingleDoor"
 import { BiSupport } from "react-icons/bi";
 const DesktopHeader = () => {
   const [showSearch, setShowSearch] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [data, setData] = useState<DoorSchema[]>([]);
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
@@ -33,7 +33,8 @@ const DesktopHeader = () => {
     if (user) {
       const { token } = JSON.parse(user);
       if (token) {
-        setIsAuthenticated(true);
+        return;
+        // setIsAuthenticated(true);
       }
     }
   }, []);
@@ -139,7 +140,7 @@ const DesktopHeader = () => {
                 }}
                 className="w-[24px] h-[24px] cursor-pointer absolute top-[9px] right-4"
               />
-              {isAuthenticated ? (
+              {/* {isAuthenticated ? (
                 <a
                   href="/dashboard"
                   className={`h-min hover:underline text-[14px] xl:text-[18px]`}
@@ -153,7 +154,7 @@ const DesktopHeader = () => {
                 >
                   Login
                 </a>
-              )}
+              )} */}
             </div>
             <div
               className={`flex items-center w-full justify-end h-[42px] absolute ${
@@ -204,7 +205,7 @@ const DesktopHeader = () => {
       <div
         className={`${
           inputValue.length >= 3 && "lg:flex"
-        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[458px] top-[88px] right-[246px] px-5 flex-col max-h-[300px] overflow-y-auto scrollable-div`}
+        } bg-white shadow-xl shadow-[#00000034] border border-gray-200 rounded hidden py-5 fixed z-50 w-[458px] top-[88px] right-[213px] px-5 flex-col max-h-[300px] overflow-y-auto scrollable-div`}
       >
         {loading ? (
           <div className="flex justify-center items-center">

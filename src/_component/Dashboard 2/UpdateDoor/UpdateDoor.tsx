@@ -262,10 +262,10 @@ const UpdateDoor = () => {
               return (
                 <div
                   style={{ fontFamily: "Poppins" }}
-                  className="rounded w-full h-[350px] relative max-w-[400px]"
+                  className="rounded w-full h-[355px] relative max-w-[400px]"
                 >
                   <div
-                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-[#181818] border-[#535353]" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[350px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
+                    className={`absolute w-full top-0 rounded left-0 ${isDarkMode ? "bg-[#181818] border-[#535353]" : "bg-white"} overflow-hidden ${index === zIndex ? "z-10" : setTimeout(() => "z-0", 3000)} border ${index !== trackIndex ? "max-h-[355px]" : "max-h-[2000px]"} transition-all ease-in-out duration-1000 place-content-center`}
                   >
                     <img
                       src={
@@ -325,7 +325,7 @@ const UpdateDoor = () => {
                       <PanelResizeHandle />
                       {/* <Panel>right</Panel> */}
                     </PanelGroup>
-                    <div className="p-3 flex flex-col gap-3 relative">
+                    <div className="p-3 pb-12 flex flex-col gap-3 relative">
                       <h1
                         onClick={() => setHeight(!height)}
                         className="font-semibold text-nowrap"
@@ -333,20 +333,20 @@ const UpdateDoor = () => {
                         {truncateText(door.title, 24)}
                       </h1>
                       <div className="flex items-center gap-2 text-sm">
-                        <h4 className="font-light">Category</h4>
+                        <h4 className="font-semibold">Category</h4>
                         <span>:</span>
-                        <h5 className="font-semibold">
+                        <h5 className="font-light">
                           {capitalizeText(door.category)}
                         </h5>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
-                        <h4 className="font-light">Subcategory</h4>
+                        <h4 className="font-semibold">Subcategory</h4>
                         <span>:</span>
-                        <h5 className="font-semibold">
+                        <h5 className="font-light">
                           {capitalizeText(door.subcategory)}
                         </h5>
                       </div>
-                      <p className="text-sm font-light ">
+                      <p className="text-sm ">
                         {door.description
                           ? door.shortPreview
                           : "No description is available"}
@@ -356,13 +356,13 @@ const UpdateDoor = () => {
                         {(door.construction?.title ||
                           door.construction?.description) && (
                           <div className="flex flex-col w-full">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 font-semibold">
                               <h1>Construction</h1>
                               <span>:</span>
                             </div>
                             <div className="text-sm flex flex-col gap pl-5">
                               {door?.construction?.title && (
-                                <h1 className="font-semibold">
+                                <h1 className="font-">
                                   {door.construction.title}
                                 </h1>
                               )}
@@ -377,12 +377,12 @@ const UpdateDoor = () => {
                         {(door.customization?.title ||
                           door.customization?.description) && (
                           <div className="flex flex-col  w-full">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 font-semibold">
                               <h1>Customization</h1>
                               <span>:</span>
                             </div>
                             <div className="text-sm flex flex-col gap pl-5">
-                              <h1 className="font-semibold">
+                              <h1 className="font-">
                                 {door?.customization?.title &&
                                   door.customization.title}
                               </h1>
@@ -398,12 +398,12 @@ const UpdateDoor = () => {
                         {(door.insulation?.title ||
                           door.insulation?.description) && (
                           <div className="flex flex-col  w-full">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 font-semibold">
                               <h1>Insulation</h1>
                               <span>:</span>
                             </div>
                             <div className="text-sm flex flex-col gap pl-5">
-                              <h1 className="font-semibold">
+                              <h1 className="font-">
                                 {door?.insulation?.title &&
                                   door.insulation.title}
                               </h1>
@@ -419,12 +419,12 @@ const UpdateDoor = () => {
                         {(door.material?.title ||
                           door.material?.description) && (
                           <div className="flex flex-col  w-full">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 font-semibold">
                               <h1>Material</h1>
                               <span>:</span>
                             </div>
                             <div className="text-sm flex flex-col gap pl-5">
-                              <h1 className="font-semibold">
+                              <h1 className="font-">
                                 {door?.material?.title && door.material.title}
                               </h1>
                               <p>
@@ -439,12 +439,12 @@ const UpdateDoor = () => {
                         {(door.reinforcement?.title ||
                           door.reinforcement?.description) && (
                           <div className="flex flex-col  w-full">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 font-semibold">
                               <h1>Reinforcement</h1>
                               <span>:</span>
                             </div>
                             <div className="text-sm flex flex-col gap pl-5">
-                              <h1 className="font-semibold">
+                              <h1 className="font-">
                                 {door?.reinforcement?.title &&
                                   door.reinforcement.title}
                               </h1>

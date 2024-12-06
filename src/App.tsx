@@ -10,32 +10,46 @@ function App() {
     useStore();
   const fetchGlobalData = async (apiEndPoint: string, insertFn: any) => {
     const cache = await caches.open("A&R-Doors");
-
     const cachedResult = await cache.match(apiEndPoint);
     if (cachedResult) {
       const cachedData = await cachedResult.json();
-      insertFn(cachedData);
-      console.log("Fetched Data from Cache");
-    } else {
-      try {
-        console.log("Fetched Data from API");
-        const res = await apiClient.get(apiEndPoint, {
-          params: { skip: 0, limit: 1000000000 },
-        });
-        if (res.status === 200) {
-          const response = new Response(JSON.stringify(res.data), {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          cache.put(apiEndPoint, response);
-          insertFn(res.data);
-        }
-      } catch (ex) {
-        console.log(ex);
+      const currentTime = Date.now();
+      const cacheTimestamp = cachedData.timestamp;
+
+      const cacheExpired =
+        cacheTimestamp && currentTime - cacheTimestamp > 12 * 60 * 60 * 1000;
+
+      if (!cacheExpired) {
+        insertFn(cachedData.data);
+        return;
       }
     }
+
+    try {
+      const res = await apiClient.get(apiEndPoint, {
+        params: { skip: 0, limit: 1000000000 },
+      });
+
+      if (res.status === 200) {
+        const responseData = res.data;
+        const responseWithTimestamp = {
+          data: responseData,
+          timestamp: Date.now(),
+        };
+
+        const response = new Response(JSON.stringify(responseWithTimestamp), {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        cache.put(apiEndPoint, response);
+        insertFn(responseData);
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
   };
+
   useEffect(() => {
     if (globalData.length === 0) {
       fetchGlobalData(GET_ALL_DOORS, insertData);
