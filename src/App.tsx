@@ -11,20 +11,26 @@ function App() {
   const fetchGlobalData = async (apiEndPoint: string, insertFn: any) => {
     const cache = await caches.open("A&R-Doors");
     const cachedResult = await cache.match(apiEndPoint);
+
     if (cachedResult) {
-      const cachedData = await cachedResult.json();
-      const currentTime = Date.now();
-      const cacheTimestamp = cachedData.timestamp;
+      try {
+        const cachedData = await cachedResult.json();
+        const currentTime = Date.now();
+        const cacheTimestamp = cachedData.timestamp;
 
-      const cacheExpired =
-        cacheTimestamp && currentTime - cacheTimestamp > 12 * 60 * 60 * 1000;
+        const cacheExpired =
+          cacheTimestamp && currentTime - cacheTimestamp > 12 * 60 * 60 * 1000; // 12 hours
 
-      if (!cacheExpired) {
-        insertFn(cachedData.data);
-        return;
+        if (!cacheExpired) {
+          insertFn(cachedData.data);
+          return;
+        }
+      } catch (e) {
+        console.error("Error parsing cached data:", e);
       }
     }
 
+    // If cache is expired or missing, fetch from API
     try {
       const res = await apiClient.get(apiEndPoint, {
         params: { skip: 0, limit: 1000000000 },
@@ -46,7 +52,7 @@ function App() {
         insertFn(responseData);
       }
     } catch (ex) {
-      console.log(ex);
+      console.error("Error fetching from API:", ex);
     }
   };
 
