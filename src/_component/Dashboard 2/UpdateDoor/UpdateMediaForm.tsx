@@ -5,7 +5,10 @@ import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { toast } from "sonner";
 import { deleteCache, DoorSchema } from "../../../utils/utils";
 import { AxiosError } from "axios";
-import { GET_ALL_DOORS } from "../../../constants/constant";
+import {
+  GET_ALL_ADMIN_DOORS,
+  GET_ALL_DOORS,
+} from "../../../constants/constant";
 
 interface FormInterface {
   selectedImages: any;
@@ -86,6 +89,7 @@ const UpdateMediaForm: React.FC<FormInterface> = ({
           });
         });
         mediaFormTrigger.current?.click();
+        deleteCache(GET_ALL_ADMIN_DOORS);
         deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {
@@ -184,6 +188,7 @@ const UpdateMediaForm: React.FC<FormInterface> = ({
           });
         });
         mediaFormTrigger.current?.click();
+        deleteCache(GET_ALL_ADMIN_DOORS);
         deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {

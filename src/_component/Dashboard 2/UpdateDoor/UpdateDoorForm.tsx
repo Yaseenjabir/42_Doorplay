@@ -1,6 +1,10 @@
 import { AxiosError } from "axios";
 import { apiClient } from "../../../apiClient/apiClient";
-import { GET_ALL_DOORS, UPDATE_DOOR_ROUTE } from "../../../constants/constant";
+import {
+  GET_ALL_ADMIN_DOORS,
+  GET_ALL_DOORS,
+  UPDATE_DOOR_ROUTE,
+} from "../../../constants/constant";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { deleteCache, DoorSchema } from "../../../utils/utils";
@@ -212,6 +216,7 @@ const UpdateDoorForm: React.FC<CompInterface> = ({
           )
         );
         toast.message("Door info has been updated succesfully");
+        deleteCache(GET_ALL_ADMIN_DOORS);
         deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {

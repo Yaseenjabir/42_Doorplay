@@ -4,7 +4,11 @@ import {
   DoorSchema,
   imageReplacement,
 } from "../../../utils/utils";
-import { GET_ALL_DOORS, UPDATE_DOOR_ROUTE } from "../../../constants/constant";
+import {
+  GET_ALL_ADMIN_DOORS,
+  GET_ALL_DOORS,
+  UPDATE_DOOR_ROUTE,
+} from "../../../constants/constant";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -68,7 +72,7 @@ const UpdateDoor = () => {
     let data = null;
     try {
       const cache = await caches.open("A&R-Doors");
-      const cachedResult = await cache.match(GET_ALL_DOORS);
+      const cachedResult = await cache.match(GET_ALL_ADMIN_DOORS);
       if (cachedResult) {
         const cachedData = await cachedResult.json();
         data = cachedData;
@@ -82,7 +86,7 @@ const UpdateDoor = () => {
               "Content-Type": "application/json",
             },
           });
-          cache.put(GET_ALL_DOORS, response);
+          cache.put(GET_ALL_ADMIN_DOORS, response);
           data = res.data;
         }
       }
@@ -99,6 +103,7 @@ const UpdateDoor = () => {
         setAvailability(false);
       }
     } catch (ex: unknown) {
+      console.log(ex);
       if (ex instanceof AxiosError) {
         if (ex.response?.data.message) {
           toast.error(ex.response.data.message);
@@ -143,6 +148,7 @@ const UpdateDoor = () => {
         );
 
         if (response.status === 200) {
+          deleteCache(GET_ALL_ADMIN_DOORS);
           deleteCache(GET_ALL_DOORS);
           toggleVal(val ? false : true);
           let message = "";
@@ -346,7 +352,7 @@ const UpdateDoor = () => {
                           {capitalizeText(door.subcategory)}
                         </h5>
                       </div>
-                      <p className="text-sm ">
+                      <p className="text-sm mb-1">
                         {door.description
                           ? door.shortPreview
                           : "No description is available"}

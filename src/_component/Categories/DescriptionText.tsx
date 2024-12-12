@@ -1,7 +1,7 @@
 const Description = () => {
   return (
     <>
-      <div className="w-full my-5 flex flex-col gap-5">
+      <div className="w-full my-5 flex flex-col gap-5 mt-14">
         <div className="w-full">
           <h1 className="font-bold text-xl text-titleColor md:text-2xl">
             Garage Doors Crafted for Every Home

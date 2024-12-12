@@ -22,6 +22,7 @@ function App() {
           cacheTimestamp && currentTime - cacheTimestamp > 12 * 60 * 60 * 1000; // 12 hours
 
         if (!cacheExpired) {
+          console.log(cachedData.data);
           insertFn(cachedData.data);
           return;
         }

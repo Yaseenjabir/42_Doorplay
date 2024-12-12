@@ -29,9 +29,11 @@ const WhyReplaceUs = () => {
           </p>
         </div>
       </div>
-      <button className="py-3 px-5 text-sm bg-warmBrown rounded-md w-min text-nowrap self-center border border-warmBrown hover:bg-transparent transition-all ease-in-out duration-200 mt-5 lg:mt-10">
-        Explore Buying Guide
-      </button>
+      <a href="/about">
+        <button className="py-3 px-5 text-sm bg-warmBrown rounded-md w-min text-nowrap self-center border border-warmBrown hover:bg-transparent transition-all ease-in-out duration-200 mt-5 lg:mt-10">
+          About Us
+        </button>
+      </a>
     </div>
   );
 };

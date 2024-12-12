@@ -40,6 +40,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog";
+import flag from "../../../public/usLogo.png";
 
 const formSchema = z.object({
   name: z.string().min(6).max(50),
@@ -204,8 +205,14 @@ const ContactUs = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value={countryCode}>
-                        <span className="text-lg pr-1">🇺🇸</span>
-                        {countryCode}
+                        <span className="pr-4 flex flex-row items-center gap-1">
+                          <img
+                            src={flag}
+                            className="w-5 h-3 mt-[2px]"
+                            alt="us-flag"
+                          />
+                          {countryCode}
+                        </span>
                       </SelectItem>
                     </SelectContent>
                   </Select>

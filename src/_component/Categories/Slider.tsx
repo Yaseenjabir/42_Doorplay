@@ -24,7 +24,6 @@ interface SliderModel {
 }
 
 const Slider: React.FC<SliderModel> = ({ images }) => {
-  console.log("Images are :", images);
   return (
     <div id="slider-2" className="w-full ">
       <Swiper

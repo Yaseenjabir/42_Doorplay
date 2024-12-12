@@ -61,7 +61,8 @@ const SearchForm: React.FC<DatInt> = ({
     try {
       const cache = await caches.open("A&R-Doors");
       const chachedResult = await cache.match(GET_ALL_DOORS);
-      const chachedData = await chachedResult?.json();
+      const beforeCached = await chachedResult?.json();
+      const chachedData = beforeCached.data;
 
       let result = null;
 

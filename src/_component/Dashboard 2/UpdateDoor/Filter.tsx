@@ -4,7 +4,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { DoorSchema } from "../../../utils/utils";
 
-import { GET_ALL_DOORS } from "../../../constants/constant";
+import { GET_ALL_ADMIN_DOORS } from "../../../constants/constant";
 import { useTheme } from "@mui/material";
 import { FaFilter } from "react-icons/fa";
 import { FaFilterCircleXmark } from "react-icons/fa6";
@@ -79,7 +79,7 @@ const Filter: React.FC<DatInt> = ({
     }
     try {
       const cache = await caches.open("A&R-Doors");
-      const cachedResult = await cache.match(GET_ALL_DOORS);
+      const cachedResult = await cache.match(GET_ALL_ADMIN_DOORS);
       const cachedData = await cachedResult?.json();
       let result = null;
 

@@ -21,7 +21,11 @@ import {
   DialogTrigger,
 } from "../../../components/ui/dialog";
 import { apiClient } from "../../../apiClient/apiClient";
-import { ADD_DOOR_ROUTE, GET_ALL_DOORS } from "../../../constants/constant";
+import {
+  ADD_DOOR_ROUTE,
+  GET_ALL_ADMIN_DOORS,
+  GET_ALL_DOORS,
+} from "../../../constants/constant";
 import { useNavigate } from "react-router";
 import { deleteCache } from "../../../utils/utils";
 
@@ -189,6 +193,7 @@ const AddDoor = () => {
       if (response.data.success) {
         triggerRef.current?.click();
         reset();
+        deleteCache(GET_ALL_ADMIN_DOORS);
         deleteCache(GET_ALL_DOORS);
       }
     } catch (ex: unknown) {

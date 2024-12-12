@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
               <FaYoutube className="text-[#34495e] cursor-pointer py-[5px] text-3xl rounded-full bg-[#dbdbdb] hover:scale-110" />
             </div>
           </div>
-          <div className="w-full text-center text-sm text-gray-500 flex flex-col gap-5 md:text-base lg:text-sm lg:text-start lg:gap-2">
+          <div className="w-full text-center mt-5 text-sm text-gray-500 flex flex-col gap-5 md:text-base lg:text-sm lg:text-start lg:gap-2">
             <div className="flex flex-col items-center lg:justify-start lg:flex-row">
               <p>Copyright © 1996-2024 AR Doors Corporation. </p>
               <p>All Rights Reserved</p>
@@ -46,7 +46,10 @@ const Footer: React.FC = () => {
                 Terms & Conditions
               </span>{" "} */}
                 |{" "}
-                <span className="hover:underline cursor-pointer">Sitemap</span>|{" "}
+                <a href="/sitemap" className="hover:underline cursor-pointer">
+                  Sitemap
+                </a>
+                |{" "}
                 <a href="/about" className="hover:underline cursor-pointer">
                   About
                 </a>

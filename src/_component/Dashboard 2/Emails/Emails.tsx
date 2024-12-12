@@ -236,7 +236,9 @@ const Emails = () => {
       ) : (
         <>
           <div className="w-full flex items-center justify-between mt-10">
-            <h1 className="font-medium text-2xl text-titleColor px-1">
+            <h1
+              className={`font-medium text-2xl ${darktheme ? "text-white" : "text-titleColor"} px-1`}
+            >
               Emails
             </h1>
             <Popover>
