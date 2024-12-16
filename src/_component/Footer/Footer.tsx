@@ -10,7 +10,7 @@ import {
 const Footer: React.FC = () => {
   return (
     <>
-      <section className="w-full py-10 text-white bg-darkRed flex flex-col items-center justify-center px-5 gap-5 lg:px-10 xl:px-16">
+      <footer className="w-full py-10 text-white bg-darkRed flex flex-col items-center justify-center px-5 gap-5 lg:px-10 xl:px-16 mt-10">
         <div className="flex flex-col items-center justify-center lg:flex-row-reverse w-full">
           <div className="w-full flex flex-col lg:flex-row items-center lg:justify-end lg:gap-8">
             <h1 className="text-center mb-5 md:text-lg lg:text-sm lg:mb-0">
@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
             Atellis
           </a>
         </h1>
-      </section>
+      </footer>
     </>
   );
 };
