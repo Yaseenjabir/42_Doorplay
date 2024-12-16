@@ -97,7 +97,7 @@ const SearchResult = () => {
                     onClick={() => {
                       navigateToSingleDoor(item);
                     }}
-                    className="hover:underline w-min text-nowrap flex items-center  font-semibold text-gray-600 cursor-pointer text-lg"
+                    className="hover:underline w-min flex items-center  font-semibold text-gray-600 cursor-pointer text-lg"
                   >
                     {item.title}
                     <GoArrowUpRight className="text-xl mt-[2px]" />
