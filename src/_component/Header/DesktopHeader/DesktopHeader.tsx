@@ -58,8 +58,6 @@ const DesktopHeader = () => {
       } else {
         setNotFound(true);
       }
-    } catch (ex) {
-      console.log(ex);
     } finally {
       setLoading(false);
     }
@@ -118,19 +116,19 @@ const DesktopHeader = () => {
               </div>
               <a
                 href="/top-picks"
-                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+                className={`h-min hover:underline text-[14px] xl:text-[16px]`}
               >
                 A&R's Top Picks
               </a>
               <a
                 href="/about"
-                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+                className={`h-min hover:underline text-[14px] xl:text-[16px]`}
               >
                 About Us
               </a>
               {/* <a
                 href="/contact"
-                className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+                className={`h-min hover:underline text-[14px] xl:text-[16px]`}
               >
                 Contact Us
               </a> */}
@@ -143,14 +141,14 @@ const DesktopHeader = () => {
               {/* {isAuthenticated ? (
                 <a
                   href="/dashboard"
-                  className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+                  className={`h-min hover:underline text-[14px] xl:text-[16px]`}
                 >
                   Dashboard
                 </a>
               ) : (
                 <a
                   href="/auth"
-                  className={`h-min hover:underline text-[14px] xl:text-[18px]`}
+                  className={`h-min hover:underline text-[14px] xl:text-[16px]`}
                 >
                   Login
                 </a>

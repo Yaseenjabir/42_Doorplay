@@ -4,7 +4,7 @@ import { SlBadge } from "react-icons/sl";
 
 const WhyReplaceUs = () => {
   return (
-    <div className="w-full flex flex-col text-center py-10 lg:py-16 bg-darkRed text-white">
+    <div className="w-full flex flex-col text-center py-10 lg:py-16 bg-darkRed text-white mb-20">
       <h1 className="text-2xl font-bold px-16">
         Why Replace Your Garage Door?
       </h1>

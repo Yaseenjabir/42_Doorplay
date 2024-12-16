@@ -48,8 +48,6 @@ const SingleDoor: React.FC = () => {
 
   const pathName = `${import.meta.env.VITE_BASE_URL.replace(/\/$/, "")}${location.pathname}${location.search}`;
 
-  console.log(pathName);
-
   const [doorId, setDoorId] = useState<string | null>(null);
 
   useEffect(() => {

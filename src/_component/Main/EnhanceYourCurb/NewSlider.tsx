@@ -35,8 +35,6 @@ const NewSlider = () => {
             setDoors([filteredData[0], filteredData[1], filteredData[2]]);
           }, 1000);
         }
-      } catch (ex) {
-        console.log(ex);
       } finally {
         setLoader(false);
       }

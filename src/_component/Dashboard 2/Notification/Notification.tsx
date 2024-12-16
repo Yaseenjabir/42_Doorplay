@@ -103,7 +103,6 @@ const Notification = () => {
         }
       );
       if (res.status === 200) {
-        console.log(res.data);
         setData((prev: EmailModel[]) => {
           return prev.map((item) =>
             item._id === res.data._id ? res.data : item

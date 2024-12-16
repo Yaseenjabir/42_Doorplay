@@ -42,16 +42,17 @@ const SearchResult = () => {
         } else {
           setNotFound(true);
         }
-      } catch (ex) {
-        console.log(ex);
       } finally {
         setLoading(false);
       }
     };
     if (query) {
       searchData(query);
+    } else {
+      setLoading(false);
+      setNotFound(true);
     }
-  }, [query]);
+  }, [query, globalData]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of items per page
@@ -70,7 +71,7 @@ const SearchResult = () => {
     <section className="w-full pt-14 py-10 px-5 flex flex-col gap-5 lg:w-[70%] lg:max-w-[850px]">
       <div className="w-full flex flex-col gap-5 text-titleColor">
         <h1 className="font-bold text-3xl md:text-4xl lg:text-3xl">
-          Result for "{query && query}"
+          Results for "{query && query}"
         </h1>
         <p className="text-sm font-semibold md:text-base lg:text-sm">
           Showing {(currentPage - 1) * itemsPerPage + 1} -
@@ -96,7 +97,7 @@ const SearchResult = () => {
                     onClick={() => {
                       navigateToSingleDoor(item);
                     }}
-                    className="hover:underline w-min text-nowrap flex items-center text-sm font-semibold text-gray-600 cursor-pointer md:text-lg lg:text-sm"
+                    className="hover:underline w-min text-nowrap flex items-center  font-semibold text-gray-600 cursor-pointer text-lg"
                   >
                     {item.title}
                     <GoArrowUpRight className="text-xl mt-[2px]" />

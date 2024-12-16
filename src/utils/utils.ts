@@ -104,6 +104,21 @@ export const useProcessData = (
   }, [category, setState, data]);
 };
 
+export const commercial = [
+  { name: "Overhead Sectional", value: "overhead sectional" },
+  { name: "Sectional", value: "sectional" },
+  { name: "Grillies", value: "grillies" },
+  { name: "Counter", value: "counter" },
+  { name: "Commercial Sheet", value: "commercial sheet" },
+  { name: "Sheet", value: "sheet" },
+];
+
+export const garage = [
+  { name: "Modern", value: "modern" },
+  { name: "Carriage House", value: "carriage house" },
+  { name: "Traditional", value: "traditional" },
+];
+
 export async function deleteCache(cacheKey: string) {
   const cache = await caches.open("A&R-Doors");
   cache.delete(cacheKey);

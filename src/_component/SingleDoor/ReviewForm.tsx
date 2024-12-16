@@ -83,7 +83,6 @@ const ReviewForm: React.FC<ReviewFormInterface> = ({
         }, 2000);
       }
     } catch (ex: unknown) {
-      console.log(ex);
       if (ex instanceof AxiosError) {
         if (ex.response?.data.message) {
           toast.error(ex.response.data.message);

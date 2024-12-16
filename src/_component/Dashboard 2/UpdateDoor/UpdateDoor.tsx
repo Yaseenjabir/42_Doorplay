@@ -103,7 +103,6 @@ const UpdateDoor = () => {
         setAvailability(false);
       }
     } catch (ex: unknown) {
-      console.log(ex);
       if (ex instanceof AxiosError) {
         if (ex.response?.data.message) {
           toast.error(ex.response.data.message);
@@ -170,7 +169,6 @@ const UpdateDoor = () => {
           );
         }
       } catch (ex: unknown) {
-        console.log(ex);
         if (ex instanceof AxiosError) {
           if (ex.response?.data.message) {
             toast.error(ex.response?.data.message);

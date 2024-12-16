@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { DoorSchema, imageReplacement } from "../../utils/utils";
+import { DoorSchema } from "../../utils/utils";
 import { useLocation, useParams } from "react-router";
 import { Badge } from "../../components/ui/badge";
 import { IoStarSharp } from "react-icons/io5";
@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import useStore from "../../store/Store";
 import { useNavigateToSingleDoor } from "../../utils/useNavigateToSingleDoor";
+import Slider from "../Categories/Slider";
 
 const SubCategory = () => {
   useEffect(() => {
@@ -33,6 +34,13 @@ const SubCategory = () => {
         (item) => item.subcategory === subCategory?.replace(/-/g, " ")
       );
       setTotalCounts(filteredData && filteredData.length);
+      if (filteredData.length === 0) {
+        setAvailability(false);
+        setHasMore(false);
+        setData([]);
+        setLoader(false);
+        return;
+      }
 
       const paginatedData = filteredData.slice(skip, skip + limit);
       if (paginatedData) {
@@ -65,7 +73,9 @@ const SubCategory = () => {
   };
 
   useEffect(() => {
-    fetchDoors(skip, limit);
+    if (globalData.length > 0) {
+      fetchDoors(skip, limit);
+    }
   }, [skip, limit, globalData]);
 
   const location = useLocation();
@@ -115,21 +125,16 @@ const SubCategory = () => {
               return (
                 <div
                   key={door._id}
-                  onClick={() => navigateToSingleDoor(door)}
                   className="w-full flex flex-col cursor-pointer"
                 >
-                  <img
-                    src={
-                      door && door.media && door.media[0]
-                        ? door.media[0].url
-                        : imageReplacement
-                    }
-                    className="w-full rounded-md"
-                  />
+                  <Slider images={door.media} />
                   <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:items-start lg:flex-col">
                     <div className="py-5 w-full flex flex-col gap-3 md:w-[400px] lg:w-full">
                       <div className="flex items-center justify-between gap-2">
-                        <h1 className="font-bold text-gray-800 md:text-2xl lg:text-base">
+                        <h1
+                          onClick={() => navigateToSingleDoor(door)}
+                          className="font-bold text-gray-800 md:text-2xl lg:text-base"
+                        >
                           {door.title}
                         </h1>
                         <Badge variant="secondary" className="text-nowrap">

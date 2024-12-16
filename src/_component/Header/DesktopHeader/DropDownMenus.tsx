@@ -1,33 +1,20 @@
-import React, { useState } from "react";
-import { useProcessData } from "../../../utils/utils";
-import useStore from "../../../store/Store";
+import React from "react";
+import { commercial, garage } from "../../../utils/utils";
 
 interface Menus {
   showGarageDoorDropDown: boolean;
   showCommercialDoorDropDown: boolean;
 }
 
-interface DataType {
-  category: string;
-  subcategory: string;
-}
-
 const DropDownMenus: React.FC<Menus> = ({
   showGarageDoorDropDown,
   showCommercialDoorDropDown,
 }) => {
-  const [garageData, setGarageData] = useState<DataType[]>([]);
-  const [commercialData, setCommercialData] = useState<DataType[]>();
-
-  const { globalData } = useStore();
-  useProcessData("garage", setGarageData, globalData);
-  useProcessData("commercial", setCommercialData, globalData);
-
   return (
     <>
       <ul
         className={`bg-white shadow-lg transition-all ease-in-out duration-1000 ${
-          showGarageDoorDropDown && "h-[156px] py-2 overflow-y-auto"
+          showGarageDoorDropDown && "h-[130px] py-2 overflow-y-auto"
         } h-0 px-3 w-[140px] xl:w-[170px] fixed top-[105px] left-24 z-50 hidden lg:flex flex-col gap-2 overflow-hidden scrollable-div`}
       >
         <a
@@ -36,21 +23,17 @@ const DropDownMenus: React.FC<Menus> = ({
         >
           All Garage Doors
         </a>
-        {garageData &&
-          garageData.map((item, index) => {
-            return (
-              <a
-                key={index}
-                href={`/${item.category}/${item.subcategory.replace(
-                  /\s+/g,
-                  "-"
-                )}`}
-                className="hover:underline text-titleColor cursor-pointer text-[15px]"
-              >
-                {item.subcategory[0].toUpperCase() + item.subcategory.slice(1)}
-              </a>
-            );
-          })}
+        {garage.map((item, index) => {
+          return (
+            <a
+              key={index}
+              href={`/garage/${item.value.replace(/\s+/g, "-")}`}
+              className="hover:underline text-titleColor cursor-pointer text-[15px]"
+            >
+              {item.name}
+            </a>
+          );
+        })}
       </ul>
       <ul
         className={`bg-white shadow-lg transition-all ease-in-out duration-1000 ${
@@ -63,21 +46,17 @@ const DropDownMenus: React.FC<Menus> = ({
         >
           All Commercial Doors
         </a>
-        {commercialData &&
-          commercialData.map((item, index) => {
-            return (
-              <a
-                key={index}
-                href={`/${item.category}/${item.subcategory.replace(
-                  /\s+/g,
-                  "-"
-                )}`}
-                className="hover:underline text-titleColor cursor-pointer text-[15px]"
-              >
-                {item.subcategory[0].toUpperCase() + item.subcategory.slice(1)}
-              </a>
-            );
-          })}
+        {commercial.map((item, index) => {
+          return (
+            <a
+              key={index}
+              href={`/commercial/${item.value.replace(/\s+/g, "-")}`}
+              className="hover:underline text-titleColor cursor-pointer text-[15px]"
+            >
+              {item.name}
+            </a>
+          );
+        })}
       </ul>
     </>
   );

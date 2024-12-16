@@ -4,19 +4,15 @@ import { Input } from "../../../components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import Logo from "../../../../public/AR Garage - Logo.png";
 import {
+  commercial,
   DoorSchema,
+  garage,
   imageReplacement,
-  useProcessData,
 } from "../../../utils/utils";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import useStore from "../../../store/Store";
 import { CiSearch } from "react-icons/ci";
-
-interface DataType {
-  category: string;
-  subcategory: string;
-}
 
 const MobileHeader: React.FC = () => {
   const [isSlided, setIsSlided] = useState<boolean>(false);
@@ -48,8 +44,6 @@ const MobileHeader: React.FC = () => {
       } else {
         setNotFound(true);
       }
-    } catch (ex) {
-      console.log(ex);
     } finally {
       setLoading(false);
     }
@@ -76,12 +70,6 @@ const MobileHeader: React.FC = () => {
   const [showGarageDoorDropDown, setShowGarageDoorDropDown] = useState(false);
   const [showCommercialDoorDropDown, setCommercialDoorDropDown] =
     useState(false);
-
-  const [garageData, setGarageData] = useState<DataType[]>([]);
-  const [commercialData, setCommercialData] = useState<DataType[]>();
-
-  useProcessData("garage", setGarageData, globalData);
-  useProcessData("commercial", setCommercialData, globalData);
 
   function truncateText(text: string, length: number) {
     return text.length > length ? `${text.slice(0, length)}...` : text;
@@ -149,22 +137,17 @@ const MobileHeader: React.FC = () => {
               <a href="/garage-doors" className="hover:underline">
                 All Garage Doors
               </a>
-              {garageData &&
-                garageData.map((item, index) => {
-                  return (
-                    <a
-                      key={index}
-                      href={`/${item.category}/${item.subcategory.replace(
-                        /\s+/g,
-                        "-"
-                      )}`}
-                      className="hover:underline"
-                    >
-                      {item.subcategory[0].toUpperCase() +
-                        item.subcategory.slice(1)}
-                    </a>
-                  );
-                })}
+              {garage.map((item, index) => {
+                return (
+                  <a
+                    key={index}
+                    href={`/garage/${item.value.replace(/\s+/g, "-")}`}
+                    className="hover:underline"
+                  >
+                    {item.name}
+                  </a>
+                );
+              })}
             </div>
           </li>
           <li className="text-2xl w-full font-bold text-[#4f738a] flex flex-col items-center justify-between">
@@ -190,22 +173,17 @@ const MobileHeader: React.FC = () => {
               <a href="/commercial-doors" className="hover:underline">
                 All Commercial Doors
               </a>
-              {commercialData &&
-                commercialData.map((item, index) => {
-                  return (
-                    <a
-                      key={index}
-                      href={`/${item.category}/${item.subcategory.replace(
-                        /\s+/g,
-                        "-"
-                      )}`}
-                      className="hover:underline"
-                    >
-                      {item.subcategory[0].toUpperCase() +
-                        item.subcategory.slice(1)}
-                    </a>
-                  );
-                })}
+              {commercial.map((item, index) => {
+                return (
+                  <a
+                    key={index}
+                    href={`/commercial/${item.value.replace(/\s+/g, "-")}`}
+                    className="hover:underline"
+                  >
+                    {item.name}
+                  </a>
+                );
+              })}
             </div>
           </li>
           <li className="text-2xl font-bold text-[#4f738a] hover:underline">

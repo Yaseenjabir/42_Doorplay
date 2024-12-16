@@ -25,8 +25,6 @@ const Lookbook = () => {
         if (filteredData) {
           setData(filteredData);
         }
-      } catch (ex) {
-        console.log(ex);
       } finally {
         setLoader(false);
       }

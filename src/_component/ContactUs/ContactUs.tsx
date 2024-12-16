@@ -116,7 +116,6 @@ const ContactUs = () => {
         dialogRef.current?.click();
       }
     } catch (ex: unknown) {
-      console.log(ex);
       if (ex instanceof AxiosError) {
         if (ex.response?.data.message) {
           toast.error(ex.response.data.message);
