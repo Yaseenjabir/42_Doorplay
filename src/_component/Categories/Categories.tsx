@@ -75,8 +75,6 @@ const Categories = () => {
     }
   };
 
-  console.log(availablity);
-
   useEffect(() => {
     if (globalData.length > 0) {
       fetchDoorsFromLocalData(skip, limit);
@@ -142,7 +140,7 @@ const Categories = () => {
               No Doors Available
             </h1>
             <p className="lg:text-lg xl:text-xl">
-              OOPS! Currently, there are not doors available at the moment
+              No doors satisfy the search criteria
             </p>
           </div>
         ) : (

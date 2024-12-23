@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -24,6 +24,20 @@ interface SliderModel {
 }
 
 const Slider: React.FC<SliderModel> = ({ images }) => {
+  const swiperRef = useRef<any>(null);
+
+  const handleMouseEnter = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swiper.autoplay.start();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swiper.autoplay.stop();
+    }
+  };
+
   return (
     <div id="slider-2" className="w-full ">
       <Swiper
@@ -32,14 +46,16 @@ const Slider: React.FC<SliderModel> = ({ images }) => {
         pagination={false}
         mousewheel={true}
         keyboard={true}
-        autoplay={true}
         modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
         className="mySwiper"
+        ref={swiperRef} // Attach ref to the swiper instance
       >
         {images.length > 0 ? (
           images.map((slide) => (
             <SwiperSlide key={slide._id}>
               <div
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 className="slide rounded select-none h-full flex flex-1 flex-col w-full relative cursor-pointer"
                 key={slide._id}
               >

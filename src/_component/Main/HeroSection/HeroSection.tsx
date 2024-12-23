@@ -15,7 +15,7 @@ const HeroSection = () => {
           <h1 className="font-bold text-[40px] leading-[45px]">
             Find the Door You'll Adore
           </h1>
-          <a href={`${import.meta.env.VITE_BASE_URL}/commercial-doors`}>
+          <a href="/commercial-doors">
             <button className="w-min text-nowrap bg-white text-black border-[2px] border-warmBrown hover:text-white py-2 font-medium px-7 rounded-md hover:bg-warmBrown transition-all ease-in-out duration-200 ">
               View Models
             </button>
